@@ -1,0 +1,37 @@
+package br.com.systec.controle.financeiro.fake;
+
+import br.com.systec.controle.financeiro.user.model.User;
+import br.com.systec.controle.financeiro.user.v1.dto.UserInputDTO;
+
+import java.util.Date;
+
+public class UserFake {
+
+    public static User fakeUser(){
+        User user = new User();
+        user.setId(1l);
+        user.setName("John Doe");
+        user.setCellphone("123456789");
+        user.setPhone("987654321");
+        user.setEmail("john.doe@example.com");
+        user.setFederalId("1234567890");
+        user.setDateOfBirth(new Date());
+        user.setGender("Male");
+
+        return user;
+    }
+
+    public static UserInputDTO fakeUserInputDTO(){
+        UserInputDTO user = new UserInputDTO();
+        user.setId(1l);
+        user.setName("John Doe");
+        user.setCellphone("123456789");
+        user.setPhone("987654321");
+        user.setEmail("john.doe@example.com");
+        user.setFederalId("1234567890");
+        user.setDateOfBirth(new Date());
+        user.setGender("Male");
+
+        return user;
+    }
+}
