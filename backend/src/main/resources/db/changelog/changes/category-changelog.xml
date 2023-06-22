@@ -12,4 +12,20 @@
             <column name="observation" type="varchar(255)"/>
         </createTable>
     </changeSet>
+    <changeSet id="category-21062023-2" author="joao">
+        <sql splitStatements="false">
+            INSERT INTO category (description) VALUES
+            ('Alimentação'),
+            ('Moradia'),
+            ('Transporte'),
+            ('Saúde'),
+            ('Educação'),
+            ('Lazer'),
+            ('Vestuário'),
+            ('Dívidas'),
+            ('Investimentos'),
+            ('Outros');
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
