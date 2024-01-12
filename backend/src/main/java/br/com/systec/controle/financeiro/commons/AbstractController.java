@@ -1,4 +1,4 @@
-package br.com.systec.controle.financeiro.core;
+package br.com.systec.controle.financeiro.commons;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;

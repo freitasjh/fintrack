@@ -1,4 +1,4 @@
-package br.com.systec.controle.financeiro.core;
+package br.com.systec.controle.financeiro.commons;
 
 public class RestPath {
 

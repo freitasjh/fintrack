@@ -9,7 +9,7 @@ import java.util.Date;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "name")
     private String name;
@@ -31,6 +31,10 @@ public class User {
     private String username;
     @Column(name = "password")
     private String password;
+    @Column(name = "tenant_id", nullable = false)
+    private Long tenantId;
+    @Column(name = "user_principal_tenant")
+    private boolean userPrincipalTenant;
 
     public Long getId() {
         return id;
@@ -102,5 +106,37 @@ public class User {
 
     public void setProfilePicture(String profilePicture) {
         this.profilePicture = profilePicture;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Long getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(Long tenantId) {
+        this.tenantId = tenantId;
+    }
+
+    public boolean isUserPrincipalTenant() {
+        return userPrincipalTenant;
+    }
+
+    public void setUserPrincipalTenant(boolean userPrincipalTenant) {
+        this.userPrincipalTenant = userPrincipalTenant;
     }
 }

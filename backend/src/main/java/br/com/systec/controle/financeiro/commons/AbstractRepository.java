@@ -1,4 +1,4 @@
-package br.com.systec.controle.financeiro.core;
+package br.com.systec.controle.financeiro.commons;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
