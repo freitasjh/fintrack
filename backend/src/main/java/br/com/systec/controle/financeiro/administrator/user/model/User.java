@@ -1,20 +1,40 @@
-package br.com.systec.controle.financeiro.user.v1.dto;
+package br.com.systec.controle.financeiro.administrator.user.model;
 
-import java.io.Serializable;
+import jakarta.persistence.*;
+
 import java.util.Date;
-import java.util.Objects;
 
-public class UserInputDTO implements Serializable {
+@Entity
+@Table(name = "user")
+public class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "name")
     private String name;
+    @Column(name = "federal_id")
     private String federalId;
+    @Column(name = "email")
     private String email;
+    @Column(name = "phone")
     private String phone;
+    @Column(name = "cell_phone")
     private String cellphone;
+    @Column(name = "date_of_birth")
     private Date dateOfBirth;
+    @Column(name = "gender")
     private String gender;
+    @Column(name = "profile_picture")
     private String profilePicture;
+    @Column(name = "username")
+    private String username;
+    @Column(name = "password")
+    private String password;
+    @Column(name = "tenant_id", nullable = false)
+    private Long tenantId;
+    @Column(name = "user_principal_tenant")
+    private boolean userPrincipalTenant;
 
     public Long getId() {
         return id;
@@ -88,33 +108,35 @@ public class UserInputDTO implements Serializable {
         this.profilePicture = profilePicture;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        UserInputDTO that = (UserInputDTO) o;
-
-        return Objects.equals(id, that.id);
+    public String getUsername() {
+        return username;
     }
 
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    @Override
-    public String toString() {
-        return "UserInputDTO{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", federalId='" + federalId + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", cellphone='" + cellphone + '\'' +
-                ", dateOfBirth=" + dateOfBirth +
-                ", gender='" + gender + '\'' +
-                ", profilePicture='" + profilePicture + '\'' +
-                '}';
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Long getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(Long tenantId) {
+        this.tenantId = tenantId;
+    }
+
+    public boolean isUserPrincipalTenant() {
+        return userPrincipalTenant;
+    }
+
+    public void setUserPrincipalTenant(boolean userPrincipalTenant) {
+        this.userPrincipalTenant = userPrincipalTenant;
     }
 }

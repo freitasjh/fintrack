@@ -2,13 +2,12 @@ package br.com.systec.controle.financeiro.administrator.user.service;
 
 import br.com.systec.controle.financeiro.administrator.tenant.model.Tenant;
 import br.com.systec.controle.financeiro.administrator.tenant.service.TenantService;
-import br.com.systec.controle.financeiro.administrator.tenant.service.TenantServiceTest;
 import br.com.systec.controle.financeiro.commons.exception.BaseException;
+import br.com.systec.controle.financeiro.commons.exception.ObjectNotFoundException;
 import br.com.systec.controle.financeiro.fake.TenantFake;
 import br.com.systec.controle.financeiro.fake.UserFake;
-import br.com.systec.controle.financeiro.user.model.User;
-import br.com.systec.controle.financeiro.user.repository.UserRepository;
-import br.com.systec.controle.financeiro.user.service.UserService;
+import br.com.systec.controle.financeiro.administrator.user.model.User;
+import br.com.systec.controle.financeiro.administrator.user.repository.UserRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -16,6 +15,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+
+import java.util.Optional;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -68,15 +69,30 @@ public class UserServiceTest {
 
         Mockito.verify(repository).save(Mockito.any(User.class));
         Mockito.verify(tenantService, Mockito.times(0)).save(Mockito.any(Tenant.class));
-
     }
 
     @Test
     void whenUpdateUserTest() {}
 
     @Test
-    void whenFindUserByIdTest() {}
+    void whenFindUserByIdTest() throws BaseException{
+        User userReturn = UserFake.fakeUser();
+
+        Mockito.doReturn(Optional.of(userReturn)).when(repository).findById(Mockito.anyLong());
+
+        User userReturnFind = userService.findById(1L);
+
+        Assertions.assertThat(userReturnFind.getId()).isEqualTo(userReturn.getId());
+        Assertions.assertThat(userReturnFind.getTenantId()).isEqualTo(userReturn.getTenantId());
+        Assertions.assertThat(userReturnFind.getFederalId()).isEqualTo(userReturn.getFederalId());
+
+        Mockito.verify(repository).findById(Mockito.anyLong());
+    }
 
     @Test
-    void whenFindUserByIdAndNotFoundExceptionTest() {}
+    void whenFindUserByIdAndNotFoundExceptionTest() {
+        Mockito.when(repository.findById(Mockito.anyLong())).thenReturn(Optional.empty());
+
+        Assertions.assertThatThrownBy(() -> userService.findById(1L)).isInstanceOf(ObjectNotFoundException.class);
+    }
 }

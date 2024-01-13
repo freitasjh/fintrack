@@ -1,7 +1,7 @@
-package br.com.systec.controle.financeiro.user.v1.converter;
+package br.com.systec.controle.financeiro.administrator.user.v1.converter;
 
-import br.com.systec.controle.financeiro.user.model.User;
-import br.com.systec.controle.financeiro.user.v1.dto.UserInputDTO;
+import br.com.systec.controle.financeiro.administrator.user.model.User;
+import br.com.systec.controle.financeiro.administrator.user.v1.dto.UserInputDTO;
 
 public final class UserConverter {
 
@@ -29,6 +29,8 @@ public final class UserConverter {
         userInputDTO.setFederalId(user.getFederalId());
         userInputDTO.setDateOfBirth(user.getDateOfBirth());
         userInputDTO.setGender(user.getGender());
+        userInputDTO.setUserPrincipalTenant(user.isUserPrincipalTenant());
+
 
         return userInputDTO;
     }
@@ -44,6 +46,9 @@ public final class UserConverter {
         user.setFederalId(userInputDTO.getFederalId());
         user.setDateOfBirth(userInputDTO.getDateOfBirth());
         user.setGender(userInputDTO.getGender());
+        user.setUserPrincipalTenant(userInputDTO.isUserPrincipalTenant());
+        user.setUsername(userInputDTO.getUsername());
+        user.setPassword(userInputDTO.getPassword());
 
         return user;
     }

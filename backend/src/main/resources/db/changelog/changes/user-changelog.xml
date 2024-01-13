@@ -18,6 +18,8 @@
             <column name="profile_picture" type="varchar(255)"/>
             <column name="username" type="varchar(255)"/>
             <column name="password" type="varchar(255)"/>
+            <column name="tenant_id" type="int8" />
+            <column name="user_principal_tenant" type="boolean" defaultValueBoolean="false" />
         </createTable>
     </changeSet>
 </databaseChangeLog>

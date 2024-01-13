@@ -1,39 +1,41 @@
-package br.com.systec.controle.financeiro.user.model;
+package br.com.systec.controle.financeiro.administrator.user.v1.dto;
 
-import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
-@Entity
-@Table(name = "user")
-public class User {
+public class UserInputDTO implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "name")
+    @NotNull
+    @NotBlank
     private String name;
-    @Column(name = "federal_id")
+    @NotNull
+    @NotBlank
     private String federalId;
-    @Column(name = "email")
+    @NotNull
+    @NotBlank
     private String email;
-    @Column(name = "phone")
+    @NotNull
+    @NotBlank
     private String phone;
-    @Column(name = "cell_phone")
+    @NotNull
+    @NotBlank
     private String cellphone;
-    @Column(name = "date_of_birth")
     private Date dateOfBirth;
-    @Column(name = "gender")
+    @NotNull
+    @NotBlank
     private String gender;
-    @Column(name = "profile_picture")
     private String profilePicture;
-    @Column(name = "username")
+    @NotNull
+    @NotBlank
     private String username;
-    @Column(name = "password")
+    @NotNull
+    @NotBlank
     private String password;
-    @Column(name = "tenant_id", nullable = false)
-    private Long tenantId;
-    @Column(name = "user_principal_tenant")
     private boolean userPrincipalTenant;
 
     public Long getId() {
@@ -124,19 +126,44 @@ public class User {
         this.password = password;
     }
 
-    public Long getTenantId() {
-        return tenantId;
-    }
-
-    public void setTenantId(Long tenantId) {
-        this.tenantId = tenantId;
-    }
-
     public boolean isUserPrincipalTenant() {
         return userPrincipalTenant;
     }
 
     public void setUserPrincipalTenant(boolean userPrincipalTenant) {
         this.userPrincipalTenant = userPrincipalTenant;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UserInputDTO that = (UserInputDTO) o;
+
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
+
+    @Override
+    public String toString() {
+        return "UserInputDTO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", federalId='" + federalId + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", cellphone='" + cellphone + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", gender='" + gender + '\'' +
+                ", profilePicture='" + profilePicture + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", userPrincipalTenant=" + userPrincipalTenant +
+                '}';
     }
 }

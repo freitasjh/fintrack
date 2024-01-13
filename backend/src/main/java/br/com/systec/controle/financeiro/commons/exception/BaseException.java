@@ -1,6 +1,6 @@
 package br.com.systec.controle.financeiro.commons.exception;
 
-public class BaseException extends Exception {
+public class BaseException extends RuntimeException {
 
     public BaseException() {
     }

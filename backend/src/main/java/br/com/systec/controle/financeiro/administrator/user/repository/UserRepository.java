@@ -1,7 +1,7 @@
-package br.com.systec.controle.financeiro.user.repository;
+package br.com.systec.controle.financeiro.administrator.user.repository;
 
+import br.com.systec.controle.financeiro.administrator.user.model.User;
 import br.com.systec.controle.financeiro.commons.AbstractRepository;
-import br.com.systec.controle.financeiro.user.model.User;
 import org.springframework.stereotype.Repository;
 
 @Repository

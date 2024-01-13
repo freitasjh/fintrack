@@ -1,6 +1,6 @@
 package br.com.systec.controle.financeiro.administrator.tenant.model;
 
-import br.com.systec.controle.financeiro.user.model.User;
+import br.com.systec.controle.financeiro.administrator.user.model.User;
 import jakarta.persistence.*;
 
 @Entity

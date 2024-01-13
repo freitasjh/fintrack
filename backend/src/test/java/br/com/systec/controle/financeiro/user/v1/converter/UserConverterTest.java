@@ -1,8 +1,9 @@
 package br.com.systec.controle.financeiro.user.v1.converter;
 
+import br.com.systec.controle.financeiro.administrator.user.v1.converter.UserConverter;
 import br.com.systec.controle.financeiro.fake.UserFake;
-import br.com.systec.controle.financeiro.user.model.User;
-import br.com.systec.controle.financeiro.user.v1.dto.UserInputDTO;
+import br.com.systec.controle.financeiro.administrator.user.model.User;
+import br.com.systec.controle.financeiro.administrator.user.v1.dto.UserInputDTO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -23,6 +24,8 @@ public class UserConverterTest {
         Assertions.assertEquals(user.getFederalId(), userInputDTO.getFederalId());
         Assertions.assertEquals(user.getDateOfBirth(), userInputDTO.getDateOfBirth());
         Assertions.assertEquals(user.getGender(), userInputDTO.getGender());
+        Assertions.assertNull(userInputDTO.getPassword());
+        Assertions.assertNull(userInputDTO.getUsername());
     }
 
     @Test
@@ -39,5 +42,8 @@ public class UserConverterTest {
         Assertions.assertEquals(user.getFederalId(), userInputDTO.getFederalId());
         Assertions.assertEquals(user.getDateOfBirth(), userInputDTO.getDateOfBirth());
         Assertions.assertEquals(user.getGender(), userInputDTO.getGender());
+        Assertions.assertEquals(user.getUsername(), userInputDTO.getUsername());
+        Assertions.assertEquals(user.getPassword(), userInputDTO.getPassword());
+        Assertions.assertEquals(user.isUserPrincipalTenant(), userInputDTO.isUserPrincipalTenant());
     }
 }
