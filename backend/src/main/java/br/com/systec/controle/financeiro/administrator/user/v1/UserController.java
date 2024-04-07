@@ -7,7 +7,6 @@ import br.com.systec.controle.financeiro.administrator.user.v1.dto.UserInputDTO;
 import br.com.systec.controle.financeiro.commons.AbstractController;
 import br.com.systec.controle.financeiro.commons.RestPath;
 import br.com.systec.controle.financeiro.commons.exception.BaseException;
-import br.com.systec.controle.financeiro.commons.exception.ObjectNotFoundException;
 import br.com.systec.controle.financeiro.commons.exception.StandardError;
 import br.com.systec.controle.financeiro.commons.exception.ValidationError;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,7 +31,7 @@ public class UserController extends AbstractController {
     private UserService userService;
 
     @PostMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
-    @Operation(description = "Cadastrar um novo usuario/Conta")
+    @Operation(description = "Cadastrar um novo usuario")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "OK", content = {
                     @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = UserInputDTO.class))
@@ -45,13 +44,37 @@ public class UserController extends AbstractController {
             })
     })
     public ResponseEntity<UserInputDTO> save(@RequestBody @Valid UserInputDTO userInputDTO, UriComponentsBuilder uriBuilder) {
+        UserInputDTO userSavedDTO = saveUser(userInputDTO);
+
+        return buildSuccessResponseCreated(userSavedDTO, uriBuilder, ENDPOINT, userSavedDTO.getId());
+    }
+
+    @PostMapping(value = "/newAccount",produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @Operation(description = "Cadastrar uma nova conta")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "OK", content = {
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = UserInputDTO.class))
+            }),
+            @ApiResponse(responseCode = "406", description = "Erro de validação", content = {
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ValidationError.class))
+            }),
+            @ApiResponse(responseCode = "500", description = "Erro generico", content = {
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = StandardError.class))
+            })
+    })
+    public ResponseEntity<UserInputDTO> saveNewAccount(@RequestBody @Valid UserInputDTO userInputDTO, UriComponentsBuilder uriBuilder) {
+        userInputDTO.setUserPrincipalTenant(true);
+        UserInputDTO userSavedDTO = saveUser(userInputDTO);
+
+        return buildSuccessResponseCreated(userSavedDTO, uriBuilder, ENDPOINT, userSavedDTO.getId());
+    }
+
+    private UserInputDTO saveUser(UserInputDTO userInputDTO) {
         User user = UserConverter.getInstance().toEntity(userInputDTO);
 
         User userSaved = userService.save(user);
 
-        UserInputDTO userSavedDTO = UserConverter.getInstance().toInputDTO(userSaved);
-
-        return buildSuccessResponseCreated(userSavedDTO, uriBuilder, ENDPOINT, userSaved.getId());
+        return UserConverter.getInstance().toInputDTO(userSaved);
     }
 
     @PutMapping(produces = {MediaType.APPLICATION_JSON_VALUE}, consumes = {MediaType.APPLICATION_JSON_VALUE})

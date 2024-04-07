@@ -1,7 +1,10 @@
 package br.com.systec.controle.financeiro.category.service;
 
-import br.com.systec.controle.financeiro.category.model.Category;
-import br.com.systec.controle.financeiro.category.repository.CategoryRepository;
+import br.com.systec.controle.financeiro.administrator.category.model.Category;
+import br.com.systec.controle.financeiro.administrator.category.repository.CategoryRepository;
+import br.com.systec.controle.financeiro.administrator.category.service.CategoryService;
+import br.com.systec.controle.financeiro.commons.exception.ObjectNotFoundException;
+import br.com.systec.controle.financeiro.config.I18nTranslate;
 import br.com.systec.controle.financeiro.fake.CategoryFake;
 
 import org.assertj.core.api.Assertions;
@@ -10,11 +13,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+@SpringBootTest
+@ActiveProfiles("test")
 public class CategoryServiceTest {
 
     @Mock
@@ -28,7 +35,7 @@ public class CategoryServiceTest {
     }
 
     @Test
-    public void testFindById() {
+    void whenFindCategoriesById() {
         Long categoryId = 1L;
         Category expectedCategory = new Category();
         expectedCategory.setId(categoryId);
@@ -44,7 +51,16 @@ public class CategoryServiceTest {
     }
 
     @Test
-    public void testFindAll() {
+    void whenFindCategoryByIdObjectNotFoundException() {
+        Mockito.when(repository.findById(1L)).thenReturn(Optional.empty());
+
+        Assertions.assertThatThrownBy(() -> service.findById(1L)).
+                isInstanceOf(ObjectNotFoundException.class)
+                .as(I18nTranslate.toLocale("category.not.found"));
+    }
+
+    @Test
+    public void whenFindAllCategories() {
         List<Category> listOfCategory = Arrays.asList(CategoryFake.fakeCategory());
         Mockito.when(repository.findAll()).thenReturn(listOfCategory);
 

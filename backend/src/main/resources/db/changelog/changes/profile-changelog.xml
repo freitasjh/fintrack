@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+    <changeSet author="Joao" id="profile-24052023J-1">
+        <createTable tableName="profile">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="name" type="varchar(255)" />
+        </createTable>
+        <createTable tableName="user_profile">
+            <column name="user_id" type="bigint" />
+            <column name="profile_id" type="bigint" />
+        </createTable>
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="user_profile"
+                                 constraintName="user_profile_users_id_fk"
+                                 deferrable="false"  initiallyDeferred="false"  onDelete="CASCADE"
+                                 onUpdate="NO ACTION"  referencedColumnNames="id" referencedTableName="user"/>
+
+        <addForeignKeyConstraint baseColumnNames="profile_id" baseTableName="user_profile"
+                                 constraintName="user_profile_profile_id_fk"
+                                 deferrable="false"  initiallyDeferred="false"  onDelete="CASCADE"
+                                 onUpdate="NO ACTION"  referencedColumnNames="id" referencedTableName="profile"/>
+    </changeSet>
+    <changeSet id="profile-24052023J-2" author="Joao">
+        <sql>
+            insert into profile(id,name) values(1,'SUPER_ADMIN');
+            insert into profile(id,name) values(2,'ADMIN');
+            insert into profile(id,name) values(3,'USER');
+        </sql>
+    </changeSet>
+<!--    <changeSet id="profile-27062023J-1" author="Joao">-->
+<!--        <sql>-->
+<!--            insert into user_profile(user_id,profile_id) values(1,1);-->
+<!--        </sql>-->
+<!--    </changeSet>-->
+</databaseChangeLog>

@@ -1,12 +1,15 @@
 package br.com.systec.controle.financeiro.administrator.user.model;
 
+import br.com.systec.controle.financeiro.administrator.user.util.GenerType;
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Date;
+import java.util.*;
 
 @Entity
 @Table(name = "user")
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +27,8 @@ public class User {
     @Column(name = "date_of_birth")
     private Date dateOfBirth;
     @Column(name = "gender")
-    private String gender;
+    @Enumerated(EnumType.ORDINAL)
+    private GenerType gender;
     @Column(name = "profile_picture")
     private String profilePicture;
     @Column(name = "username")
@@ -35,6 +39,13 @@ public class User {
     private Long tenantId;
     @Column(name = "user_principal_tenant")
     private boolean userPrincipalTenant;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_profile",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "profile_id")
+    )
+    private Set<Profile> profile = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -92,11 +103,11 @@ public class User {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public String getGender() {
+    public GenerType getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(GenerType gender) {
         this.gender = gender;
     }
 
@@ -112,10 +123,47 @@ public class User {
         return username;
     }
 
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return profile;
+    }
+
+    public Set<Profile> getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Set<Profile> profile) {
+        this.profile = profile;
+    }
+
+    public void addProfile(String profile){
+        this.profile.add(new Profile(profile));
+    }
     public String getPassword() {
         return password;
     }

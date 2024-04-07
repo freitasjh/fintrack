@@ -1,6 +1,6 @@
 package br.com.systec.controle.financeiro.fake;
 
-import br.com.systec.controle.financeiro.category.model.Category;
+import br.com.systec.controle.financeiro.administrator.category.model.Category;
 
 public class CategoryFake {
 
@@ -8,7 +8,6 @@ public class CategoryFake {
         Category category = new Category();
         category.setId(1L);
         category.setDescription("Alimentação");
-        category.setObservation("Alimentacao observacao");
 
         return category;
     }

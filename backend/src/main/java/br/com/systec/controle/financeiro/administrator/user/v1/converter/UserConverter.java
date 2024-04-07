@@ -1,7 +1,9 @@
 package br.com.systec.controle.financeiro.administrator.user.v1.converter;
 
 import br.com.systec.controle.financeiro.administrator.user.model.User;
+import br.com.systec.controle.financeiro.administrator.user.util.GenerType;
 import br.com.systec.controle.financeiro.administrator.user.v1.dto.UserInputDTO;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public final class UserConverter {
 
@@ -28,7 +30,7 @@ public final class UserConverter {
         userInputDTO.setEmail(user.getEmail());
         userInputDTO.setFederalId(user.getFederalId());
         userInputDTO.setDateOfBirth(user.getDateOfBirth());
-        userInputDTO.setGender(user.getGender());
+        userInputDTO.setGender(user.getGender().getCode());
         userInputDTO.setUserPrincipalTenant(user.isUserPrincipalTenant());
 
 
@@ -45,10 +47,12 @@ public final class UserConverter {
         user.setEmail(userInputDTO.getEmail());
         user.setFederalId(userInputDTO.getFederalId());
         user.setDateOfBirth(userInputDTO.getDateOfBirth());
-        user.setGender(userInputDTO.getGender());
+        user.setGender(GenerType.valuesOfCode(userInputDTO.getGender()));
         user.setUserPrincipalTenant(userInputDTO.isUserPrincipalTenant());
         user.setUsername(userInputDTO.getUsername());
-        user.setPassword(userInputDTO.getPassword());
+        if (userInputDTO.getPassword() != null && !userInputDTO.getPassword().isEmpty()){
+            user.setPassword(new BCryptPasswordEncoder().encode(userInputDTO.getPassword()));
+        }
 
         return user;
     }

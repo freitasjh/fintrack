@@ -23,6 +23,12 @@ public class ControllerExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
     }
 
+    @ExceptionHandler(ObjectFoundException.class)
+    public ResponseEntity<StandardError> objectFoundException(ObjectFoundException e, HttpServletRequest request) {
+        StandardError err = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<StandardError> validation(MethodArgumentNotValidException e, HttpServletRequest request) {
         ValidationError err = new ValidationError(HttpStatus.NOT_ACCEPTABLE.value(),"Erro de validação", System.currentTimeMillis());
@@ -30,5 +36,11 @@ public class ControllerExceptionHandler {
             err.addError(x.getField(), x.getDefaultMessage());
         }
         return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(err);
+    }
+
+    @ExceptionHandler(LoginException.class)
+    public ResponseEntity<StandardError> loginException(LoginException e, HttpServletRequest request) {
+        StandardError err = new StandardError(HttpStatus.FORBIDDEN.value(), e.getMessage(), System.currentTimeMillis());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
     }
 }

@@ -3,8 +3,9 @@ package br.com.systec.controle.financeiro.administrator.bank.api.v1.dto;
 public class BankDTO {
 
     private Long id;
+    private int code;
     private String name;
-    private String description;
+    private String website;
 
     public Long getId() {
         return id;
@@ -12,6 +13,14 @@ public class BankDTO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
     }
 
     public String getName() {
@@ -22,11 +31,11 @@ public class BankDTO {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getWebsite() {
+        return website;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setWebsite(String website) {
+        this.website = website;
     }
 }

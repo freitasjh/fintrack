@@ -1,7 +1,8 @@
 package br.com.systec.controle.financeiro.category.v1.converter;
 
-import br.com.systec.controle.financeiro.category.model.Category;
-import br.com.systec.controle.financeiro.category.v1.dto.CategoryDTO;
+import br.com.systec.controle.financeiro.administrator.category.api.v1.converter.CategoryConverter;
+import br.com.systec.controle.financeiro.administrator.category.model.Category;
+import br.com.systec.controle.financeiro.administrator.category.api.v1.dto.CategoryDTO;
 import br.com.systec.controle.financeiro.fake.CategoryFake;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,6 @@ public class CategoryConverterTest {
 
         Assertions.assertThat(category.getId()).isEqualTo(categoryDTO.getId());
         Assertions.assertThat(category.getDescription()).isEqualTo(categoryDTO.getDescription());
-        Assertions.assertThat(category.getObservation()).isEqualTo(categoryDTO.getObservation());
     }
 
     @Test

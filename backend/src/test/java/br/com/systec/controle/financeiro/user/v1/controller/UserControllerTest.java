@@ -6,15 +6,19 @@ import br.com.systec.controle.financeiro.administrator.user.service.UserService;
 import br.com.systec.controle.financeiro.administrator.user.v1.dto.UserInputDTO;
 import br.com.systec.controle.financeiro.commons.RestPath;
 import br.com.systec.controle.financeiro.commons.exception.BaseException;
+import br.com.systec.controle.financeiro.commons.exception.ObjectFoundException;
 import br.com.systec.controle.financeiro.commons.exception.ObjectNotFoundException;
 import br.com.systec.controle.financeiro.fake.UserFake;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -34,6 +38,7 @@ public class UserControllerTest {
     private UserService service;
 
     @Test
+    @WithMockUser("admin")
     void whenFindUserById() throws Exception {
         User userReturn = UserFake.fakeUser();
 
@@ -50,6 +55,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @WithMockUser("admin")
     void whenFindUserByIdAndObjectNotFoundException() throws Exception {
         Mockito.doThrow(new ObjectNotFoundException("Usuario não encontrado")).when(service).findById(Mockito.anyLong());
 
@@ -64,6 +70,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @WithMockUser("admin")
     void whenSaveUserAndCreateNewAccount() throws Exception {
         User userCreated = UserFake.fakeUser();
         UserInputDTO userInsertBody = UserFake.fakeUserInputDTO();
@@ -78,4 +85,22 @@ public class UserControllerTest {
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
     }
+
+    @Test
+    void whenCreateNewAccountAndLoginFoundExceptionTest() throws Exception {
+        User userCreated = UserFake.fakeUser();
+        UserInputDTO userInsertBody = UserFake.fakeUserInputDTO();
+        Mockito.doThrow(new ObjectFoundException("Login já foi cadastrado")).when(service).save(Mockito.any(User.class));
+
+        mockMvc.perform(MockMvcRequestBuilders.post(ENDPOINT+"/newAccount")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(JsonUtil.converteObjetoParaString(userInsertBody)))
+                .andExpect(MockMvcResultMatchers.status().is(400))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.msg").isNotEmpty())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+
+        Mockito.verify(service).save(Mockito.any(User.class));
+    }
+
 }

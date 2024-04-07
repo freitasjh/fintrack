@@ -1,7 +1,12 @@
 package br.com.systec.controle.financeiro.administrator.user.v1.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -15,19 +20,19 @@ public class UserInputDTO implements Serializable {
     private String name;
     @NotNull
     @NotBlank
+    @Size(min = 11, max = 11)
     private String federalId;
     @NotNull
     @NotBlank
+    @Email
     private String email;
-    @NotNull
-    @NotBlank
     private String phone;
-    @NotNull
-    @NotBlank
     private String cellphone;
+    @JsonFormat(pattern="dd/MM/yyyy")
     private Date dateOfBirth;
     @NotNull
     @NotBlank
+    @Schema(description = "Genero do usuario, 'M - Masculino', 'F - Feminino', 'O - Outro'")
     private String gender;
     private String profilePicture;
     @NotNull
@@ -36,6 +41,7 @@ public class UserInputDTO implements Serializable {
     @NotNull
     @NotBlank
     private String password;
+    @JsonIgnore
     private boolean userPrincipalTenant;
 
     public Long getId() {
