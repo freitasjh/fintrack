@@ -1,5 +1,6 @@
 package br.com.systec.controle.financeiro.administrator.user.v1.dto;
 
+import br.com.systec.controle.financeiro.config.I18nTranslate;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -15,31 +16,24 @@ import java.util.Objects;
 public class UserInputDTO implements Serializable {
 
     private Long id;
-    @NotNull
-    @NotBlank
+    @NotBlank(message = "user.name.required")
     private String name;
-    @NotNull
-    @NotBlank
+    @NotBlank(message = "user.federalId.required")
     @Size(min = 11, max = 11)
     private String federalId;
-    @NotNull
-    @NotBlank
+    @NotBlank(message = "user.email.required")
     @Email
     private String email;
     private String phone;
     private String cellphone;
     @JsonFormat(pattern="dd/MM/yyyy")
     private Date dateOfBirth;
-    @NotNull
-    @NotBlank
+    @NotBlank(message = "user.gender.required")
     @Schema(description = "Genero do usuario, 'M - Masculino', 'F - Feminino', 'O - Outro'")
     private String gender;
     private String profilePicture;
-    @NotNull
-    @NotBlank
+    @NotBlank(message = "user.username.required")
     private String username;
-    @NotNull
-    @NotBlank
     private String password;
     @JsonIgnore
     private boolean userPrincipalTenant;

@@ -3,6 +3,7 @@ package br.com.systec.controle.financeiro.commons.exception;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,13 +15,13 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(BaseException.class)
     public ResponseEntity<StandardError> baseException(BaseException e, HttpServletRequest request) {
         StandardError err = new StandardError(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage(), System.currentTimeMillis());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(err);
-    }
+        HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
 
-    @ExceptionHandler(ObjectNotFoundException.class)
-    public ResponseEntity<StandardError> objectNotFound(ObjectNotFoundException e, HttpServletRequest request) {
-        StandardError err = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+        if(e.getHttpStatus() != null){
+            httpStatus = e.getHttpStatus();
+        }
+
+        return ResponseEntity.status(httpStatus).body(err);
     }
 
     @ExceptionHandler(ObjectFoundException.class)
@@ -31,7 +32,7 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<StandardError> validation(MethodArgumentNotValidException e, HttpServletRequest request) {
-        ValidationError err = new ValidationError(HttpStatus.NOT_ACCEPTABLE.value(),"Erro de validação", System.currentTimeMillis());
+        ValidationError err = new ValidationError(HttpStatus.NOT_ACCEPTABLE.value(),"error.validation", System.currentTimeMillis());
         for(FieldError x : e.getBindingResult().getFieldErrors()) {
             err.addError(x.getField(), x.getDefaultMessage());
         }
@@ -43,4 +44,11 @@ public class ControllerExceptionHandler {
         StandardError err = new StandardError(HttpStatus.FORBIDDEN.value(), e.getMessage(), System.currentTimeMillis());
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
     }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<StandardError> runtimeException(RuntimeException e, HttpServletRequest request) {
+        StandardError err = new StandardError(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage(), System.currentTimeMillis());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(err);
+    }
+
 }

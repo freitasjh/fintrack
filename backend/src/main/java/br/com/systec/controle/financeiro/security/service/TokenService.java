@@ -29,6 +29,7 @@ public class TokenService {
                 .withIssuer(ISSUE)
                 .withSubject(user.getUsername())
                 .withClaim("tenant", user.getTenantId())
+                .withClaim("userId", user.getId())
                 .withExpiresAt(generateDateExpired())
                 .sign(getAlgorithm());
         LoginResponseDTO loginResponse = new LoginResponseDTO(token, "Bearer");
