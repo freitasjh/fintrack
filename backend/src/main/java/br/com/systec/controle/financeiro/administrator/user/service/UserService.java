@@ -2,6 +2,9 @@ package br.com.systec.controle.financeiro.administrator.user.service;
 
 import br.com.systec.controle.financeiro.administrator.tenant.model.Tenant;
 import br.com.systec.controle.financeiro.administrator.tenant.service.TenantService;
+import br.com.systec.controle.financeiro.administrator.user.exception.LoginEmailValidationException;
+import br.com.systec.controle.financeiro.administrator.user.exception.LoginUsernameValidateException;
+import br.com.systec.controle.financeiro.administrator.user.exception.UserNotFoundException;
 import br.com.systec.controle.financeiro.administrator.user.model.User;
 import br.com.systec.controle.financeiro.administrator.user.repository.UserRepository;
 import br.com.systec.controle.financeiro.commons.exception.BaseException;
@@ -74,7 +77,7 @@ public class UserService {
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public User findById(Long userId){
-        return repository.findById(userId).orElseThrow(() -> new ObjectNotFoundException("Usuario não encontrado"));
+        return repository.findById(userId).orElseThrow(UserNotFoundException::new);
     }
 
     private void validateLoginAndEmailExist(User user) {
@@ -85,9 +88,9 @@ public class UserService {
         }
 
         if(userReturn.get().getUsername().equalsIgnoreCase(user.getUsername())) {
-            throw new ObjectFoundException("Login já foi cadastrado");
+            throw new LoginUsernameValidateException();
         }else if(userReturn.get().getEmail().equalsIgnoreCase(user.getEmail())){
-            throw new ObjectFoundException("E-mail já foi cadastrado");
+            throw new LoginEmailValidationException();
         }
     }
 }

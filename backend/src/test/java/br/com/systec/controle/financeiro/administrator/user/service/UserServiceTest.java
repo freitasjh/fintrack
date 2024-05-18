@@ -2,6 +2,9 @@ package br.com.systec.controle.financeiro.administrator.user.service;
 
 import br.com.systec.controle.financeiro.administrator.tenant.model.Tenant;
 import br.com.systec.controle.financeiro.administrator.tenant.service.TenantService;
+import br.com.systec.controle.financeiro.administrator.user.exception.LoginEmailValidationException;
+import br.com.systec.controle.financeiro.administrator.user.exception.LoginUsernameValidateException;
+import br.com.systec.controle.financeiro.administrator.user.exception.UserNotFoundException;
 import br.com.systec.controle.financeiro.commons.exception.BaseException;
 import br.com.systec.controle.financeiro.commons.exception.ObjectNotFoundException;
 import br.com.systec.controle.financeiro.fake.TenantFake;
@@ -72,9 +75,6 @@ public class UserServiceTest {
     }
 
     @Test
-    void whenUpdateUserTest() {}
-
-    @Test
     void whenFindUserByIdTest() throws BaseException{
         User userReturn = UserFake.fakeUser();
 
@@ -93,6 +93,30 @@ public class UserServiceTest {
     void whenFindUserByIdAndNotFoundExceptionTest() {
         Mockito.when(repository.findById(Mockito.anyLong())).thenReturn(Optional.empty());
 
-        Assertions.assertThatThrownBy(() -> userService.findById(1L)).isInstanceOf(ObjectNotFoundException.class);
+        Assertions.assertThatThrownBy(() -> userService.findById(1L)).isInstanceOf(UserNotFoundException.class);
+    }
+
+    @Test
+    void whenUsernameIfExistException() {
+        User userReturnFind = UserFake.fakeUser();
+        userReturnFind.setEmail("teste@teste.com.br");
+
+        Mockito.when(repository.findByLoginOrEmail(Mockito.anyString(),
+                        Mockito.anyString())).thenReturn(Optional.of(userReturnFind));
+
+        Assertions.assertThatThrownBy(() -> userService.save(UserFake.fakeUser()))
+                .isInstanceOf(LoginUsernameValidateException.class);
+    }
+
+    @Test
+    void whenEmailIfExistException() {
+        User userReturnFind = UserFake.fakeUser();
+        userReturnFind.setUsername("teste");
+
+        Mockito.when(repository.findByLoginOrEmail(Mockito.anyString(),
+                Mockito.anyString())).thenReturn(Optional.of(userReturnFind));
+
+        Assertions.assertThatThrownBy(() -> userService.save(UserFake.fakeUser()))
+                .isInstanceOf(LoginEmailValidationException.class);
     }
 }

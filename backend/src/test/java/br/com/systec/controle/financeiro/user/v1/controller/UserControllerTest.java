@@ -1,6 +1,7 @@
 package br.com.systec.controle.financeiro.user.v1.controller;
 
 import br.com.systec.controle.financeiro.JsonUtil;
+import br.com.systec.controle.financeiro.administrator.user.exception.LoginEmailValidationException;
 import br.com.systec.controle.financeiro.administrator.user.model.User;
 import br.com.systec.controle.financeiro.administrator.user.service.UserService;
 import br.com.systec.controle.financeiro.administrator.user.v1.dto.UserInputDTO;
@@ -88,19 +89,18 @@ public class UserControllerTest {
 
     @Test
     void whenCreateNewAccountAndLoginFoundExceptionTest() throws Exception {
-        User userCreated = UserFake.fakeUser();
         UserInputDTO userInsertBody = UserFake.fakeUserInputDTO();
-        Mockito.doThrow(new ObjectFoundException("Login já foi cadastrado")).when(service).save(Mockito.any(User.class));
+        Mockito.doThrow(new LoginEmailValidationException()).when(service)
+                .save(Mockito.any(User.class));
 
         mockMvc.perform(MockMvcRequestBuilders.post(ENDPOINT+"/newAccount")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(JsonUtil.converteObjetoParaString(userInsertBody)))
-                .andExpect(MockMvcResultMatchers.status().is(400))
+                .andExpect(MockMvcResultMatchers.status().is(406))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.msg").isNotEmpty())
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
 
         Mockito.verify(service).save(Mockito.any(User.class));
     }
-
 }

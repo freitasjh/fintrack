@@ -7,6 +7,7 @@ public class CategoryDTO {
     private Long id;
     private String description;
     private String observation;
+    private double spendingLimit;
 
     public Long getId() {
         return id;
@@ -32,6 +33,14 @@ public class CategoryDTO {
         this.observation = observation;
     }
 
+    public double getSpendingLimit() {
+        return spendingLimit;
+    }
+
+    public void setSpendingLimit(double spendingLimit) {
+        this.spendingLimit = spendingLimit;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -53,6 +62,7 @@ public class CategoryDTO {
                 "id=" + id +
                 ", description='" + description + '\'' +
                 ", observation='" + observation + '\'' +
+                ", spendingLimit=" + spendingLimit +
                 '}';
     }
 }

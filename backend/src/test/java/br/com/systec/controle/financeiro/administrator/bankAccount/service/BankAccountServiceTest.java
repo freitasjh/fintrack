@@ -5,6 +5,9 @@ import br.com.systec.controle.financeiro.administrator.bankAccount.model.BankAcc
 import br.com.systec.controle.financeiro.administrator.bankAccount.repository.BankAccountRepository;
 import br.com.systec.controle.financeiro.administrator.bankAccount.repository.BankAccountRepositoryJPA;
 import br.com.systec.controle.financeiro.fake.BankAccountFake;
+import br.com.systec.controle.financeiro.fake.ReceiveFake;
+import br.com.systec.controle.financeiro.receive.model.Receive;
+import br.com.systec.controle.financeiro.receive.service.ReceiveService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -27,6 +30,8 @@ public class BankAccountServiceTest {
     private BankAccountRepository repository;
     @Mock
     private BankAccountRepositoryJPA repositoryJPA;
+    @Mock
+    private ReceiveService receiveService;
 
     @InjectMocks
     private BankAccountService service;
@@ -35,16 +40,20 @@ public class BankAccountServiceTest {
     void whenSaveNewBakAccountTest() {
         BankAccount bankAccountToReturn = BankAccountFake.fake();
         BankAccount bankAccountToSave = BankAccountFake.fake();
+
         bankAccountToSave.setId(null);
         bankAccountToSave.setTenantId(null);
+        bankAccountToSave.setBalance(100);
 
         Mockito.doReturn(bankAccountToReturn).when(repository).save(Mockito.any(BankAccount.class));
+        Mockito.when(receiveService.save(Mockito.any(Receive.class))).thenReturn(ReceiveFake.fake());
 
         BankAccount bankAccountSaved = service.save(bankAccountToSave);
 
         Assertions.assertThat(bankAccountToReturn.getDescription()).isEqualTo(bankAccountSaved.getDescription());
 
         Mockito.verify(repository).save(Mockito.any(BankAccount.class));
+        Mockito.verify(receiveService).save(Mockito.any(Receive.class));
     }
 
     @Test

@@ -24,8 +24,8 @@ public class ControllerExceptionHandler {
         return ResponseEntity.status(httpStatus).body(err);
     }
 
-    @ExceptionHandler(ObjectFoundException.class)
-    public ResponseEntity<StandardError> objectFoundException(ObjectFoundException e, HttpServletRequest request) {
+    @ExceptionHandler(ObjectNotFoundException.class)
+    public ResponseEntity<StandardError> objectNotFoundException(ObjectNotFoundException e, HttpServletRequest request) {
         StandardError err = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
     }

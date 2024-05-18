@@ -6,6 +6,7 @@ import br.com.systec.controle.financeiro.administrator.category.api.v1.dto.Categ
 import br.com.systec.controle.financeiro.fake.CategoryFake;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,7 +17,7 @@ public class CategoryConverterTest {
     void converterCategoryToCategoryDTO(){
         Category category = CategoryFake.fakeCategory();
 
-        CategoryDTO categoryDTO = CategoryConverter.getInstance().toDTO(category);
+        CategoryDTO categoryDTO = CategoryConverter.toDTO(category);
 
         Assertions.assertThat(category.getId()).isEqualTo(categoryDTO.getId());
         Assertions.assertThat(category.getDescription()).isEqualTo(categoryDTO.getDescription());
@@ -26,9 +27,22 @@ public class CategoryConverterTest {
     void converterListCategoryToListCategoryDTOTest(){
         List<Category> listOfCategory = Arrays.asList(CategoryFake.fakeCategory());
 
-        List<CategoryDTO> listOfCategoryDTO = CategoryConverter.getInstance().toListDTO(listOfCategory);
+        List<CategoryDTO> listOfCategoryDTO = CategoryConverter.toListDTO(listOfCategory);
 
         Assertions.assertThat(listOfCategoryDTO).isNotEmpty();
         Assertions.assertThat(listOfCategoryDTO.size()).isEqualTo(listOfCategory.size());
+    }
+
+    @Test
+    void whenConverteDtoToEntity() {
+        CategoryDTO categoryDTO = CategoryFake.fakeCategoryDto();
+
+        Category category = CategoryConverter.toEntity(categoryDTO);
+
+        Assertions.assertThat(category).isNotNull();
+        Assertions.assertThat(category.getDescription()).isEqualTo(categoryDTO.getDescription());
+        Assertions.assertThat(category.getObservation()).isEqualTo(categoryDTO.getObservation());
+        Assertions.assertThat(category.getSpendingLimit()).isEqualTo(categoryDTO.getSpendingLimit());
+
     }
 }

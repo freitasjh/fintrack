@@ -12,20 +12,28 @@
             <column name="observation" type="varchar(255)"/>
         </createTable>
     </changeSet>
-    <changeSet id="category-21062023-2" author="joao">
-        <sql splitStatements="false">
-            INSERT INTO category (description) VALUES
-            ('Alimentação'),
-            ('Moradia'),
-            ('Transporte'),
-            ('Saúde'),
-            ('Educação'),
-            ('Lazer'),
-            ('Vestuário'),
-            ('Dívidas'),
-            ('Investimentos'),
-            ('Outros');
-        </sql>
+<!--    <changeSet id="category-21062023-2" author="joao">-->
+<!--        <sql splitStatements="false">-->
+<!--            INSERT INTO category (description) VALUES-->
+<!--            ('Alimentação'),-->
+<!--            ('Moradia'),-->
+<!--            ('Transporte'),-->
+<!--            ('Saúde'),-->
+<!--            ('Educação'),-->
+<!--            ('Lazer'),-->
+<!--            ('Vestuário'),-->
+<!--            ('Dívidas'),-->
+<!--            ('Investimentos'),-->
+<!--            ('Outros');-->
+<!--        </sql>-->
+<!--    </changeSet>-->
+    <changeSet id="category-18052024J-1" author="Joao">
+        <addColumn tableName="category">
+            <column name="spending_limit" type="double" defaultValue="0" />
+            <column name="tenant_id" type="int8" >
+                <constraints nullable="false" />
+            </column>
+        </addColumn>
     </changeSet>
 
 </databaseChangeLog>

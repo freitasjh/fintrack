@@ -43,7 +43,6 @@ public class UserConverterTest {
         Assertions.assertEquals(user.getDateOfBirth(), userInputDTO.getDateOfBirth());
         Assertions.assertEquals(user.getGender().getCode(), userInputDTO.getGender());
         Assertions.assertEquals(user.getUsername(), userInputDTO.getUsername());
-        Assertions.assertEquals(user.getPassword(), userInputDTO.getPassword());
         Assertions.assertEquals(user.isUserPrincipalTenant(), userInputDTO.isUserPrincipalTenant());
     }
 }

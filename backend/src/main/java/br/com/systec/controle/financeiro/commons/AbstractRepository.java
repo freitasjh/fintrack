@@ -3,12 +3,14 @@ package br.com.systec.controle.financeiro.commons;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -91,6 +93,14 @@ public abstract class AbstractRepository<T, ID> implements CrudRepository<T, ID>
     @Transactional(propagation = Propagation.SUPPORTS)
     public Iterable<T> findAll() {
         return entityManager.createQuery("SELECT o FROM "+entityClass.getSimpleName()+" o", entityClass).getResultList();
+    }
+
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    public Iterable<T> findAllByTenantId() {
+        TypedQuery<T> query = entityManager.createQuery("select obj from "+entityClass.getSimpleName()+" obj where obj.tenantId = :tenantId",entityClass);
+        query.setParameter("tenantId", TenantContext.getTenant());
+
+        return query.getResultList();
     }
 
     @Override

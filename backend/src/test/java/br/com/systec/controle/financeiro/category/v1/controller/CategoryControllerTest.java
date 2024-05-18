@@ -1,6 +1,7 @@
 package br.com.systec.controle.financeiro.category.v1.controller;
 
 import br.com.systec.controle.financeiro.JsonUtil;
+import br.com.systec.controle.financeiro.administrator.category.expceptions.CategoryNotFoundException;
 import br.com.systec.controle.financeiro.administrator.category.model.Category;
 import br.com.systec.controle.financeiro.administrator.category.service.CategoryService;
 import br.com.systec.controle.financeiro.commons.RestPath;
@@ -70,7 +71,7 @@ public class CategoryControllerTest {
     @Test
     @WithMockUser
     void whenFindByIdObjectNotFoundException() throws Exception{
-        Mockito.when(service.findById(2L)).thenThrow(new ObjectNotFoundException("Categoria não encontrada"));
+        Mockito.when(service.findById(2L)).thenThrow(new CategoryNotFoundException());
 
         mockMvc.perform(MockMvcRequestBuilders.get(ENDPOINT+"/2")
                         .contentType(MediaType.APPLICATION_JSON_VALUE))

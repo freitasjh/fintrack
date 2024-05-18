@@ -19,6 +19,10 @@ public class Category {
     private String description;
     @Column(name = "observation")
     private String observation;
+    @Column(name = "spendingLimit")
+    private Double spendingLimit;
+    @Column(name = "tenant_id", nullable = false)
+    private Long tenantId;
 
     public Long getId() {
         return id;
@@ -42,6 +46,22 @@ public class Category {
 
     public void setObservation(String observation) {
         this.observation = observation;
+    }
+
+    public Double getSpendingLimit() {
+        return spendingLimit;
+    }
+
+    public void setSpendingLimit(Double spendingLimit) {
+        this.spendingLimit = spendingLimit;
+    }
+
+    public Long getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(Long tenantId) {
+        this.tenantId = tenantId;
     }
 }
 

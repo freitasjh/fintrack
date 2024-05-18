@@ -10,6 +10,7 @@ public class BaseException extends RuntimeException {
         httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
     }
 
+
     public BaseException(String message, Throwable e, HttpStatus httpStatus) {
         super(message, e);
         this.httpStatus = httpStatus;
