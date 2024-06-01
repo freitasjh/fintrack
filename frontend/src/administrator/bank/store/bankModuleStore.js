@@ -12,7 +12,7 @@ export const bankModuleStore = {
     actions: {
         async findBank({ commit }) {
             const bankService = new BankService();
-            const response = await bankService.findBank();
+            const response = await bankService.findAllBank();
             if (response.status === 200) {
                 commit('LIST_BANK', response);
             }

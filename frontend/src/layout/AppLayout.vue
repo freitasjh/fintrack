@@ -68,10 +68,13 @@ const isOutsideClicked = (event) => {
             </div>
             <app-footer></app-footer>
         </div>
-        <app-config></app-config>
         <div class="layout-mask"></div>
     </div>
     <Toast />
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss">
+.swal2-container {
+    z-index: 1000000;
+}
+</style>

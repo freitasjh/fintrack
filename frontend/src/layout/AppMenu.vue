@@ -10,7 +10,10 @@ const model = ref([
     },
     {
         label: 'Cadastro',
-        items: [{ label: 'Categoria', icon: 'pi pi-fw pi-home', to: '/category' }]
+        items: [
+            { label: 'Categoria', icon: 'pi pi-fw pi-home', to: '/category' },
+            { label: 'Conta bancaria', icon: 'pi pi-fw pi-home', to: '/bankAccount' }
+        ]
     },
     {
         label: 'UI Components',
@@ -182,11 +185,7 @@ const model = ref([
         </template>
         <li>
             <a href="https://www.primefaces.org/primeblocks-vue/#/" target="_blank">
-                <img
-                    src="/layout/images/banner-primeblocks.png"
-                    alt="Prime Blocks"
-                    class="w-full mt-3"
-                />
+                <img src="/layout/images/banner-primeblocks.png" alt="Prime Blocks" class="w-full mt-3" />
             </a>
         </li>
     </ul>

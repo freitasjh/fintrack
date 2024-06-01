@@ -6,13 +6,7 @@ export default class BankAccountService {
     }
 
     findByFilter(bankAccountFilter) {
-        let endpointFilter = `?page=${bankAccountFilter.page}&limit=${bankAccountFilter.limit}`;
-
-        if (bankAccountFilter.search != '') {
-            endpointFilter = endpointFilter + `&${bankAccountFilter.search}`;
-        }
-
-        return http.get(`/api/v1/bankAccounts${endpointFilter}`).then((response) => response);
+        return http.get(`/api/v1/bankAccounts/filter${bankAccountFilter.toString()}`).then((response) => response);
     }
 
     save(bankAccount) {

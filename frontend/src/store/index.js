@@ -1,10 +1,18 @@
 import Vuex from 'vuex';
 import LoginService from '../login/service/LoginService';
 import userModuleStore from '../administrator/user/store/userModuleStore';
+import categoryStore from '../administrator/category/store/categoryStore';
+import bankModuleStore from '../administrator/bank/store/bankModuleStore';
+import bankAccountStore from '../administrator/bankAccount/store/bankAccountStore';
+import accountReceivableStore from '../administrator/financial/accountsReceivable/store/accountReceivableStore';
 
 export default new Vuex.Store({
     modules: {
-        userModuleStore
+        userModuleStore,
+        categoryStore,
+        bankModuleStore,
+        bankAccountStore,
+        accountReceivableStore
     },
     state: {
         token: '',

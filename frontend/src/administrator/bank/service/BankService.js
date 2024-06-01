@@ -1,7 +1,7 @@
 import http from '@/config/axios';
 
 export default class Bank {
-    findBanks() {
-        return http.get('api/v1/banks').then((response) => response);
+    findAllBank() {
+        return http.get('api/v1/banks?limit=200').then((response) => response);
     }
 }

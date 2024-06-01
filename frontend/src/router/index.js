@@ -16,7 +16,17 @@ const router = createRouter({
                 {
                     path: '/category',
                     name: 'category',
-                    component: () => import('@/administrator/bankAccount/view/BankAccountView.vue')
+                    component: () => import('@/administrator/category/view/CategoryView.vue')
+                },
+                {
+                    path: '/bankAccount',
+                    name: 'bankAccount',
+                    component: () => import('../administrator/bankAccount/view/BankAccountView.vue')
+                },
+                {
+                    path: '/accountReceivable',
+                    name: 'accountReceivable',
+                    component: () => import('@/financial/accountsReceivable/view/AccountReceivableView.vue')
                 },
                 {
                     path: '/uikit/formlayout',

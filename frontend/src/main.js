@@ -115,12 +115,16 @@ import '@/assets/styles.scss';
 import { message_en, message_pt_BR } from './config/i18n/messageI18n';
 import VueSweetAlert from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
+import { LoadingPlugin } from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/css/index.css';
 
 const app = createApp(App);
 app.config.globalProperties.$axios = api;
 
 const i18n = createI18n({
     locale: 'pt_BR',
+    legacy: false,
+    globalInjection: true,
     messages: {
         pt_BR: message_pt_BR,
         en: message_en
@@ -135,6 +139,7 @@ app.use(ConfirmationService);
 app.use(store);
 app.use(i18n);
 app.use(VueSweetAlert);
+app.use(LoadingPlugin);
 
 app.directive('tooltip', Tooltip);
 app.directive('badge', BadgeDirective);

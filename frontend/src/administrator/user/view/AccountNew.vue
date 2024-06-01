@@ -3,7 +3,7 @@ import { inject, ref } from 'vue';
 import UserModel from '../model/UserModel';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
-import { handleErrorValidation, handlerError } from '@/commons/components/modalMessage';
+import { handleErrorValidation, handlerError, handlerModalSuccess } from '@/commons/components/handleMessage';
 
 const user = ref(new UserModel());
 const store = useStore();
@@ -12,8 +12,11 @@ const swal = inject('$swal');
 
 const saveNewAccount = async () => {
     try {
+        user.value.gender = 'M';
         await store.dispatch('userModuleStore/saveNewAccount', user.value);
+        handlerModalSuccess("Nova conta cadastrada com sucesso", swal);
     } catch (error) {
+        console.log(error);
         if (error.response.status === 406) {
             handleErrorValidation(error.response, swal);
         } else {
@@ -36,7 +39,7 @@ const saveNewAccount = async () => {
                     <div class="flex align-items-center justify-content-center mb-5 gap-5">
                         <a class="font-medium no-underline ml-2 text-center cursor-pointer"
                             style="color: var(--primary-color)" @click="router.push({ name: 'login' })">{{
-                            $t('returnLoginPage')}}</a>
+                                $t('returnLoginPage') }}</a>
                     </div>
                     <div>
                         <label for="user-name" class="block text-900 text-xl font-medium mb-2">{{ $t('userName')
@@ -51,18 +54,26 @@ const saveNewAccount = async () => {
                             }}</label>
                         <InputText id="user-phone" type="text" class="w-full md:w-30rem mb-5" style="padding: 1rem"
                             v-model="user.phone" />
+
                         <label for="user-cellphone" class="block text-900 text-xl font-medium mb-2">{{
                             $t('userCellPhone') }}</label>
                         <InputText id="user-cellphone" type="text" class="w-full md:w-30rem mb-5" style="padding: 1rem"
                             v-model="user.cellPhone" />
+
                         <label for="user-dateOfBirth" class="block text-900 text-xl font-medium mb-2">{{
                             $t('userDateOfBirth') }}</label>
                         <InputText id="user-dateOfBirth" type="text" class="w-full md:w-30rem mb-5"
                             style="padding: 1rem" v-model="user.dateOfBirth" />
 
-                        <label for="user-email" class="block text-900 text-xl font-medium mb-2">{{ $t('loginUsername')
+                        <label for="user-email" class="block text-900 text-xl font-medium mb-2">{{ $t('userEmail')
                             }}</label>
                         <InputText id="user-email" type="text" :placeholder="$t('emailAddress')"
+                            class="w-full md:w-30rem mb-5" style="padding: 1rem" v-model="user.email" />
+
+                        <label for="user-username" class="block text-900 text-xl font-medium mb-2">{{
+                            $t('loginUsername')
+                        }}</label>
+                        <InputText id="user-username" type="text" :placeholder="$t('emailAddress')"
                             class="w-full md:w-30rem mb-5" style="padding: 1rem" v-model="user.username" />
 
                         <label for="user-password" class="block text-900 font-medium text-xl mb-2">{{ $t('password')
