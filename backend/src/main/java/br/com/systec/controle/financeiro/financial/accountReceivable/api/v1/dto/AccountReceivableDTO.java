@@ -1,10 +1,10 @@
-package br.com.systec.controle.financeiro.AccountReceivable.api.v1.dto;
+package br.com.systec.controle.financeiro.financial.accountReceivable.api.v1.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDateTime;
 
-public class ReceiveDTO {
+public class AccountReceivableDTO {
 
     private Long id;
     private String description;
@@ -56,7 +56,7 @@ public class ReceiveDTO {
 
     @Override
     public String toString() {
-        return "ReceiveDTO{" +
+        return "AccountReceivableDTO{" +
                 "id=" + id +
                 ", description='" + description + '\'' +
                 ", amount=" + amount +

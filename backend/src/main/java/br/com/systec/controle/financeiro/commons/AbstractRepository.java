@@ -178,6 +178,11 @@ public abstract class AbstractRepository<T, ID> implements CrudRepository<T, ID>
         return oEntitu.orElse(null);
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void saveNativeQuery(String nativeQuery) {
+        entityManager.createNativeQuery(nativeQuery).executeUpdate();
+    }
+
     @SuppressWarnings({ "rawtypes", "unchecked" })
 //	protected PaginatedList<T> executePaginatedQuery(Query query, Map<String, Object> setParams, int page, int pageSize){
 //

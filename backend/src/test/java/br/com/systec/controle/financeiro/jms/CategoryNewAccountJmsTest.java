@@ -5,18 +5,18 @@ import br.com.systec.controle.financeiro.integration.MysqlTestIT;
 import br.com.systec.controle.financeiro.integration.RabbitMQContainerIT;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
 
-import java.util.concurrent.Callable;
-
 @SpringBootTest
 @ExtendWith(OutputCaptureExtension.class)
-public class NewAccountJmsTest extends MysqlTestIT implements RabbitMQContainerIT {
-
+public class CategoryNewAccountJmsTest extends MysqlTestIT implements RabbitMQContainerIT {
+    private static final Logger log = LoggerFactory.getLogger(CategoryNewAccountJmsTest.class);
     @Autowired
     RabbitTemplate rabbitTemplate;
 
@@ -24,14 +24,10 @@ public class NewAccountJmsTest extends MysqlTestIT implements RabbitMQContainerI
     @Test
     void teste(CapturedOutput output) {
         rabbitTemplate.convertAndSend(
-                RabbitMQConfig.FINANCIAL_EXCHANGE,
+                RabbitMQConfig.FINANCIAL_EXCHANGE, "",
                 "1"
         );
 
-        System.out.println(output.getOut());
-    }
-
-    private Callable<Boolean> paymentUpdated(CapturedOutput output) {
-        return () -> output.getOut().contains("Payment updated");
+        log.info("Output {}", output.getOut());
     }
 }

@@ -17,6 +17,7 @@
     <changeSet id="12022024-J2" author="Joao">
         <sql splitStatements="false">
             INSERT INTO bank (code, name, website) VALUES
+            (1, 'Outros', ''),
             (197, 'Stone Pagamentos', 'https://www.stone.com.br/'),
             (748, 'Banco Cooperativo Sicredi S.A.', 'www.sicredi.com.br'),
             (117, 'Advanced Cc Ltda', 'https://advancedcorretora.com.br/'),

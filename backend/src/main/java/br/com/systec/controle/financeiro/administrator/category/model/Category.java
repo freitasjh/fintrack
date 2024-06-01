@@ -1,5 +1,6 @@
 package br.com.systec.controle.financeiro.administrator.category.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,14 +15,19 @@ public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnoreProperties(ignoreUnknown = true)
     private Long id;
     @Column(name = "description")
+    @JsonIgnoreProperties(ignoreUnknown = true)
     private String description;
     @Column(name = "observation")
+    @JsonIgnoreProperties(ignoreUnknown = true)
     private String observation;
     @Column(name = "spendingLimit")
+    @JsonIgnoreProperties(ignoreUnknown = true)
     private Double spendingLimit;
     @Column(name = "tenant_id", nullable = false)
+    @JsonIgnoreProperties(ignoreUnknown = true)
     private Long tenantId;
 
     public Long getId() {
@@ -62,6 +68,17 @@ public class Category {
 
     public void setTenantId(Long tenantId) {
         this.tenantId = tenantId;
+    }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", observation='" + observation + '\'' +
+                ", spendingLimit=" + spendingLimit +
+                ", tenantId=" + tenantId +
+                '}';
     }
 }
 

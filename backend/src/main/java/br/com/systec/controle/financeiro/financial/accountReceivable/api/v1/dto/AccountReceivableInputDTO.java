@@ -1,17 +1,21 @@
-package br.com.systec.controle.financeiro.AccountReceivable.api.v1.dto;
+package br.com.systec.controle.financeiro.financial.accountReceivable.api.v1.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
 
-public class ReceiveInputDTO {
+public class AccountReceivableInputDTO {
 
     private Long id;
-    private Long tenantId;
+    @NotNull
     private Long accountId;
+    @NotNull
     private double amount;
+    @NotNull
     private String description;
+    @NotNull
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDateTime dateRegister;
     @JsonFormat(pattern = "dd/MM/yyyy")
@@ -23,14 +27,6 @@ public class ReceiveInputDTO {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getTenantId() {
-        return tenantId;
-    }
-
-    public void setTenantId(Long tenantId) {
-        this.tenantId = tenantId;
     }
 
     public Long getAccountId() {
@@ -75,9 +71,8 @@ public class ReceiveInputDTO {
 
     @Override
     public String toString() {
-        return "ReceiveInputDTO{" +
+        return "AccountReceivableInputDTO{" +
                 "id=" + id +
-                ", tenantId=" + tenantId +
                 ", accountId=" + accountId +
                 ", amount=" + amount +
                 ", description='" + description + '\'' +

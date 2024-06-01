@@ -7,6 +7,6 @@ import org.springframework.http.HttpStatus;
 public class LoginUsernameValidateException extends BaseException {
 
     public LoginUsernameValidateException() {
-        super(I18nTranslate.toLocale("login.username.exist"), HttpStatus.NOT_ACCEPTABLE);
+        super(I18nTranslate.toLocale("login.username.exist"), HttpStatus.BAD_REQUEST);
     }
 }

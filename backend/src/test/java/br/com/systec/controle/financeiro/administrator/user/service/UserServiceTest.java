@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -29,6 +30,9 @@ public class UserServiceTest {
     private TenantService tenantService;
     @Mock
     private UserRepository repository;
+    @Mock
+    private RabbitTemplate rabbitTemplate;
+
     @InjectMocks
     private UserService userService;
 

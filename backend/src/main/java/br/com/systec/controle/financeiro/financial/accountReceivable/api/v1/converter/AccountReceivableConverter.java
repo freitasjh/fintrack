@@ -1,21 +1,21 @@
-package br.com.systec.controle.financeiro.AccountReceivable.api.v1.converter;
+package br.com.systec.controle.financeiro.financial.accountReceivable.api.v1.converter;
 
 
 import br.com.systec.controle.financeiro.commons.TenantContext;
 import br.com.systec.controle.financeiro.commons.converter.BaseConverter;
-import br.com.systec.controle.financeiro.AccountReceivable.api.v1.dto.ReceiveDTO;
-import br.com.systec.controle.financeiro.AccountReceivable.api.v1.dto.ReceiveInputDTO;
-import br.com.systec.controle.financeiro.AccountReceivable.model.Receive;
+import br.com.systec.controle.financeiro.financial.accountReceivable.api.v1.dto.AccountReceivableDTO;
+import br.com.systec.controle.financeiro.financial.accountReceivable.api.v1.dto.AccountReceivableInputDTO;
+import br.com.systec.controle.financeiro.financial.accountReceivable.model.AccountReceivable;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
-public class ReceiverConverter implements BaseConverter<ReceiveDTO, Receive, ReceiveInputDTO> {
 
-    @Override
-    public ReceiveDTO convertToDTO(Receive model) {
-        ReceiveDTO receiveDTO = new ReceiveDTO();
+public class AccountReceivableConverter  {
+
+    public static AccountReceivableDTO convertToDTO(AccountReceivable model) {
+        AccountReceivableDTO receiveDTO = new AccountReceivableDTO();
         receiveDTO.setId(model.getId());
         receiveDTO.setDateReceiver(model.getDateReceiver());
         receiveDTO.setDateRegister(model.getDateRegister());
@@ -24,9 +24,9 @@ public class ReceiverConverter implements BaseConverter<ReceiveDTO, Receive, Rec
         return receiveDTO;
     }
 
-    @Override
-    public ReceiveInputDTO convertTOInputDTO(Receive model) {
-        ReceiveInputDTO receiveInputDTO = new ReceiveInputDTO();
+
+    public static AccountReceivableInputDTO convertTOInputDTO(AccountReceivable model) {
+        AccountReceivableInputDTO receiveInputDTO = new AccountReceivableInputDTO();
         receiveInputDTO.setId(model.getId());
         receiveInputDTO.setDescription(model.getDescription());
         receiveInputDTO.setAmount(model.getAmount());
@@ -36,9 +36,9 @@ public class ReceiverConverter implements BaseConverter<ReceiveDTO, Receive, Rec
         return receiveInputDTO;
     }
 
-    @Override
-    public Receive convertToModel(ReceiveInputDTO inputDTO) {
-        Receive receive = new Receive();
+
+    public static AccountReceivable convertToModel(AccountReceivableInputDTO inputDTO) {
+        AccountReceivable receive = new AccountReceivable();
         receive.setId(inputDTO.getId());
         receive.setDescription(inputDTO.getDescription());
         receive.setAccountId(inputDTO.getAccountId());
@@ -50,8 +50,12 @@ public class ReceiverConverter implements BaseConverter<ReceiveDTO, Receive, Rec
         return receive;
     }
 
-    @Override
-    public List<ReceiveDTO> convertToListDTO(List<Receive> listOfModel) {
-        return listOfModel.stream().map(this::convertToDTO).toList();
+
+    public static List<AccountReceivableDTO> convertToListDTO(List<AccountReceivable> listOfModel) {
+        return listOfModel.stream().map(AccountReceivableConverter::convertToDTO).toList();
+    }
+
+    public static Page<AccountReceivableDTO> convertToPageDTO(Page<AccountReceivable> pageOfAccountReceivable) {
+        return pageOfAccountReceivable.map(AccountReceivableConverter::convertToDTO);
     }
 }

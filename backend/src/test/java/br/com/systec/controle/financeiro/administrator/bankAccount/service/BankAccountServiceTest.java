@@ -5,9 +5,9 @@ import br.com.systec.controle.financeiro.administrator.bankAccount.model.BankAcc
 import br.com.systec.controle.financeiro.administrator.bankAccount.repository.BankAccountRepository;
 import br.com.systec.controle.financeiro.administrator.bankAccount.repository.BankAccountRepositoryJPA;
 import br.com.systec.controle.financeiro.fake.BankAccountFake;
-import br.com.systec.controle.financeiro.fake.ReceiveFake;
-import br.com.systec.controle.financeiro.receive.model.Receive;
-import br.com.systec.controle.financeiro.receive.service.ReceiveService;
+import br.com.systec.controle.financeiro.accountReceivable.fake.AccountReceivableFake;
+import br.com.systec.controle.financeiro.financial.accountReceivable.model.AccountReceivable;
+import br.com.systec.controle.financeiro.financial.accountReceivable.service.AccountReceivableService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -31,7 +31,7 @@ public class BankAccountServiceTest {
     @Mock
     private BankAccountRepositoryJPA repositoryJPA;
     @Mock
-    private ReceiveService receiveService;
+    private AccountReceivableService receiveService;
 
     @InjectMocks
     private BankAccountService service;
@@ -46,14 +46,14 @@ public class BankAccountServiceTest {
         bankAccountToSave.setBalance(100);
 
         Mockito.doReturn(bankAccountToReturn).when(repository).save(Mockito.any(BankAccount.class));
-        Mockito.when(receiveService.save(Mockito.any(Receive.class))).thenReturn(ReceiveFake.fake());
+        Mockito.when(receiveService.save(Mockito.any(AccountReceivable.class))).thenReturn(AccountReceivableFake.fake());
 
         BankAccount bankAccountSaved = service.save(bankAccountToSave);
 
         Assertions.assertThat(bankAccountToReturn.getDescription()).isEqualTo(bankAccountSaved.getDescription());
 
         Mockito.verify(repository).save(Mockito.any(BankAccount.class));
-        Mockito.verify(receiveService).save(Mockito.any(Receive.class));
+        Mockito.verify(receiveService).save(Mockito.any(AccountReceivable.class));
     }
 
     @Test

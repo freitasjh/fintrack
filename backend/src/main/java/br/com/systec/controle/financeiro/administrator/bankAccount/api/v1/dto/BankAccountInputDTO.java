@@ -20,6 +20,7 @@ public class BankAccountInputDTO {
     private Long bankId;
     @NotNull
     private int accountType;
+    private double initialValue;
 
     public Long getId() {
         return id;
@@ -75,5 +76,13 @@ public class BankAccountInputDTO {
 
     public void setAccountType(int accountType) {
         this.accountType = accountType;
+    }
+
+    public double getInitialValue() {
+        return initialValue;
+    }
+
+    public void setInitialValue(double initialValue) {
+        this.initialValue = initialValue;
     }
 }

@@ -96,7 +96,7 @@ public class UserControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post(ENDPOINT+"/newAccount")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(JsonUtil.converteObjetoParaString(userInsertBody)))
-                .andExpect(MockMvcResultMatchers.status().is(406))
+                .andExpect(MockMvcResultMatchers.status().is(400))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.msg").isNotEmpty())
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();

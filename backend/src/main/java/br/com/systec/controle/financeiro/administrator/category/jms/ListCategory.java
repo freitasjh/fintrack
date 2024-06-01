@@ -1,4 +1,4 @@
-package br.com.systec.controle.financeiro.administrator.jms;
+package br.com.systec.controle.financeiro.administrator.category.jms;
 
 import br.com.systec.controle.financeiro.administrator.category.model.Category;
 

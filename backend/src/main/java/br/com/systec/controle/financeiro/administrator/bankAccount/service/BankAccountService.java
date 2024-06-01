@@ -5,12 +5,11 @@ import br.com.systec.controle.financeiro.administrator.bankAccount.model.BankAcc
 import br.com.systec.controle.financeiro.administrator.bankAccount.repository.BankAccountRepository;
 import br.com.systec.controle.financeiro.administrator.bankAccount.repository.BankAccountRepositoryJPA;
 import br.com.systec.controle.financeiro.commons.TenantContext;
-import br.com.systec.controle.financeiro.commons.exception.BaseException;
 import br.com.systec.controle.financeiro.commons.exception.ObjectNotFoundException;
 import br.com.systec.controle.financeiro.config.I18nTranslate;
-import br.com.systec.controle.financeiro.receive.exceptions.ReceiveException;
-import br.com.systec.controle.financeiro.receive.model.Receive;
-import br.com.systec.controle.financeiro.receive.service.ReceiveService;
+import br.com.systec.controle.financeiro.financial.accountReceivable.exceptions.AccountReceivableException;
+import br.com.systec.controle.financeiro.financial.accountReceivable.model.AccountReceivable;
+import br.com.systec.controle.financeiro.financial.accountReceivable.service.AccountReceivableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -27,36 +26,44 @@ public class BankAccountService {
     @Autowired
     private BankAccountRepositoryJPA repositoryJPA;
     @Autowired
-    private ReceiveService receiveService;
+    private AccountReceivableService receiveService;
 
     @Transactional(propagation = Propagation.REQUIRED)
     public BankAccount save(BankAccount bankAccount) {
-        bankAccount.setTenantId(TenantContext.getTenant());
+        if(bankAccount.getTenantId() == null) {
+            bankAccount.setTenantId(TenantContext.getTenant());
+        }
+
         BankAccount bankAccountSaved = repository.save(bankAccount);
 
-        saveAmountInitialAccount(bankAccountSaved);
+        if(bankAccount.getBalance() > 0.0) {
+            saveAmountInitialAccount(bankAccountSaved);
+        }
 
         return bankAccountSaved;
     }
 
     private void saveAmountInitialAccount(BankAccount bankAccount){
         try {
-            Receive receive = new Receive();
+            AccountReceivable receive = new AccountReceivable();
             receive.setDateReceiver(LocalDateTime.now());
             receive.setDateRegister(LocalDateTime.now());
             receive.setAccountId(bankAccount.getId());
             receive.setDescription(I18nTranslate.toLocale("account.opening.balance"));
             receive.setAmount(bankAccount.getBalance());
+            receive.setTenantId(bankAccount.getTenantId());
 
             receiveService.save(receive);
         }catch (Exception e) {
-            throw new ReceiveException(I18nTranslate.toLocale("error.save.account.opening.balance"));
+            throw new AccountReceivableException(I18nTranslate.toLocale("error.save.account.opening.balance"));
         }
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
     public BankAccount update(BankAccount bankAccount) {
-        bankAccount.setTenantId(TenantContext.getTenant());
+        if(bankAccount.getTenantId() == null) {
+            bankAccount.setTenantId(TenantContext.getTenant());
+        }
 
         return repository.update(bankAccount);
     }

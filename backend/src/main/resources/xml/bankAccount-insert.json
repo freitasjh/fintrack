@@ -1,0 +1,12 @@
+[
+  {
+    "description": "Conta padrão",
+    "agency": "",
+    "account": "",
+    "balance": 0,
+    "bank": {
+      "id" : 1
+    },
+    "accountType": 0
+  }
+]

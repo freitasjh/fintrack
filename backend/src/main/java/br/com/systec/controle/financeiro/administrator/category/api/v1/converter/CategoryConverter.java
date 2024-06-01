@@ -2,6 +2,7 @@ package br.com.systec.controle.financeiro.administrator.category.api.v1.converte
 
 import br.com.systec.controle.financeiro.administrator.category.model.Category;
 import br.com.systec.controle.financeiro.administrator.category.api.v1.dto.CategoryDTO;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -31,5 +32,9 @@ public final class CategoryConverter {
         category.setSpendingLimit(categoryDTO.getSpendingLimit());
 
         return category;
+    }
+
+    public static Page<CategoryDTO> toPageDTO(Page<Category> pageOfCategory){
+        return pageOfCategory.map(CategoryConverter::toDTO);
     }
 }

@@ -7,6 +7,6 @@ import org.springframework.http.HttpStatus;
 public class LoginEmailValidationException extends BaseException {
 
     public LoginEmailValidationException() {
-        super(I18nTranslate.toLocale("login.email.exist"), HttpStatus.NOT_ACCEPTABLE);
+        super(I18nTranslate.toLocale("login.email.exist"), HttpStatus.BAD_REQUEST);
     }
 }

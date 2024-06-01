@@ -104,4 +104,18 @@ public class BankAccount {
     public void setTenantId(Long tenantId) {
         this.tenantId = tenantId;
     }
+
+    @Override
+    public String toString() {
+        return "BankAccount{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", agency='" + agency + '\'' +
+                ", account='" + account + '\'' +
+                ", accountType=" + accountType +
+                ", balance=" + balance +
+                ", bank=" + bank +
+                ", tenantId=" + tenantId +
+                '}';
+    }
 }

@@ -1,18 +1,18 @@
-package br.com.systec.controle.financeiro.AccountReceivable.exceptions;
+package br.com.systec.controle.financeiro.financial.accountReceivable.exceptions;
 
 import br.com.systec.controle.financeiro.commons.exception.BaseException;
 import org.springframework.http.HttpStatus;
 
-public class ReceiveException extends BaseException {
+public class AccountReceivableException extends BaseException {
 
-    public ReceiveException() {
+    public AccountReceivableException() {
     }
 
-    public ReceiveException(String message) {
+    public AccountReceivableException(String message) {
         super(message);
     }
 
-    public ReceiveException(String message, Throwable cause) {
+    public AccountReceivableException(String message, Throwable cause) {
         super(message, cause);
         this.httpStatus = HttpStatus.BAD_REQUEST;
     }

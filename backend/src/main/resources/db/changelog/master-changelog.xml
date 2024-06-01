@@ -13,7 +13,7 @@
     <include file="db/changelog/changes/profile-changelog.xml" />
     <include file="db/changelog/changes/bank-changelog.xml" />
     <include file="db/changelog/changes/bank_account-changelog.xml" />
-    <include file="db/changelog/changes/receive-changelog.xml" />
+    <include file="db/changelog/changes/accountReceivable-changelog.xml" />
 
 
 

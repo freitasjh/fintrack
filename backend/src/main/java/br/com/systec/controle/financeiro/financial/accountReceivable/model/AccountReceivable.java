@@ -1,4 +1,4 @@
-package br.com.systec.controle.financeiro.AccountReceivable.model;
+package br.com.systec.controle.financeiro.financial.accountReceivable.model;
 
 import br.com.systec.controle.financeiro.commons.TenantContext;
 import jakarta.persistence.Column;
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "receive")
-public class Receive {
+public class AccountReceivable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,7 +30,7 @@ public class Receive {
     @Column(name = "date_receiver")
     private LocalDateTime dateReceiver;
 
-    public Receive(){
+    public AccountReceivable(){
         this.tenantId = TenantContext.getTenant();
     }
 

@@ -1,42 +1,44 @@
-<categories>
-    <category>
-        <description>Alimentação</description>
-        <spendLimit>1000</spendLimit>
-    </category>
-    <category>
-        <description>Moradia</description>
-        <spendLimit>1000</spendLimit>
-    </category>
-    <category>
-        <description>Transporte</description>
-        <spendLimit>1000</spendLimit>
-    </category>
-    <category>
-        <description>Saúde</description>
-        <spendLimit>1000</spendLimit>
-    </category>
-    <category>
-        <description>Educação</description>
-        <spendLimit>1000</spendLimit>
-    </category>
-    <category>
-        <description>Lazer</description>
-        <spendLimit>1000</spendLimit>
-    </category>
-    <category>
-        <description>Vestuário</description>
-        <spendLimit>1000</spendLimit>
-    </category>
-    <category>
-        <description>Dívidas</description>
-        <spendLimit>1000</spendLimit>
-    </category>
-    <category>
-        <description>Investimentos</description>
-        <spendLimit>1000</spendLimit>
-    </category>
-    <category>
-        <description>Outros</description>
-        <spendLimit>1000</spendLimit>
-    </category>
-</categories>
+{
+  "categories": [
+    {
+      "description": "Alimentação",
+      "spendingLimit": 1000
+    },
+    {
+      "description": "Moradia",
+      "spendingLimit": 1000
+    },
+    {
+      "description": "Transporte",
+      "spendingLimit": 1000
+    },
+    {
+      "description": "Saúde",
+      "spendingLimit": 1000
+    },
+    {
+      "description": "Educação",
+      "spendingLimit": 1000
+    },
+    {
+      "description": "Lazer",
+      "spendingLimit": 1000
+    },
+    {
+      "description": "Vestuário",
+      "spendingLimit": 1000
+    },
+    {
+      "description": "Dívidas",
+      "spendingLimit": 1000
+    },
+    {
+      "description": "Investimentos",
+      "spendingLimit": 1000
+    },
+    {
+      "description": "Outros",
+      "spendingLimit": 1000
+    }
+  ]
+}

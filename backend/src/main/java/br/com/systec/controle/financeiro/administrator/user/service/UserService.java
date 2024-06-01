@@ -10,8 +10,10 @@ import br.com.systec.controle.financeiro.administrator.user.repository.UserRepos
 import br.com.systec.controle.financeiro.commons.exception.BaseException;
 import br.com.systec.controle.financeiro.commons.exception.ObjectFoundException;
 import br.com.systec.controle.financeiro.commons.exception.ObjectNotFoundException;
+import br.com.systec.controle.financeiro.config.RabbitMQConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -26,6 +28,9 @@ public class UserService {
     private UserRepository repository;
     @Autowired
     private TenantService tenantService;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     @Transactional(propagation = Propagation.REQUIRED)
     public User save(final User user) {
@@ -45,6 +50,8 @@ public class UserService {
             if (user.isUserPrincipalTenant()) {
                 tenantService.update(userSaved.getTenantId(), userSaved.getTenantId());
             }
+
+            rabbitTemplate.convertAndSend(RabbitMQConfig.FINANCIAL_EXCHANGE,"", userSaved.getTenantId());
 
             return userSaved;
         }catch (BaseException e){
