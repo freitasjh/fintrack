@@ -1,14 +1,14 @@
 <script setup>
-import { FilterMatchMode } from 'primevue/api';
-import { inject, onBeforeMount, ref } from 'vue';
-import Pageable from '@/commons/model/Pageable';
-import { useStore } from 'vuex';
-import FilterCategory from '../model/FilterCategory';
-import Category from '../model/Category';
-import { useToast } from 'primevue/usetoast';
-import { useLoader } from '@/composables/commons'
-import { useHandlerMessage } from '../../../composables/commons';
-import { useI18n } from 'vue-i18n';
+import { FilterMatchMode } from "primevue/api";
+import { inject, onBeforeMount, ref } from "vue";
+import Pageable from "@/commons/model/Pageable";
+import { useStore } from "vuex";
+import FilterCategory from "../model/FilterCategory";
+import Category from "../model/Category";
+import { useToast } from "primevue/usetoast";
+import { useLoader } from "@/composables/commons";
+import { useHandlerMessage } from "../../../composables/commons";
+import { useI18n } from "vue-i18n";
 
 const category = ref(new Category());
 const pageOfCategory = ref(new Pageable());
@@ -21,13 +21,17 @@ const { showLoading, hideLoading } = useLoader();
 const { handlerError } = useHandlerMessage();
 const { t } = useI18n();
 
-const breadCrumbItem = ref([
-    { label: t('cadastre') },
-    { label: t('category') },
-]);
+const breadCrumbItem = ref([{ label: t("cadastre") }, { label: t("category") }]);
+
 const home = ref({
-    icon: 'pi pi-home'
+    icon: "pi pi-home",
 });
+
+const listOfCategoryType = ref([
+    { code: 0, description: "Receber" },
+    { code: 1, description: "Pagar" },
+]);
+const categoryTypeSelected = ref({});
 
 onBeforeMount(async () => {
     await findCategoryByFilter();
@@ -36,14 +40,14 @@ onBeforeMount(async () => {
 
 const initFilters = () => {
     filters.value = {
-        global: { value: null, matchMode: FilterMatchMode.CONTAINS }
+        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     };
 };
 
 const findCategoryByFilter = async () => {
     try {
         showLoading();
-        await store.dispatch('categoryStore/findCategoryByFilter', filterCategory.value);
+        await store.dispatch("categoryStore/findCategoryByFilter", filterCategory.value);
         pageOfCategory.value = store.state.categoryStore.listPageCategory;
     } catch (error) {
         handlerError(error);
@@ -55,8 +59,9 @@ const findCategoryByFilter = async () => {
 const editCategory = async (categoryId) => {
     try {
         showLoading();
-        await store.dispatch('categoryStore/findCategoryById', categoryId);
+        await store.dispatch("categoryStore/findCategoryById", categoryId);
         category.value = store.state.categoryStore.category;
+        categoryTypeSelected.value = await getCategoryTypeOfCode(category.value.categoryType)
         categoryDialog.value = true;
     } catch (error) {
         handlerError(error);
@@ -65,16 +70,24 @@ const editCategory = async (categoryId) => {
     }
 };
 
-const newCategory = () => {
+const newCategory = async () => {
     category.value = new Category();
+    categoryTypeSelected.value = await getCategoryTypeOfCode(1);
     categoryDialog.value = true;
 };
 
 const saveCategory = async () => {
     try {
         showLoading();
-        await store.dispatch('categoryStore/saveCategory', category.value);
-        toast.add({ severity: 'success', summary: 'Successful', detail: 'Categoria salva com sucesso', life: 3000 });
+        category.value.categoryType = categoryTypeSelected.value.code;
+
+        await store.dispatch("categoryStore/saveCategory", category.value);
+        toast.add({
+            severity: "success",
+            summary: "Successful",
+            detail: "Categoria salva com sucesso",
+            life: 3000,
+        });
         categoryDialog.value = false;
         category.value = new Category();
         await findCategoryByFilter();
@@ -83,8 +96,17 @@ const saveCategory = async () => {
     } finally {
         hideLoading();
     }
-}
+};
 
+const getCategoryTypeOfCode = async (categoryTypeCode) => {
+    let categoryTypeFounded = {};
+    listOfCategoryType.value.filter((item) => {
+        if (item.code === categoryTypeCode) {
+            categoryTypeFounded = item;
+        }
+    });
+    return categoryTypeFounded;
+};
 </script>
 <!-- eslint-disable prettier/prettier -->
 <template>
@@ -97,8 +119,8 @@ const saveCategory = async () => {
                 <Toolbar class="mb-4">
                     <template v-slot:start>
                         <div class="my-2">
-                            <Button :label="$t('new')
-                                " icon="pi pi-plus" class="mr-2" severity="success" @click="newCategory" />
+                            <Button :label="$t('new')" icon="pi pi-plus" class="mr-2" severity="success"
+                                @click="newCategory" />
                             <!-- <Button label="Delete" icon="pi pi-trash" severity="danger"
                                 :disabled="!selectedProducts || !selectedProducts.length" /> -->
                         </div>
@@ -130,17 +152,28 @@ const saveCategory = async () => {
                 <Dialog v-model:visible="categoryDialog" :style="{ width: '450px' }" header="Categoria" :modal="true">
                     <div class="p-fluid formgrid grid">
                         <div class="field col-12 md:col-12">
-                            <label for="category.description">{{ $t('description') }}</label>
+                            <label for="category.description">{{
+                                $t("description")
+                                }}</label>
                             <InputText id="category.description" v-model="category.description" required="true" rows="3"
                                 cols="20" />
                         </div>
                         <div class="field col-12 md:col-12">
-                            <label for="category.spendinglimit">{{ $t('spendingLimit') }}</label>
+                            <label for="category_type">{{ $t("categoryType") }}</label>
+                            <Dropdown id="category_type" v-model="categoryTypeSelected" :options="listOfCategoryType"
+                                optionLabel="description" />
+                        </div>
+                        <div class="field col-12 md:col-12">
+                            <label for="category.spendinglimit">{{
+                                $t("spendingLimit")
+                                }}</label>
                             <InputNumber id="category.description" v-model="category.spendingLimit" required="true"
                                 locale="pt-BR" :minFractionDigits="2" />
                         </div>
                         <div class="field col-12 md:col-12">
-                            <label for="category.observation">{{ $t('observation') }}</label>
+                            <label for="category.observation">{{
+                                $t("observation")
+                                }}</label>
                             <Textarea id="category.observation" v-model="category.observation" required="true" rows="3"
                                 cols="20" />
                         </div>

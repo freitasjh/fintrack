@@ -39,8 +39,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping(RestPath.V1 + "/bankAccounts")
-@Tag(name = "/bankAccounts", description = "Cadastro de contas bancarias")
+@RequestMapping(RestPath.V1 + "/bank-accounts")
+@Tag(name = "Bank accounts", description = "Cadastro de contas bancarias")
 @SecurityRequirement(name = "Authorization")
 public class BankAccountController extends AbstractController {
     private static final Logger log = LoggerFactory.getLogger(BankAccountController.class);

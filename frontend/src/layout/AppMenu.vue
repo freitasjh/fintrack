@@ -16,6 +16,13 @@ const model = ref([
         ]
     },
     {
+        label: 'Financeiro',
+        items: [
+            { label: 'Recebidos', icon: 'pi pi-fw pi-home', to: '/accountReceivable' },
+            { label: 'Pagos', icon: 'pi pi-fw pi-home', to: '/accountPayment' },
+        ]
+    },
+    {
         label: 'UI Components',
         items: [
             { label: 'Form Layout', icon: 'pi pi-fw pi-id-card', to: '/uikit/formlayout' },

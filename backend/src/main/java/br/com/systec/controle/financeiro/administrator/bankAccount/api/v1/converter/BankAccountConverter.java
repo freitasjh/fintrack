@@ -26,6 +26,7 @@ public class BankAccountConverter implements ConverterPageable<BankAccountDTO, B
         bankAccountDTO.setAccount(model.getAccount());
         bankAccountDTO.setBankDescription(model.getBank().getName());
         bankAccountDTO.setAgency(model.getAgency());
+        bankAccountDTO.setBalance(model.getBalance());
 
         return bankAccountDTO;
     }
@@ -53,9 +54,7 @@ public class BankAccountConverter implements ConverterPageable<BankAccountDTO, B
         bankAccount.setDescription(inputDTO.getDescription());
         bankAccount.setAgency(inputDTO.getAgency());
         bankAccount.setBalance(inputDTO.getBalance());
-        if(inputDTO.getInitialValue() > 0.0) {
-            bankAccount.setBalance(inputDTO.getInitialValue());
-        }
+        bankAccount.setInitialValue(inputDTO.getInitialValue());
         bankAccount.setAccount(inputDTO.getAccount());
         bankAccount.setAccountType(AccountType.valueOfCode(inputDTO.getAccountType()));
 

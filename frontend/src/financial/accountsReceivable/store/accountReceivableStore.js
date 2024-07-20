@@ -1,11 +1,12 @@
-import Pageable from "../../../commons/model/Pageable";
-import AccountsReceivableService from "../service/AccountsReceivableService";
+import Pageable from '../../../commons/model/Pageable';
+import AccountReceivable from '../model/AccountReceivable';
+import AccountsReceivableService from '../service/AccountsReceivableService';
 
 export const accountReceivableStore = {
     namespaced: true,
     state: {
         accountReceivable: null,
-        listPageAccountReceivable: new Pageable(),
+        listPageAccountReceivable: new Pageable()
     },
     mutations: {
         RETURN_PAGE_ACCOUNT(state, response) {
@@ -13,10 +14,13 @@ export const accountReceivableStore = {
         },
         RETURN_ACCOUNT_RECEIVABLE(state, response) {
             state.accountReceivable = response.data;
+        },
+        SAVE(state) {
+            state.accountReceivable = new AccountReceivable();
         }
     },
     actions: {
-        async finByFilter({ commit }, accountReceivableFilter) {
+        async findByFilter({ commit }, accountReceivableFilter) {
             const service = new AccountsReceivableService();
             const response = await service.findByFilter(accountReceivableFilter);
 
@@ -27,8 +31,13 @@ export const accountReceivableStore = {
             const response = await service.findById(accountReceivableId);
 
             commit('RETURN_ACCOUNT_RECEIVABLE', response);
+        },
+        async save({ commit }, accountReceivable) {
+            const service = new AccountsReceivableService();
+            await service.save(accountReceivable);
+            commit('SAVE');
         }
     }
-}
+};
 
 export default accountReceivableStore;

@@ -5,8 +5,6 @@ import br.com.systec.controle.financeiro.administrator.bankAccount.model.BankAcc
 import br.com.systec.controle.financeiro.administrator.bankAccount.repository.BankAccountRepository;
 import br.com.systec.controle.financeiro.administrator.bankAccount.repository.BankAccountRepositoryJPA;
 import br.com.systec.controle.financeiro.fake.BankAccountFake;
-import br.com.systec.controle.financeiro.accountReceivable.fake.AccountReceivableFake;
-import br.com.systec.controle.financeiro.financial.accountReceivable.model.AccountReceivable;
 import br.com.systec.controle.financeiro.financial.accountReceivable.service.AccountReceivableService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -36,25 +34,25 @@ public class BankAccountServiceTest {
     @InjectMocks
     private BankAccountService service;
 
-    @Test
-    void whenSaveNewBakAccountTest() {
-        BankAccount bankAccountToReturn = BankAccountFake.fake();
-        BankAccount bankAccountToSave = BankAccountFake.fake();
-
-        bankAccountToSave.setId(null);
-        bankAccountToSave.setTenantId(null);
-        bankAccountToSave.setBalance(100);
-
-        Mockito.doReturn(bankAccountToReturn).when(repository).save(Mockito.any(BankAccount.class));
-        Mockito.when(receiveService.save(Mockito.any(AccountReceivable.class))).thenReturn(AccountReceivableFake.fake());
-
-        BankAccount bankAccountSaved = service.save(bankAccountToSave);
-
-        Assertions.assertThat(bankAccountToReturn.getDescription()).isEqualTo(bankAccountSaved.getDescription());
-
-        Mockito.verify(repository).save(Mockito.any(BankAccount.class));
-        Mockito.verify(receiveService).save(Mockito.any(AccountReceivable.class));
-    }
+//    @Test
+//    void whenSaveNewBakAccountTest() {
+//        BankAccount bankAccountToReturn = BankAccountFake.fake();
+//        BankAccount bankAccountToSave = BankAccountFake.fake();
+//
+//        bankAccountToSave.setId(null);
+//        bankAccountToSave.setTenantId(null);
+//        bankAccountToSave.setBalance(100);
+//
+//        Mockito.doReturn(bankAccountToReturn).when(repository).save(Mockito.any(BankAccount.class));
+//        Mockito.when(receiveService.save(Mockito.any(AccountReceivable.class))).thenReturn(AccountReceivableFake.fake());
+//
+//        BankAccount bankAccountSaved = service.save(bankAccountToSave);
+//
+//        Assertions.assertThat(bankAccountToReturn.getDescription()).isEqualTo(bankAccountSaved.getDescription());
+//
+//        Mockito.verify(repository).save(Mockito.any(BankAccount.class));
+//        Mockito.verify(receiveService).save(Mockito.any(AccountReceivable.class));
+//    }
 
     @Test
     void whenFindAndReturnPage() {

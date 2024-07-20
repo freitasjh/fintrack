@@ -1,10 +1,11 @@
 export default class AccountReceivable {
     constructor() {
         this.id = null;
-        this.accountId = null;
-        this.amount = 0.0;
+        this.bankAccountId = null;
+        this.amount = null;
         this.description = '';
-        this.dateRegister = null;
+        this.dateProcessed = null;
         this.dateReceiver = null;
+        this.bankAccountDescription = null;
     }
 }

@@ -48,32 +48,33 @@ const saveNewAccount = async () => {
                             v-model="user.name" />
                         <label for="user-federalId" class="block text-900 text-xl font-medium mb-2">{{
                             $t('userFederalId') }}</label>
-                        <InputText id="user-federalId" type="text" class="w-full md:w-30rem mb-5" style="padding: 1rem"
-                            v-model="user.federalId" />
+                        <InputMask id="user-federalId" type="text" class="w-full md:w-30rem mb-5" style="padding: 1rem"
+                            v-model="user.federalId" mask="999.999.999-99" placeholder="999.999.999-99" />
                         <label for="user-phone" class="block text-900 text-xl font-medium mb-2">{{ $t('userPhone')
                             }}</label>
-                        <InputText id="user-phone" type="text" class="w-full md:w-30rem mb-5" style="padding: 1rem"
-                            v-model="user.phone" />
+                        <InputMask id="user-phone" type="text" class="w-full md:w-30rem mb-5" style="padding: 1rem"
+                            v-model="user.phone" mask="(99) 9999-9999" placeholder="(99) 9999-9999" />
 
                         <label for="user-cellphone" class="block text-900 text-xl font-medium mb-2">{{
                             $t('userCellPhone') }}</label>
-                        <InputText id="user-cellphone" type="text" class="w-full md:w-30rem mb-5" style="padding: 1rem"
-                            v-model="user.cellPhone" />
+
+                        <InputMask id="user-cellphone" type="text" class="w-full md:w-30rem mb-5" style="padding: 1rem"
+                            v-model="user.cellPhone" mask="(99) 99999-9999" placeholder="(99) 99999-9999" />
 
                         <label for="user-dateOfBirth" class="block text-900 text-xl font-medium mb-2">{{
                             $t('userDateOfBirth') }}</label>
-                        <InputText id="user-dateOfBirth" type="text" class="w-full md:w-30rem mb-5"
-                            style="padding: 1rem" v-model="user.dateOfBirth" />
+                        <InputMask id="user-dateOfBirth" v-model="user.dateOfBirth" placeholder="99/99/9999"
+                            mask="99/99/9999" class="w-full md:w-30rem mb-5" style="padding: 1rem" />
 
                         <label for="user-email" class="block text-900 text-xl font-medium mb-2">{{ $t('userEmail')
                             }}</label>
-                        <InputText id="user-email" type="text" :placeholder="$t('emailAddress')"
-                            class="w-full md:w-30rem mb-5" style="padding: 1rem" v-model="user.email" />
+                        <InputText id="user-email" type="text" class="w-full md:w-30rem mb-5" style="padding: 1rem"
+                            v-model="user.email" />
 
                         <label for="user-username" class="block text-900 text-xl font-medium mb-2">{{
                             $t('loginUsername')
                         }}</label>
-                        <InputText id="user-username" type="text" :placeholder="$t('emailAddress')"
+                        <InputText id="user-username" type="text" :placeholder="$t('loginUsername')"
                             class="w-full md:w-30rem mb-5" style="padding: 1rem" v-model="user.username" />
 
                         <label for="user-password" class="block text-900 font-medium text-xl mb-2">{{ $t('password')

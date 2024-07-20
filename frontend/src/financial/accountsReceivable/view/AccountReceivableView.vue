@@ -5,18 +5,27 @@ import { useHandlerMessage, useLoader } from "../../../composables/commons";
 import { useStore } from "vuex";
 import AccountReceivableFilter from "../model/AccountReceivableFilter";
 import BankAccountFilter from "../../../administrator/bankAccount/model/BankAccountFilter";
+import { useI18n } from "vue-i18n";
+import { onMounted } from "vue";
+import AccountReceivable from '../model/AccountReceivable';
+
 
 const listPageAccountReceivable = ref(new Pageable());
-const accountReceivable = ref(null);
+const accountReceivable = ref(new AccountReceivableFilter());
 const accountReceivableFilter = ref(new AccountReceivableFilter());
 const listPageBankAccount = ref(new Pageable());
+const bankAccountSelected = ref({});
 const bankAccountFilter = ref(new BankAccountFilter());
 const { t } = useI18n();
+const accountReceivableDialog = ref(false);
 
 const breadCrumbItem = ref([
     { label: t('financial') },
     { label: t('accountReceivable') },
 ]);
+const home = ref({
+    icon: 'pi pi-home'
+});
 
 const { showLoading, hideLoading } = useLoader();
 const { handlerError, handlerToastSuccess } = useHandlerMessage();
@@ -27,6 +36,14 @@ onBeforeMount(async () => {
     await findAccountReceivable();
 });
 
+const formatCurrency = (value) => {
+    return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+};
+const formatDate = (value) => {
+    const formatter = new Intl.DateTimeFormat('pt-BR', { dateStyle: 'short' });
+    let date = new Date(value);
+    return formatter.format(date);
+}
 const findAccountReceivable = async () => {
     try {
         showLoading();
@@ -35,7 +52,7 @@ const findAccountReceivable = async () => {
             accountReceivableFilter.value
         );
         listPageAccountReceivable.value =
-            store.accountReceivableStore.listPageAccountReceivable;
+            store.state.accountReceivableStore.listPageAccountReceivable;
     } catch (error) {
         handlerError(error);
     } finally {
@@ -46,11 +63,53 @@ const findAccountReceivable = async () => {
 const findBankAccount = async () => {
     try {
         showLoading();
-        await store.dispatch(
-            "bankAccountStore/findBankAccountByFilter",
-            bankAccountFilter.value
-        );
-        listPageBankAccount.value = store.bankAccountStore.listPageBankAccount;
+        if (listPageBankAccount.value.size === 0) {
+            await store.dispatch(
+                "bankAccountStore/findBankAccountByFilter",
+                bankAccountFilter.value
+            );
+            listPageBankAccount.value = store.state.bankAccountStore.pageOfBankAccount;
+        }
+    } catch (error) {
+        handlerError(error);
+    } finally {
+        hideLoading();
+    }
+};
+const newAccountReceivable = async () => {
+    bankAccountSelected.value = {}
+    accountReceivable.value = new AccountReceivable();
+    findBankAccount();
+    accountReceivableDialog.value = true;
+};
+const editAccountReceivable = async (accountReceivableId) => {
+    try {
+        showLoading();
+        await store.dispatch("accountReceivableStore/findById", accountReceivableId);
+        accountReceivable.value = store.state.accountReceivableStore.accountReceivable;
+        await findBankAccount();
+        listPageBankAccount.value.content.filter((item) => {
+            if (item.id === accountReceivable.value.bankAccountId) {
+                bankAccountSelected.value = item;
+            }
+        });
+        accountReceivableDialog.value = true;
+    } catch (error) {
+        handlerError(error);
+    } finally {
+        hideLoading();
+    }
+};
+const save = async () => {
+    try {
+        showLoading();
+        accountReceivable.value.bankAccountId = bankAccountSelected.value.id;
+        await store.dispatch('accountReceivableStore/save', accountReceivable.value);
+        handlerToastSuccess("Salvo com sucesso");
+        accountReceivableDialog.value = false;
+        accountReceivable.value = {};
+        bankAccountSelected.value = {};
+        await findAccountReceivable();
     } catch (error) {
         handlerError(error);
     } finally {
@@ -65,6 +124,96 @@ const findBankAccount = async () => {
                 <div class="flex flex-row-reverse flex-wrap">
                     <Breadcrumb :home="home" :model="breadCrumbItem" />
                 </div>
+                <Toolbar class="mb-4">
+                    <template v-slot:start>
+                        <div class="my-2">
+                            <Button :label="$t('new')" icon="pi pi-plus" class="mr-2" severity="success"
+                                @click="newAccountReceivable()" />
+                        </div>
+                    </template>
+                </Toolbar>
+                <DataTable ref="ref" :value="listPageAccountReceivable.content" dataKey="id" stripedRows showGridlines
+                    :paginator="true" :rows="30">
+                    <Column :header="$t('code')" headerStyle="width:15%">
+                        <template #body="slotProps">
+                            {{ slotProps.data.id }}
+                        </template>
+                    </Column>
+                    <Column :header="$t('bankAccount')" headerStyle="width:15%">
+                        <template #body="slotProps">
+                            {{ slotProps.data.bankAccountDescription }}
+                        </template>
+                    </Column>
+                    <Column :header="$t('dateRegister')" headerStyle="width:15%">
+                        <template #body="slotProps">
+                            {{ formatDate(slotProps.data.dateRegister) }}
+                        </template>
+                    </Column>
+                    <Column :header="$t('dateReceiver')" headerStyle="width:15%">
+                        <template #body="slotProps">
+                            {{ formatDate(slotProps.data.dateProcessed) }}
+                        </template>
+                    </Column>
+                    <Column :header="$t('amount')" headerStyle="width:15%">
+                        <template #body="slotProps">
+                            {{ formatCurrency(slotProps.data.amount) }}
+                        </template>
+                    </Column>
+                    <Column headerStyle="width: 5%">
+                        <template #body="slotProps">
+                            <Button icon="pi pi-pencil" class="mr-2" severity="success" rounded
+                                @click="editAccountReceivable(slotProps.data.id)" />
+                            <!-- <Button icon="pi pi-trash" class="mt-2" severity="warning" rounded
+                                @click="confirmDeleteProduct(slotProps.data)" /> -->
+                        </template>
+                    </Column>
+                </DataTable>
+                <Dialog v-model:visible="accountReceivableDialog" :style="{ width: '40%' }"
+                    :header="$t('accountReceivable')" :modal="true">
+                    <div class="p-fluid formgrid grid">
+                        <div class="field col-12 md:col-12">
+                            <label for="accountReceivable-description">{{ $t('description') }}</label>
+                            <InputText v-model="accountReceivable.description" />
+                        </div>
+                        <div class="field col-12 md:col-12">
+                            <label for="accountReceivable-bakAccount">{{ $t('bankAccount') }}</label>
+                            <Dropdown v-model="bankAccountSelected" :options="listPageBankAccount.content"
+                                optionLabel="description" :placeholder="$t('selectBankAccount')" class="w-full">
+                                <template #value="slotProps">
+                                    <div v-if="slotProps.value.description !== undefined"
+                                        class="flex align-items-center">
+                                        <div>{{ slotProps.value.bankDescription +
+                                            " - " + slotProps.value.description }}</div>
+                                    </div>
+                                    <span v-else>
+                                        {{ slotProps.placeholder }}
+                                    </span>
+                                </template>
+                                <template #option="slotProps">
+                                    <div class="flex align-items-center">
+                                        <div>{{ slotProps.option.bankDescription +
+                                            " - " + slotProps.option.description }}</div>
+                                    </div>
+                                </template>
+                            </Dropdown>
+                        </div>
+                        <div class="field col-12 md:col-12">
+                            <label for="accountReceivable-amount">{{ $t('amount') }}</label>
+                            <InputNumber v-model.lazy="accountReceivable.amount" :minFractionDigits="2"
+                                :maxFractionDigits="5" />
+                        </div>
+                        <div class="field col-12 md:col-12">
+                            <label for="accountReceivable-dateReceiver">{{ $t('dateReceiver') }}</label>
+                            <Calendar v-model.lazy="accountReceivable.dateProcessed" showIcon iconDisplay="input"
+                                dateFormat="dd/mm/yy" />
+                        </div>
+                    </div>
+                    <template #footer>
+                        <Button :label="$t('save')" text icon="pi pi-check" @click="save()" />
+                        <Button :label="$t('cancel')" icon="pi pi-times" text
+                            @click="accountReceivableDialog = false" />
+                    </template>
+                </Dialog>
             </div>
         </div>
     </div>

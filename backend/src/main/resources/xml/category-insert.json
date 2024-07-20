@@ -2,43 +2,63 @@
   "categories": [
     {
       "description": "Alimentação",
-      "spendingLimit": 1000
+      "spendingLimit": 1000,
+      "categoryType": 1
     },
     {
       "description": "Moradia",
-      "spendingLimit": 1000
+      "spendingLimit": 1000,
+      "categoryType": 1
     },
     {
       "description": "Transporte",
-      "spendingLimit": 1000
+      "spendingLimit": 1000,
+      "categoryType": 1
     },
     {
       "description": "Saúde",
-      "spendingLimit": 1000
+      "spendingLimit": 1000,
+      "categoryType": 1
     },
     {
       "description": "Educação",
-      "spendingLimit": 1000
+      "spendingLimit": 1000,
+      "categoryType": 1
     },
     {
       "description": "Lazer",
-      "spendingLimit": 1000
+      "spendingLimit": 1000,
+      "categoryType": 1
     },
     {
       "description": "Vestuário",
-      "spendingLimit": 1000
+      "spendingLimit": 1000,
+      "categoryType": 1
     },
     {
       "description": "Dívidas",
-      "spendingLimit": 1000
+      "spendingLimit": 1000,
+      "categoryType": 1
     },
     {
       "description": "Investimentos",
-      "spendingLimit": 1000
+      "spendingLimit": 1000,
+      "categoryType": 1
     },
     {
       "description": "Outros",
-      "spendingLimit": 1000
+      "spendingLimit": 1000,
+      "categoryType": 1
+    },
+    {
+      "description": "Salario Fixo",
+      "spendingLimit": 0.0,
+      "categoryType": 0
+    },
+    {
+      "description": "Renda extra",
+      "spendingLimit": 0.0,
+      "categoryType": 0
     }
   ]
 }

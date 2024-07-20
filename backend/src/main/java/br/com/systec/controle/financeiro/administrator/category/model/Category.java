@@ -1,5 +1,6 @@
 package br.com.systec.controle.financeiro.administrator.category.model;
 
+import br.com.systec.controle.financeiro.administrator.category.enums.CategoryType;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,6 +30,14 @@ public class Category {
     @Column(name = "tenant_id", nullable = false)
     @JsonIgnoreProperties(ignoreUnknown = true)
     private Long tenantId;
+    @Column(name = "category_type")
+    private CategoryType categotyType;
+
+    public Category(){}
+
+    public Category(Long id){
+        this.id = id;
+    }
 
     public Long getId() {
         return id;
@@ -70,6 +79,14 @@ public class Category {
         this.tenantId = tenantId;
     }
 
+    public CategoryType getCategotyType() {
+        return categotyType;
+    }
+
+    public void setCategotyType(CategoryType categotyType) {
+        this.categotyType = categotyType;
+    }
+
     @Override
     public String toString() {
         return "Category{" +
@@ -78,6 +95,7 @@ public class Category {
                 ", observation='" + observation + '\'' +
                 ", spendingLimit=" + spendingLimit +
                 ", tenantId=" + tenantId +
+                ", categotyType=" + categotyType +
                 '}';
     }
 }

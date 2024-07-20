@@ -32,7 +32,6 @@ public class BankAccountControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-
     @Test
     @WithMockUser("admin")
     void whenFindBankAccountById() throws Exception {

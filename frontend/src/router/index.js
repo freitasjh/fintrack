@@ -29,6 +29,11 @@ const router = createRouter({
                     component: () => import('@/financial/accountsReceivable/view/AccountReceivableView.vue')
                 },
                 {
+                    path: '/accountPayment',
+                    name: 'accountPayment',
+                    component: () => import('@/financial/accountPayment/view/AccountPaymentView.vue')
+                },
+                {
                     path: '/uikit/formlayout',
                     name: 'formlayout',
                     component: () => import('@/views/uikit/FormLayout.vue')

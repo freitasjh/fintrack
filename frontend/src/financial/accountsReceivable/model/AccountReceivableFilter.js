@@ -9,7 +9,7 @@ export default class AccountReceivableFilter {
     toString() {
         let filter = `?limit=${this.limit}&page=${this.page}`
 
-        if (accountId !== null) {
+        if (this.accountId !== null) {
             filter = filter+`&accountId=${this.accountId}`
         }
 

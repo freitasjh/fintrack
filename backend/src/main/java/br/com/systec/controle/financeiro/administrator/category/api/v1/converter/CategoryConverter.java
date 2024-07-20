@@ -16,6 +16,7 @@ public final class CategoryConverter {
         categoryDTO.setId(category.getId());
         categoryDTO.setDescription(category.getDescription());
         categoryDTO.setSpendingLimit(category.getSpendingLimit());
+        categoryDTO.setCategoryType(category.getCategotyType().getCode());
 
         return categoryDTO;
     }

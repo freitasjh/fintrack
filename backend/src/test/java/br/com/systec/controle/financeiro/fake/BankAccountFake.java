@@ -8,6 +8,7 @@ public class BankAccountFake {
 
     public static BankAccount fake() {
         BankAccount bankAccount = new BankAccount();
+        bankAccount.setId(1L);
         bankAccount.setBank(BankFake.toFake());
         bankAccount.setDescription("Teste de banco");
         bankAccount.setAgency("387");

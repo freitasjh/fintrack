@@ -35,5 +35,9 @@
             </column>
         </addColumn>
     </changeSet>
-
+    <changeSet id="category-07072024J-1" author="Joao">
+        <addColumn tableName="category">
+            <column name="category_type" type="int4" defaultValue="1" />
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

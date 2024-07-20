@@ -1,18 +1,16 @@
 package br.com.systec.controle.financeiro.financial.accountReceivable.api.v1.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import java.time.LocalDateTime;
+import java.util.Date;
 
 public class AccountReceivableDTO {
-
     private Long id;
     private String description;
+    private String bankAccountDescription;
     private double amount;
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDateTime dateRegister;
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDateTime dateReceiver;
+    private boolean processed;
+    private Date dateRegister;
+    private Date dateProcessed;
+
 
     public Long getId() {
         return id;
@@ -30,6 +28,14 @@ public class AccountReceivableDTO {
         this.description = description;
     }
 
+    public String getBankAccountDescription() {
+        return bankAccountDescription;
+    }
+
+    public void setBankAccountDescription(String bankAccountDescription) {
+        this.bankAccountDescription = bankAccountDescription;
+    }
+
     public double getAmount() {
         return amount;
     }
@@ -38,30 +44,27 @@ public class AccountReceivableDTO {
         this.amount = amount;
     }
 
-    public LocalDateTime getDateRegister() {
+    public boolean isProcessed() {
+        return processed;
+    }
+
+    public void setProcessed(boolean processed) {
+        this.processed = processed;
+    }
+
+    public Date getDateRegister() {
         return dateRegister;
     }
 
-    public void setDateRegister(LocalDateTime dateRegister) {
+    public void setDateRegister(Date dateRegister) {
         this.dateRegister = dateRegister;
     }
 
-    public LocalDateTime getDateReceiver() {
-        return dateReceiver;
+    public Date getDateProcessed() {
+        return dateProcessed;
     }
 
-    public void setDateReceiver(LocalDateTime dateReceiver) {
-        this.dateReceiver = dateReceiver;
-    }
-
-    @Override
-    public String toString() {
-        return "AccountReceivableDTO{" +
-                "id=" + id +
-                ", description='" + description + '\'' +
-                ", amount=" + amount +
-                ", dateRegister=" + dateRegister +
-                ", dateReceiver=" + dateReceiver +
-                '}';
+    public void setDateProcessed(Date dateProcessed) {
+        this.dateProcessed = dateProcessed;
     }
 }

@@ -4,15 +4,16 @@ import userModuleStore from '../administrator/user/store/userModuleStore';
 import categoryStore from '../administrator/category/store/categoryStore';
 import bankModuleStore from '../administrator/bank/store/bankModuleStore';
 import bankAccountStore from '../administrator/bankAccount/store/bankAccountStore';
-import accountReceivableStore from '../administrator/financial/accountsReceivable/store/accountReceivableStore';
-
+import accountReceivableStore from '../financial/accountsReceivable/store/accountReceivableStore';
+import accountPaymentStore from '../financial/accountPayment/store/accountPaymentStore';
 export default new Vuex.Store({
     modules: {
         userModuleStore,
         categoryStore,
         bankModuleStore,
         bankAccountStore,
-        accountReceivableStore
+        accountReceivableStore,
+        accountPaymentStore
     },
     state: {
         token: '',

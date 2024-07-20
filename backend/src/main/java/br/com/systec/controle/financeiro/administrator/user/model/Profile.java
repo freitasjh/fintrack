@@ -15,6 +15,10 @@ public class Profile implements GrantedAuthority {
     public Profile() {
     }
 
+    public Profile(Long id) {
+        this.id = id;
+    }
+
     public Profile(String profile) {
         this.name = profile;
     }

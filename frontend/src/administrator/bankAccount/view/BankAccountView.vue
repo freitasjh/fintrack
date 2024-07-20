@@ -29,7 +29,8 @@ const home = ref({
 const listAccountType = ref([
     { code: 1, description: t('currentAccount') },
     { code: 2, description: t('savingAccount') }
-])
+]);
+
 const accountTypeSelected = ref({});
 
 const initFilters = () => {
@@ -106,6 +107,9 @@ const editBankAccount = async (bankAccountId) => {
         hideLoading();
     }
 };
+const formatCurrency = (value) => {
+    return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+};
 
 const newBankAccount = async () => {
     await findBank();
@@ -144,6 +148,11 @@ const newBankAccount = async () => {
                             {{ slotProps.data.description }}
                         </template>
                     </Column>
+                    <Column :header="$t('balance')" headerStyle="width:70%;">
+                        <template #body="slotProps">
+                            {{ formatCurrency(slotProps.data.balance) }}
+                        </template>
+                    </Column>
                     <Column headerStyle="width: 10%">
                         <template #body="slotProps">
                             <Button icon="pi pi-pencil" class="mr-2" severity="success" rounded
@@ -178,9 +187,13 @@ const newBankAccount = async () => {
                             <label for="bankAccount-agency">{{ $t('agency') }}</label>
                             <InputText v-model="bankAccount.agency" />
                         </div>
-                        <div class="field col-12 md:col-12">
+                        <div v-if="bankAccount.id === null" class="field col-12 md:col-12">
                             <label for="bankAccount-initialValue">{{ $t('initialValue') }}</label>
                             <InputNumber v-model="bankAccount.initialValue" locale="pt-BR" :minFractionDigits="2" />
+                        </div>
+                        <div v-else class="field col-12 md:col-12">
+                            <label for="bankAccount-initialValue">{{ $t('balance') }}</label>
+                            <InputNumber v-model="bankAccount.balance" locale="pt-BR" :minFractionDigits="2" disabled />
                         </div>
                     </div>
                     <template #footer>

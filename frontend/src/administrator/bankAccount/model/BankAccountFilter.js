@@ -6,6 +6,6 @@ export default class BankAccountFilter {
     }
 
     toString() {
-        return `limit=${this.limit}&page=${this.page}&search=${this.search}`
+        return `?limit=${this.limit}&page=${this.page}&search=${this.search}`
     }
 }

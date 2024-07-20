@@ -23,7 +23,7 @@ export const message_pt_BR = {
     bank: 'Banco',
     account: 'Conta',
     agency: 'Agência',
-    initialValue: "Valor inicial",
+    initialValue: 'Valor inicial',
     save: 'Salvar',
     cancel: 'Cancelar',
     selectBank: 'Selecione o Banco',
@@ -33,11 +33,18 @@ export const message_pt_BR = {
     selectAccountType: 'Selecione o tipo de conta',
     spendingLimit: 'Limite de gastos',
     observation: 'Observação',
-    cadastre: "Cadastro",
-    category: "Categoria",
+    cadastre: 'Cadastro',
+    category: 'Categoria',
     bankAccount: 'Conta Bancaria',
     financial: 'Financeiro',
-    accountReceivable: 'Contas a Receber'
+    accountReceivable: 'Contas Recebidas',
+    selectBankAccount: 'Selecione a conta bancaria',
+    dateRegister: 'Data registro',
+    dateReceiver: 'Data recebido',
+    amount: 'Valor',
+    balance: 'Saldo',
+    accountPayment: 'Contas Pagas',
+    categoryType: 'Tipo de Categoria'
 };
 
 export const message_en = {
@@ -65,7 +72,7 @@ export const message_en = {
     bank: 'Bank',
     account: 'Account',
     agency: 'Agency',
-    initialValue: "Initial Value",
+    initialValue: 'Initial Value',
     save: 'Save',
     cancel: 'Cancel',
     selectBank: 'Select a bank',
@@ -75,9 +82,16 @@ export const message_en = {
     selectAccountType: 'Select Account type',
     spendingLimit: 'Spending limit',
     observation: 'Observation',
-    cadastre: "Cadastre",
-    category: "Category",
+    cadastre: 'Cadastre',
+    category: 'Category',
     bankAccount: 'Bank account',
     financial: 'Financial',
-    accountReceivable: 'Account Receivable'
+    accountReceivable: 'Account Receivable',
+    selectBankAccount: 'Select bank account',
+    dateRegister: 'Date register',
+    dateReceiver: 'Date receiver',
+    amount: 'Amount',
+    balance: 'Balance',
+    accountPayment: 'Contas Pagas',
+    categoryType: 'Tipo de Categoria'
 };

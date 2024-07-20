@@ -7,6 +7,7 @@ public class CategoryDTO {
     private Long id;
     private String description;
     private String observation;
+    private int categoryType;
     private double spendingLimit;
 
     public Long getId() {
@@ -41,6 +42,14 @@ public class CategoryDTO {
         this.spendingLimit = spendingLimit;
     }
 
+    public int getCategoryType() {
+        return categoryType;
+    }
+
+    public void setCategoryType(int categoryType) {
+        this.categoryType = categoryType;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -62,6 +71,7 @@ public class CategoryDTO {
                 "id=" + id +
                 ", description='" + description + '\'' +
                 ", observation='" + observation + '\'' +
+                ", categoryType=" + categoryType +
                 ", spendingLimit=" + spendingLimit +
                 '}';
     }

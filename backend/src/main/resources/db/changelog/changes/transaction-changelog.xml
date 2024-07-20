@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+    <changeSet id="transaction-02062024J-1" author="Joao">
+        <createTable tableName="transaction">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="tenant_id" type="int8">
+                <constraints nullable="false"/>
+            </column>
+            <column name="bank_account_id" type="int8" />
+            <column name="category_id" type="int8" />
+            <column name="amount" type="double" />
+            <column name="date_register" type="datetime" />
+            <column name="date_processed" type="datetime" />
+            <column name="transaction_type" type="int4" />
+            <column name="processed" type="boolean" />
+            <column name="description" type="varchar(255)" />
+        </createTable>
+        <addForeignKeyConstraint baseTableName="transaction" baseColumnNames="bank_account_id"
+                                 constraintName="fk_bank_account_account_receivable"
+                                 referencedTableName="bank_account"
+                                 referencedColumnNames="id" />
+    </changeSet>
+    <changeSet id="16062024J-1" author="Joao">
+        <addColumn tableName="transaction">
+            <column name="category_transaction_type" type="INT4" defaultValue="0">
+                <constraints nullable="false" />
+            </column>
+        </addColumn>
+    </changeSet>
+
+
+</databaseChangeLog>

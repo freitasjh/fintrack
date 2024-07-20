@@ -7,6 +7,7 @@ public class BankAccountDTO {
     private String agency;
     private String account;
     private String bankDescription;
+    private double balance;
 
     public Long getId() {
         return id;
@@ -46,5 +47,13 @@ public class BankAccountDTO {
 
     public void setBankDescription(String bankDescription) {
         this.bankDescription = bankDescription;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 }

@@ -1,16 +1,12 @@
 package br.com.systec.controle.financeiro.administrator.category.service;
 
-import br.com.systec.controle.financeiro.administrator.category.api.v1.dto.CategoryDTO;
+
 import br.com.systec.controle.financeiro.administrator.category.expceptions.CategoryNotFoundException;
 import br.com.systec.controle.financeiro.administrator.category.filter.FilterCategoryVO;
 import br.com.systec.controle.financeiro.administrator.category.model.Category;
 import br.com.systec.controle.financeiro.administrator.category.repository.CategoryRepository;
 import br.com.systec.controle.financeiro.administrator.category.repository.CategoryRepositoryJPA;
-import br.com.systec.controle.financeiro.administrator.tenant.model.Tenant;
 import br.com.systec.controle.financeiro.commons.TenantContext;
-import br.com.systec.controle.financeiro.commons.exception.ObjectNotFoundException;
-import br.com.systec.controle.financeiro.commons.filter.FilterSearchVO;
-import br.com.systec.controle.financeiro.config.I18nTranslate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;

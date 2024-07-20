@@ -13,6 +13,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+import org.springframework.transaction.annotation.Transactional;
 
 @Entity
 @Table(name = "bank_account")
@@ -37,6 +39,15 @@ public class BankAccount {
     private Bank bank;
     @Column(name = "tenant_id")
     private Long tenantId;
+    @Transient
+    private Double initialValue;
+
+    public BankAccount() {
+    }
+
+    public BankAccount(Long id) {
+        this.id = id;
+    }
 
     public Long getId() {
         return id;
@@ -52,9 +63,6 @@ public class BankAccount {
 
     public void setBank(Bank bank) {
         this.bank = bank;
-    }
-
-    public BankAccount() {
     }
 
     public String getDescription() {
@@ -103,6 +111,14 @@ public class BankAccount {
 
     public void setTenantId(Long tenantId) {
         this.tenantId = tenantId;
+    }
+
+    public Double getInitialValue() {
+        return initialValue;
+    }
+
+    public void setInitialValue(Double initialValue) {
+        this.initialValue = initialValue;
     }
 
     @Override

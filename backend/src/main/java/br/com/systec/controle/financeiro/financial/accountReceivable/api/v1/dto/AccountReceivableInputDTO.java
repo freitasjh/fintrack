@@ -1,25 +1,16 @@
 package br.com.systec.controle.financeiro.financial.accountReceivable.api.v1.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.NotNull;
-
-import java.time.LocalDateTime;
-
+import java.util.Date;
 
 public class AccountReceivableInputDTO {
 
     private Long id;
-    @NotNull
-    private Long accountId;
-    @NotNull
-    private double amount;
-    @NotNull
     private String description;
-    @NotNull
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDateTime dateRegister;
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDateTime dateReceiver;
+    private double amount;
+    private boolean processed;
+    private Date dateRegister;
+    private Date dateProcessed;
+    private Long bankAccountId;
 
     public Long getId() {
         return id;
@@ -27,22 +18,6 @@ public class AccountReceivableInputDTO {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getAccountId() {
-        return accountId;
-    }
-
-    public void setAccountId(Long accountId) {
-        this.accountId = accountId;
-    }
-
-    public double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
     }
 
     public String getDescription() {
@@ -53,31 +28,43 @@ public class AccountReceivableInputDTO {
         this.description = description;
     }
 
-    public LocalDateTime getDateRegister() {
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public boolean isProcessed() {
+        return processed;
+    }
+
+    public void setProcessed(boolean processed) {
+        this.processed = processed;
+    }
+
+    public Date getDateRegister() {
         return dateRegister;
     }
 
-    public void setDateRegister(LocalDateTime dateRegister) {
+    public void setDateRegister(Date dateRegister) {
         this.dateRegister = dateRegister;
     }
 
-    public LocalDateTime getDateReceiver() {
-        return dateReceiver;
+    public Date getDateProcessed() {
+        return dateProcessed;
     }
 
-    public void setDateReceiver(LocalDateTime dateReceiver) {
-        this.dateReceiver = dateReceiver;
+    public void setDateProcessed(Date dateProcessed) {
+        this.dateProcessed = dateProcessed;
     }
 
-    @Override
-    public String toString() {
-        return "AccountReceivableInputDTO{" +
-                "id=" + id +
-                ", accountId=" + accountId +
-                ", amount=" + amount +
-                ", description='" + description + '\'' +
-                ", dateRegister=" + dateRegister +
-                ", dateReceiver=" + dateReceiver +
-                '}';
+    public Long getBankAccountId() {
+        return bankAccountId;
+    }
+
+    public void setBankAccountId(Long bankAccountId) {
+        this.bankAccountId = bankAccountId;
     }
 }

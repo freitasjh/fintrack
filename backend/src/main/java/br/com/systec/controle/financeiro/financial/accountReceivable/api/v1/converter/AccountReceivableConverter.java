@@ -1,61 +1,66 @@
 package br.com.systec.controle.financeiro.financial.accountReceivable.api.v1.converter;
 
-
-import br.com.systec.controle.financeiro.commons.TenantContext;
-import br.com.systec.controle.financeiro.commons.converter.BaseConverter;
+import br.com.systec.controle.financeiro.administrator.bankAccount.model.BankAccount;
 import br.com.systec.controle.financeiro.financial.accountReceivable.api.v1.dto.AccountReceivableDTO;
 import br.com.systec.controle.financeiro.financial.accountReceivable.api.v1.dto.AccountReceivableInputDTO;
 import br.com.systec.controle.financeiro.financial.accountReceivable.model.AccountReceivable;
+import br.com.systec.controle.financeiro.financial.accountReceivable.service.AccountReceivableService;
+import br.com.systec.controle.financeiro.financial.transaction.enums.CategoryTransactionType;
 import org.springframework.data.domain.Page;
-import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 
+public class AccountReceivableConverter {
 
-public class AccountReceivableConverter  {
+    private AccountReceivableConverter(){}
 
-    public static AccountReceivableDTO convertToDTO(AccountReceivable model) {
-        AccountReceivableDTO receiveDTO = new AccountReceivableDTO();
-        receiveDTO.setId(model.getId());
-        receiveDTO.setDateReceiver(model.getDateReceiver());
-        receiveDTO.setDateRegister(model.getDateRegister());
-        receiveDTO.setDescription(model.getDescription());
+    public static AccountReceivableDTO toDTO(AccountReceivable accountReceivable) {
+        AccountReceivableDTO accountReceivableDTO = new AccountReceivableDTO();
+        accountReceivableDTO.setId(accountReceivable.getId());
+        accountReceivableDTO.setAmount(accountReceivable.getAmount());
+        accountReceivableDTO.setDateProcessed(accountReceivable.getDateProcessed());
+        accountReceivableDTO.setDateRegister(accountReceivable.getDateRegister());
+        accountReceivableDTO.setProcessed(accountReceivableDTO.isProcessed());
+        accountReceivableDTO.setBankAccountDescription(accountReceivable.getBankAccount().getDescription());
 
-        return receiveDTO;
+        return accountReceivableDTO;
     }
 
-
-    public static AccountReceivableInputDTO convertTOInputDTO(AccountReceivable model) {
-        AccountReceivableInputDTO receiveInputDTO = new AccountReceivableInputDTO();
-        receiveInputDTO.setId(model.getId());
-        receiveInputDTO.setDescription(model.getDescription());
-        receiveInputDTO.setAmount(model.getAmount());
-        receiveInputDTO.setDateReceiver(model.getDateReceiver());
-        receiveInputDTO.setDateRegister(model.getDateRegister());
-
-        return receiveInputDTO;
+    public static List<AccountReceivableDTO> toListDTO(List<AccountReceivable> listOfAccountReceivable) {
+        return listOfAccountReceivable.stream().map(AccountReceivableConverter::toDTO).toList();
     }
 
-
-    public static AccountReceivable convertToModel(AccountReceivableInputDTO inputDTO) {
-        AccountReceivable receive = new AccountReceivable();
-        receive.setId(inputDTO.getId());
-        receive.setDescription(inputDTO.getDescription());
-        receive.setAccountId(inputDTO.getAccountId());
-        receive.setDateReceiver(inputDTO.getDateReceiver());
-        receive.setDateRegister(inputDTO.getDateRegister());
-        receive.setAmount(inputDTO.getAmount());
-        receive.setTenantId(TenantContext.getTenant());
-
-        return receive;
+    public static Page<AccountReceivableDTO> toPageDTO(Page<AccountReceivable> pageOfAccountReceivable) {
+        return pageOfAccountReceivable.map(AccountReceivableConverter::toDTO);
     }
 
+    public static AccountReceivableInputDTO toInputDTO(AccountReceivable accountReceivable) {
+        AccountReceivableInputDTO inputDTO = new AccountReceivableInputDTO();
+        inputDTO.setId(accountReceivable.getId());
+        inputDTO.setDescription(accountReceivable.getDescription());
+        inputDTO.setAmount(accountReceivable.getAmount());
+        inputDTO.setBankAccountId(accountReceivable.getBankAccount().getId());
+        inputDTO.setDateRegister(accountReceivable.getDateRegister());
+        inputDTO.setDateProcessed(accountReceivable.getDateProcessed());
 
-    public static List<AccountReceivableDTO> convertToListDTO(List<AccountReceivable> listOfModel) {
-        return listOfModel.stream().map(AccountReceivableConverter::convertToDTO).toList();
+        return inputDTO;
     }
 
-    public static Page<AccountReceivableDTO> convertToPageDTO(Page<AccountReceivable> pageOfAccountReceivable) {
-        return pageOfAccountReceivable.map(AccountReceivableConverter::convertToDTO);
+    public static AccountReceivable toModel(AccountReceivableInputDTO inputDTO){
+        AccountReceivable accountReceivable = new AccountReceivable();
+        accountReceivable.setId(inputDTO.getId());
+        accountReceivable.setDateProcessed(inputDTO.getDateProcessed());
+        accountReceivable.setDateRegister(inputDTO.getDateRegister());
+        accountReceivable.setAmount(inputDTO.getAmount());
+        accountReceivable.setProcessed(inputDTO.isProcessed());
+        accountReceivable.setDescription(inputDTO.getDescription());
+        accountReceivable.setBankAccount(new BankAccount(inputDTO.getBankAccountId()));
+        accountReceivable.setCategoryTransactionType(CategoryTransactionType.RECEIVER);
+        if(inputDTO.getDateRegister() == null){
+            accountReceivable.setDateRegister(new Date());
+        }
+
+        return accountReceivable;
     }
 }

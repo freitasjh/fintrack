@@ -5,6 +5,7 @@ import br.com.systec.controle.financeiro.administrator.tenant.service.TenantServ
 import br.com.systec.controle.financeiro.administrator.user.exception.LoginEmailValidationException;
 import br.com.systec.controle.financeiro.administrator.user.exception.LoginUsernameValidateException;
 import br.com.systec.controle.financeiro.administrator.user.exception.UserNotFoundException;
+import br.com.systec.controle.financeiro.administrator.user.model.Profile;
 import br.com.systec.controle.financeiro.administrator.user.model.User;
 import br.com.systec.controle.financeiro.administrator.user.repository.UserRepository;
 import br.com.systec.controle.financeiro.commons.exception.BaseException;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.Optional;
 
 @Service
@@ -46,12 +48,13 @@ public class UserService {
             }
 
             User userSaved = repository.save(userToSave);
+            user.getProfile().add(new Profile(1L));
 
             if (user.isUserPrincipalTenant()) {
                 tenantService.update(userSaved.getTenantId(), userSaved.getTenantId());
             }
 
-            rabbitTemplate.convertAndSend(RabbitMQConfig.FINANCIAL_EXCHANGE,"", userSaved.getTenantId());
+            rabbitTemplate.convertAndSend(RabbitMQConfig.FINANCIAL_EXCHANGE,RabbitMQConfig.ROUTING_KEY_NEW_ACCOUNT, userSaved.getTenantId());
 
             return userSaved;
         }catch (BaseException e){

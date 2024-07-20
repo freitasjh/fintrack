@@ -7,5 +7,6 @@ export default class BankAccount {
         this.balance = 0;
         this.bankId = null;
         this.accountType = '';
+        this.initialValue = 0.0;
     }
 }
