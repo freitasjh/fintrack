@@ -5,5 +5,6 @@ export default class AccountPayment {
         this.amount = 0.0;
         this.bankAccountId = null;
         this.dateProcessed = null;
+        this.paymentDueDate = null;
     }
 }

@@ -11,6 +11,7 @@ public class AccountPaymentDTO {
     private Date dateProcessed;
     private String bankAccount;
     private String category;
+    private Date paymentDueDate;
 
     public Long getId() {
         return id;
@@ -66,5 +67,13 @@ public class AccountPaymentDTO {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public Date getPaymentDueDate() {
+        return paymentDueDate;
+    }
+
+    public void setPaymentDueDate(Date paymentDueDate) {
+        this.paymentDueDate = paymentDueDate;
     }
 }

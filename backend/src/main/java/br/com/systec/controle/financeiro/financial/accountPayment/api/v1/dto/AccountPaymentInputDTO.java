@@ -1,17 +1,26 @@
 package br.com.systec.controle.financeiro.financial.accountPayment.api.v1.dto;
 
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+
 import java.util.Date;
 
 public class AccountPaymentInputDTO {
 
     private Long id;
+    @NotNull(message = "Informe a descrição")
     private String description;
+    @DecimalMin(value = "0.10", message = "Informe um valor maior que 0.10")
+    @Positive(message = "Informe um valor Positivo")
     private double amount;
     private boolean processed;
     private Date dateRegister;
     private Date dateProcessed;
     private Long bankAccountId;
+    @NotNull(message = "Categoria não informada")
     private Long categoryId;
+    private Date paymentDueDate;
 
     public Long getId() {
         return id;
@@ -76,5 +85,13 @@ public class AccountPaymentInputDTO {
 
     public void setProcessed(boolean processed) {
         this.processed = processed;
+    }
+
+    public Date getPaymentDueDate() {
+        return paymentDueDate;
+    }
+
+    public void setPaymentDueDate(Date paymentDueDate) {
+        this.paymentDueDate = paymentDueDate;
     }
 }

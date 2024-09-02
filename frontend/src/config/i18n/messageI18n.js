@@ -44,7 +44,11 @@ export const message_pt_BR = {
     amount: 'Valor',
     balance: 'Saldo',
     accountPayment: 'Contas Pagas',
-    categoryType: 'Tipo de Categoria'
+    categoryType: 'Tipo de Categoria',
+    dateIncoming: 'Data Pago',
+    duePayment: 'Data Vencimento',
+    accountTransfer: 'Transferencia',
+    dueDate: 'Data vencimento'
 };
 
 export const message_en = {
@@ -93,5 +97,8 @@ export const message_en = {
     amount: 'Amount',
     balance: 'Balance',
     accountPayment: 'Contas Pagas',
-    categoryType: 'Tipo de Categoria'
+    categoryType: 'Tipo de Categoria',
+    dateIncoming: 'Data Pago',
+    dueDate: 'Due Date',
+    accountTransfer: 'Transfer'
 };

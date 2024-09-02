@@ -15,8 +15,21 @@ http.interceptors.request.use(
         }
         return config;
     },
-    (error) => {        
+    (error) => {
         return Promise.reject(error);
+    }
+);
+
+http.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        console.log(error);
+        if (error.response.status === 403 || error.response.data === undefined) {
+            localStorage.clear();
+            window.location.reload(true);
+        } else {
+            return Promise.reject(error);
+        }
     }
 );
 

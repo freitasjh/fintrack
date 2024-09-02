@@ -7,19 +7,19 @@ import org.springframework.data.jpa.domain.Specification;
 
 import java.util.Optional;
 
-public abstract class FilterSearchVO<T> {
+public abstract class PageParamSearchVO<T> {
 
     protected String search;
     protected int limit;
     protected int page;
 
-    public FilterSearchVO() {
+    public PageParamSearchVO() {
         this.search = "";
         this.limit = 30;
         this.page = 0;
     }
 
-    public FilterSearchVO(int limit, int page, String filter) {
+    public PageParamSearchVO(int limit, int page, String filter) {
         this.limit = limit;
         this.page = page;
         this.search = filter;

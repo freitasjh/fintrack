@@ -1,10 +1,10 @@
 package br.com.systec.controle.financeiro.financial.accountReceivable.filter;
 
-import br.com.systec.controle.financeiro.commons.filter.FilterSearchVO;
+import br.com.systec.controle.financeiro.commons.filter.PageParamSearchVO;
 import br.com.systec.controle.financeiro.financial.accountReceivable.model.AccountReceivable;
 import org.springframework.data.jpa.domain.Specification;
 
-public class AccountReceivableFilterVO extends FilterSearchVO<AccountReceivable> {
+public class AccountReceivableFilterVO extends PageParamSearchVO<AccountReceivable> {
     private Long accountId;
     private Long dateRegister;
     private Long dateReceiver;

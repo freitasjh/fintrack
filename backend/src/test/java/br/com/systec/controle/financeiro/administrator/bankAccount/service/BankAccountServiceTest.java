@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -29,30 +30,29 @@ public class BankAccountServiceTest {
     @Mock
     private BankAccountRepositoryJPA repositoryJPA;
     @Mock
-    private AccountReceivableService receiveService;
-
+    private RabbitTemplate rabbitTemplate;
     @InjectMocks
     private BankAccountService service;
 
-//    @Test
-//    void whenSaveNewBakAccountTest() {
-//        BankAccount bankAccountToReturn = BankAccountFake.fake();
-//        BankAccount bankAccountToSave = BankAccountFake.fake();
-//
-//        bankAccountToSave.setId(null);
-//        bankAccountToSave.setTenantId(null);
-//        bankAccountToSave.setBalance(100);
-//
-//        Mockito.doReturn(bankAccountToReturn).when(repository).save(Mockito.any(BankAccount.class));
-//        Mockito.when(receiveService.save(Mockito.any(AccountReceivable.class))).thenReturn(AccountReceivableFake.fake());
-//
-//        BankAccount bankAccountSaved = service.save(bankAccountToSave);
-//
-//        Assertions.assertThat(bankAccountToReturn.getDescription()).isEqualTo(bankAccountSaved.getDescription());
-//
-//        Mockito.verify(repository).save(Mockito.any(BankAccount.class));
-//        Mockito.verify(receiveService).save(Mockito.any(AccountReceivable.class));
-//    }
+    @Test
+    void whenSaveNewAccountTest() {
+        BankAccount bankAccountToReturn = BankAccountFake.fake();
+        bankAccountToReturn.setInitialValue(1000.0);
+        BankAccount bankAccountToSave = BankAccountFake.fake();
+
+        bankAccountToSave.setId(null);
+        bankAccountToSave.setInitialValue(1000.0);
+
+        Mockito.doReturn(bankAccountToReturn).when(repository).save(Mockito.any(BankAccount.class));
+
+        BankAccount bankAccountSaved = service.save(bankAccountToSave);
+
+        Assertions.assertThat(bankAccountSaved).isNotNull();
+        Assertions.assertThat(bankAccountSaved.getId()).isNotNull();
+        Assertions.assertThat(bankAccountSaved.getInitialValue()).isEqualTo(bankAccountToSave.getInitialValue());
+
+        Mockito.verify(repository).save(Mockito.any(BankAccount.class));
+    }
 
     @Test
     void whenFindAndReturnPage() {

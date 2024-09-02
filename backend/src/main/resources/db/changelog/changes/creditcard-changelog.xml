@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+
+<changeSet id="credit-card-02092024J-1" author="Joao">
+    <createTable tableName="credit_card">
+        <column name="id" type="bigint" autoIncrement="true">
+            <constraints primaryKey="true"/>
+        </column>
+        <column name="name" type="varchar(255)" />
+        <column name="name_credit_card" type="varchar(255)" />
+        <column name="bank_account_id" type="int8" />
+        <column name="number" type="varchar(255)" />
+        <column name="cvc" type="varchar(10)" />
+        <column name="due_date" type="varchar(2)" />
+        <column name="closing_date" type="varchar(2)" />
+        <column name="available_limit" type="float" />
+        <column name="total_limit"  type="float" />
+        <column name="brand" type="int4" >
+            <constraints nullable="false" />
+        </column>
+        <column name="status" type="int4" >
+            <constraints nullable="false" />
+        </column>
+        <column name="interest_rate" type="float" />
+        <column name="tenant_id" type="int8" >
+            <constraints nullable="false" />
+        </column>
+    </createTable>
+    <addForeignKeyConstraint baseTableName="credit_card"
+                             baseColumnNames="bank_account_id"
+                             constraintName="fk_credit_card_bank_account_id"
+                             referencedTableName="bank_account"
+                             referencedColumnNames="id" />
+    <addForeignKeyConstraint baseTableName="credit_card"
+                             baseColumnNames="tenant_id"
+                             constraintName="fk_tenant_id_credit_card"
+                             referencedTableName="tenant"
+                             referencedColumnNames="id" />
+</changeSet>
+</databaseChangeLog>

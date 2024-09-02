@@ -1,5 +1,6 @@
 package br.com.systec.controle.financeiro.financial.accountReceivable.service;
 
+import br.com.systec.controle.financeiro.administrator.bankAccount.service.BankAccountService;
 import br.com.systec.controle.financeiro.commons.TenantContext;
 import br.com.systec.controle.financeiro.financial.accountReceivable.fake.AccountReceivableFake;
 import br.com.systec.controle.financeiro.financial.accountReceivable.model.AccountReceivable;
@@ -23,6 +24,8 @@ public class AccountReceivableServiceTest {
     private AccountReceivableRepository repository;
     @Mock
     private RabbitTemplate template;
+    @Mock
+    private BankAccountService bankAccountService;
     @InjectMocks
     private AccountReceivableService service;
 

@@ -1,10 +1,12 @@
 package br.com.systec.controle.financeiro.commons.exception;
 
+import br.com.systec.controle.financeiro.security.exceptions.SecurityTokenExpiredException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -12,6 +14,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ControllerExceptionHandler {
 
+    @ExceptionHandler
+    public ResponseEntity<StandardError> errorServerException(Exception e, HttpServletRequest request) {
+        StandardError err = new StandardError(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage(), System.currentTimeMillis());
+        HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+
+        return ResponseEntity.status(httpStatus).body(err);
+    }
     @ExceptionHandler(BaseException.class)
     public ResponseEntity<StandardError> baseException(BaseException e, HttpServletRequest request) {
         StandardError err = new StandardError(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage(), System.currentTimeMillis());
@@ -20,7 +29,6 @@ public class ControllerExceptionHandler {
         if(e.getHttpStatus() != null){
             httpStatus = e.getHttpStatus();
         }
-
         return ResponseEntity.status(httpStatus).body(err);
     }
 
@@ -47,6 +55,11 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<StandardError> runtimeException(RuntimeException e, HttpServletRequest request) {
+        StandardError err = new StandardError(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage(), System.currentTimeMillis());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(err);
+    }
+    @ExceptionHandler(SecurityTokenExpiredException.class)
+    public ResponseEntity<StandardError> securityTokenExpiredException(RuntimeException e, HttpServletRequest request) {
         StandardError err = new StandardError(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage(), System.currentTimeMillis());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(err);
     }

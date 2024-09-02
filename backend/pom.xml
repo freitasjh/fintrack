@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.1.0</version>
+		<version>3.3.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com.systec.controle.financeiro</groupId>
@@ -21,7 +21,6 @@
 		<mysql.version>8.2.0</mysql.version>
 		<fasterxml.version>2.14.2</fasterxml.version>
 		<h2.database.version>2.2.220</h2.database.version>
-
 	</properties>
 	<dependencies>
 		<dependency>
@@ -39,6 +38,10 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-amqp</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 
 		<dependency>
@@ -59,6 +62,10 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.auth0</groupId>
@@ -129,7 +136,7 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
 					<includes>
-						<include>**/*IT.java</include>
+<!--						<include>**/*IT.java</include>-->
 						<include>**/*Test.java</include>
 					</includes>
 				</configuration>

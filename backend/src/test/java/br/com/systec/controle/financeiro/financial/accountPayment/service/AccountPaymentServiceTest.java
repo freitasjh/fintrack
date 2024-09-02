@@ -1,10 +1,14 @@
 package br.com.systec.controle.financeiro.financial.accountPayment.service;
 
+import br.com.systec.controle.financeiro.administrator.bankAccount.service.BankAccountService;
 import br.com.systec.controle.financeiro.commons.TenantContext;
+import br.com.systec.controle.financeiro.commons.exception.ValidationError;
+import br.com.systec.controle.financeiro.commons.exception.ValidatorException;
 import br.com.systec.controle.financeiro.financial.accountPayment.fake.AccountPaymentFake;
 import br.com.systec.controle.financeiro.financial.accountPayment.model.AccountPayment;
 import br.com.systec.controle.financeiro.financial.accountPayment.repository.AccountPaymentRepository;
 import br.com.systec.controle.financeiro.financial.accountPayment.repository.AccountPaymentRepositoryJpa;
+import br.com.systec.controle.financeiro.financial.accountTransfer.fake.AccountTransferFake;
 import ch.qos.logback.core.testUtil.MockInitialContext;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -27,6 +31,8 @@ public class AccountPaymentServiceTest {
     @Mock
     private AccountPaymentRepositoryJpa repositoryJpa;
     @Mock
+    private BankAccountService bankAccountService;
+    @Mock
     private RabbitTemplate template;
 
     @InjectMocks
@@ -48,6 +54,16 @@ public class AccountPaymentServiceTest {
         Assertions.assertThat(accountPaymentSaved).isNotNull();
 
         Mockito.verify(repository).save(Mockito.any());
+    }
+
+    @Test
+    void whenSaveNewAccountAndDateProcessedAndPaymentDueDateNullException() {
+        AccountPayment accountPayment = AccountPaymentFake.toFake();
+        accountPayment.setDateProcessed(null);
+        accountPayment.setPaymentDueDate(null);
+
+        Assertions.assertThatThrownBy(() -> service.save(accountPayment))
+                .isInstanceOf(ValidatorException.class);
     }
 
     @Test

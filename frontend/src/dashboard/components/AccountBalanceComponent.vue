@@ -4,7 +4,7 @@ import DashboardService from '../service/dashboardService'
 
 const accountBalance = ref(0);
 onMounted(() => {
-    
+
 });
 
 onBeforeMount(async () => {
@@ -32,10 +32,11 @@ const formatCurrency = (value) => {
         <div class="flex justify-content-between mb-3">
             <div>
                 <span class="block text-500 font-medium mb-3">Saldo</span>
-                <div class="text-900 font-medium text-xl">{{formatCurrency(accountBalance)}}</div>
+                <div class="text-900 font-medium text-xl">{{ formatCurrency(accountBalance) }}</div>
             </div>
-            <div class="flex align-items-center justify-content-center bg-blue-100 border-round" style="width: 2.5rem; height: 2.5rem">
-                <i class="pi pi-dollar text-blue-500 text-xl"></i>
+            <div class="flex align-items-center justify-content-center bg-green-100 border-round"
+                style="width: 2.5rem; height: 2.5rem">
+                <i class="pi pi-wallet text-green-500 text-xl"></i>
             </div>
         </div>
     </div>

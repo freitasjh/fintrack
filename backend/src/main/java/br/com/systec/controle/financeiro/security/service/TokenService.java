@@ -1,10 +1,13 @@
 package br.com.systec.controle.financeiro.security.service;
 
 import br.com.systec.controle.financeiro.administrator.user.model.User;
+import br.com.systec.controle.financeiro.commons.exception.BaseException;
 import br.com.systec.controle.financeiro.login.api.v1.dto.LoginResponseDTO;
+import br.com.systec.controle.financeiro.security.exceptions.SecurityTokenExpiredException;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -40,13 +43,19 @@ public class TokenService {
         return loginResponse;
     }
 
-    public String getSubject(String tokenJWT) {
-        JWT.require(getAlgorithm()).build().verify(tokenJWT);
-        return JWT.require(getAlgorithm())
-                .withIssuer(ISSUE)
-                .build()
-                .verify(tokenJWT)
-                .getSubject();
+    public String getSubject(String tokenJWT) throws SecurityTokenExpiredException {
+        try {
+            JWT.require(getAlgorithm()).build().verify(tokenJWT);
+            return JWT.require(getAlgorithm())
+                    .withIssuer(ISSUE)
+                    .build()
+                    .verify(tokenJWT)
+                    .getSubject();
+        }catch (TokenExpiredException e){
+            throw new SecurityTokenExpiredException();
+        }catch (Exception e){
+            throw new BaseException(e.getMessage(), e);
+        }
     }
 
     public Long getTenant(String token) {

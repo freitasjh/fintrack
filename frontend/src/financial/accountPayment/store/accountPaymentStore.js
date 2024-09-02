@@ -35,6 +35,11 @@ export const accountPaymentStore = {
             await service.save(accountPayment);
 
             commit('SAVE');
+        },
+        async registerPayment({ commit }, register) {
+            console.log(register);
+            const service = new AccountPaymentService();
+            await service.registerPayment(register);
         }
     }
 };

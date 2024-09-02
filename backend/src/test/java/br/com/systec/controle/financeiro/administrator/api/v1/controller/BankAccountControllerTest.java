@@ -23,7 +23,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @SpringBootTest
 @AutoConfigureMockMvc
 public class BankAccountControllerTest {
-    private static final String ENDPOINT = "/v1/bankAccounts";
+    private static final String ENDPOINT = "/v1/bank-accounts";
     @MockBean
     private BankAccountService service;
     @MockBean

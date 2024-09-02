@@ -38,12 +38,14 @@ public class SecurityConfiguration {
                 .and().authorizeHttpRequests()
                 .requestMatchers(new AntPathRequestMatcher("/v1/login", HttpMethod.POST.name())).permitAll()
                 .requestMatchers(new AntPathRequestMatcher("/v1/users/newAccount", HttpMethod.POST.name())).permitAll()
+
                 .requestMatchers(new AntPathRequestMatcher("/**.html"),
                         new AntPathRequestMatcher("/v3/**"),
                         new AntPathRequestMatcher("/webjars/**"),
                         new AntPathRequestMatcher("/configuration/**"),
                         new AntPathRequestMatcher("/swagger-resources/**"),
-                        new AntPathRequestMatcher("/swagger-ui/**")).permitAll()
+                        new AntPathRequestMatcher("/swagger-ui/**"),
+                        new AntPathRequestMatcher("/notification/**")).permitAll()
                 .anyRequest().authenticated()
                 .and().addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class).build();
     }

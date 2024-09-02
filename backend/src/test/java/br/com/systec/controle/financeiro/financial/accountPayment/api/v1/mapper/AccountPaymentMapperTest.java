@@ -27,6 +27,7 @@ public class AccountPaymentMapperTest {
         Assertions.assertThat(paymentDTOConverted.getBankAccount()).isEqualTo(accountPayment.getBankAccount().getDescription());
         Assertions.assertThat(paymentDTOConverted.getCategory()).isEqualTo(accountPayment.getCategory().getDescription());
         Assertions.assertThat(paymentDTOConverted.getAmount()).isEqualTo(accountPayment.getAmount());
+        Assertions.assertThat(paymentDTOConverted.getPaymentDueDate()).isEqualTo(accountPayment.getPaymentDueDate());
     }
 
     @Test
@@ -44,6 +45,7 @@ public class AccountPaymentMapperTest {
         Assertions.assertThat(accountPaymentConverted.getDateProcessed()).isEqualTo(accountPayment.getDateProcessed());
         Assertions.assertThat(accountPaymentConverted.getDateRegister()).isEqualTo(accountPayment.getDateRegister());
         Assertions.assertThat(accountPaymentConverted.isProcessed()).isEqualTo(accountPayment.isProcessed());
+        Assertions.assertThat(accountPaymentConverted.getPaymentDueDate()).isEqualTo(accountPayment.getPaymentDueDate());
     }
 
     @Test

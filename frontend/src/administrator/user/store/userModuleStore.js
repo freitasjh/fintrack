@@ -22,15 +22,14 @@ export const userModuleStore = {
         },
         async saveNewAccount({ commit }, user) {
             const userService = new UserService();
-            console.log(user);
             await userService.saveNewAccount(user);
         }
     },
     getters: {
-        getUser({ state, dispatch }) {
-            if (state.user === null) {
-                dispatch('fundUserById', localStorage.getItem('userId'));
-            }
+        getUser({ state }) {
+            // if (state.user === null) {
+            //     dispatch('fundUserById', localStorage.getItem('userId'));
+            // }
 
             return state.user;
         }

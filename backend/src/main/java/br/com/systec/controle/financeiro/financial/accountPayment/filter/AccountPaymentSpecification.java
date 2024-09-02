@@ -5,23 +5,36 @@ import br.com.systec.controle.financeiro.financial.accountPayment.model.AccountP
 import br.com.systec.controle.financeiro.financial.transaction.enums.TransactionType;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.util.Date;
+
 public class AccountPaymentSpecification {
-    public static Specification<AccountPayment> findByKeywordAndTenant(Long bankAccountId) {
+
+    public static Specification<AccountPayment> filter(AccountPaymentFilterVO filterVO) {
         Specification<AccountPayment> spec = Specification.where(filterByTenant())
                 .and(filterByType());
 
+        if(filterVO.getBankAccountId() != null) {
+            spec = spec.and(filterByAccountId(filterVO.getBankAccountId()));
+        }
 
-        if(bankAccountId != null) {
-            spec = spec.and(filterByAccountId(bankAccountId));
+        if (filterVO.getFilterType() != AccountPaymentFilterType.TODOS) {
+            boolean isPaymentOpen = !(filterVO.getFilterType() == AccountPaymentFilterType.ABERTO);
+            spec = spec.and(filterByPaymentOpenOrNot(isPaymentOpen));
         }
 
         return spec;
     }
 
+
+    public static Specification<AccountPayment> filterByPaymentOpenOrNot(boolean isOpen) {
+        return Specification.where(filterByTenant())
+                .and((root, query, criteriaBuilder) ->
+                        criteriaBuilder.equal(root.get("processed"), isOpen));
+    }
+
     private static Specification<AccountPayment> filterByAccountId(Long bankAccountId) {
-        return (root, query, criteriaBuilder) -> {
-            return criteriaBuilder.equal(root.get("bankAccount.id"), bankAccountId);
-        };
+        return (root, query, criteriaBuilder) ->
+            criteriaBuilder.equal(root.get("bankAccount.id"), bankAccountId);
     }
 
     private static Specification<AccountPayment> filterByTenant() {

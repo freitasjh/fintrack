@@ -1,16 +1,15 @@
 <script setup>
 import { onBeforeMount, ref } from "vue";
+import { useCurrency } from "../../composables/commons";
 import DashboardService from "../service/dashboardService";
 
 const expensesMonthly = ref(0.0);
+const { formatCurrency } = useCurrency();
 
 onBeforeMount(async () => {
     await findMonthlyExpenses();
 });
 
-const formatCurrency = (value) => {
-    return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-};
 
 const findMonthlyExpenses = async () => {
     try {
@@ -32,8 +31,9 @@ const findMonthlyExpenses = async () => {
                     {{ formatCurrency(expensesMonthly) }}
                 </div>
             </div>
-            <div class="flex align-items-center justify-content-center bg-blue-100 border-round" style="width: 2.5rem; height: 2.5rem">
-                <i class="pi pi-dollar text-blue-500 text-xl"></i>
+            <div class="flex align-items-center justify-content-center bg-red-100 border-round"
+                style="width: 2.5rem; height: 2.5rem">
+                <i class="pi pi-dollar text-red-500 text-xl"></i>
             </div>
         </div>
     </div>

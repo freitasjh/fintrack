@@ -1,13 +1,13 @@
 package br.com.systec.controle.financeiro.administrator.bankAccount.filter;
 
 import br.com.systec.controle.financeiro.administrator.bankAccount.model.BankAccount;
-import br.com.systec.controle.financeiro.commons.filter.FilterSearchVO;
+import br.com.systec.controle.financeiro.commons.filter.PageParamSearchVO;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
-public class BankAccountFilterVO extends FilterSearchVO<BankAccount> {
+public class BankAccountFilterVO extends PageParamSearchVO<BankAccount> {
     private static final String SORT_NAME = "description";
 
     public BankAccountFilterVO() {

@@ -13,7 +13,7 @@ public enum CategoryType {
         return code;
     }
 
-    public static CategoryType valueOfCode(Long code) {
+    public static CategoryType valueOfCode(int code) {
         for(CategoryType item : CategoryType.values()){
             if(item.getCode() == code){
                 return item;

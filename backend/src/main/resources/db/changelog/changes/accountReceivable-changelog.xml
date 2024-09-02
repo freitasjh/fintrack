@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
     <changeSet id="receiver-24022024J-1" author="Joao">
         <createTable tableName="account_receivable">
             <column name="id" type="bigint" autoIncrement="true">
@@ -27,7 +26,7 @@
         <addForeignKeyConstraint baseTableName="account_receivable" baseColumnNames="bank_account_id"
                                  constraintName="fk_bank_account_account_receivable"
                                  referencedTableName="bank_account"
-                                 referencedColumnNames="id" />
-        <dropColumn tableName="account_receivable" columnName="account_id" />
+                                 referencedColumnNames="id"/>
+        <dropColumn tableName="account_receivable" columnName="account_id"/>
     </changeSet>
 </databaseChangeLog>

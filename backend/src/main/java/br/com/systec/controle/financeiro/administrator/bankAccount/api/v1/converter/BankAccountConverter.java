@@ -40,7 +40,7 @@ public class BankAccountConverter implements ConverterPageable<BankAccountDTO, B
         inputDTO.setAgency(model.getAgency());
         inputDTO.setBankId(model.getBank().getId());
         inputDTO.setAccountType(model.getAccountType().getCode());
-        inputDTO.setBalance(model.getBalance());
+        inputDTO.setBalance(model.getBalance());;
 
         return inputDTO;
     }

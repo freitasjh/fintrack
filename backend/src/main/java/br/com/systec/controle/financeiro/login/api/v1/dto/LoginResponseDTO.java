@@ -10,7 +10,6 @@ public class LoginResponseDTO {
     private final String type;
     private String profile;
     private Long userId;
-
     private Long tenantId;
 
     public LoginResponseDTO(String token, String type) {

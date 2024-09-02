@@ -21,7 +21,7 @@ public class ValidationError extends StandardError {
 
     public void addError(String fieldName, String messagem) {
         try{
-            list.add(new FieldMessage(fieldName, I18nTranslate.toLocale(messagem)));
+            list.add(new FieldMessage(fieldName, messagem));
         }catch (Exception ignore){}
 
     }

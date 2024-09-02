@@ -31,7 +31,7 @@ public class Category {
     @JsonIgnoreProperties(ignoreUnknown = true)
     private Long tenantId;
     @Column(name = "category_type")
-    private CategoryType categotyType;
+    private CategoryType categoryType;
 
     public Category(){}
 
@@ -79,12 +79,12 @@ public class Category {
         this.tenantId = tenantId;
     }
 
-    public CategoryType getCategotyType() {
-        return categotyType;
+    public CategoryType getCategoryType() {
+        return categoryType;
     }
 
-    public void setCategotyType(CategoryType categotyType) {
-        this.categotyType = categotyType;
+    public void setCategoryType(CategoryType categoryType) {
+        this.categoryType = categoryType;
     }
 
     @Override
@@ -95,7 +95,7 @@ public class Category {
                 ", observation='" + observation + '\'' +
                 ", spendingLimit=" + spendingLimit +
                 ", tenantId=" + tenantId +
-                ", categotyType=" + categotyType +
+                ", categotyType=" + categoryType +
                 '}';
     }
 }

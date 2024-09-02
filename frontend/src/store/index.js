@@ -6,6 +6,7 @@ import bankModuleStore from '../administrator/bank/store/bankModuleStore';
 import bankAccountStore from '../administrator/bankAccount/store/bankAccountStore';
 import accountReceivableStore from '../financial/accountsReceivable/store/accountReceivableStore';
 import accountPaymentStore from '../financial/accountPayment/store/accountPaymentStore';
+import accountTransferStore from '../financial/accountTransfer/store/accountTransferStore';
 export default new Vuex.Store({
     modules: {
         userModuleStore,
@@ -13,7 +14,8 @@ export default new Vuex.Store({
         bankModuleStore,
         bankAccountStore,
         accountReceivableStore,
-        accountPaymentStore
+        accountPaymentStore,
+        accountTransferStore
     },
     state: {
         token: '',
@@ -24,6 +26,9 @@ export default new Vuex.Store({
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('userId', response.data.userId);
             state.userId = response.data.userId;
+        },
+        LOGOUT(state) {
+            localStorage.clear();
         }
     },
     actions: {
@@ -33,8 +38,12 @@ export default new Vuex.Store({
             if (response.status === 200) {
                 commit('ADD_AUTHENTICATE_INFORMATION', response);
             }
+        },
+        logout({ commit }) {
+            commit('LOGOUT');
         }
     },
+
     getters: {
         getToken(state) {
             var token = state.token;

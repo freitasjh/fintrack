@@ -15,6 +15,7 @@ export function useLoader() {
 
     const hideLoading = () => {
         if (isLoading) {
+            console.log('Hide loading');
             loader.hide();
             isLoading = false;
         }
@@ -26,14 +27,14 @@ export function useLoader() {
 export function useHandlerMessage() {
     const swal = inject('$swal');
 
-    const handlerErrorValidation = (response) => {
+    const handlerErrorValidation = (error) => {
         let errorMessage = '';
-        errorMessage = response.data.errors.map((error) => `<p><b>${error.message}</b></p>`).join('');
+        errorMessage = error.response.data.errors.map((error) => `<p><b>${error.message}</b></p>`).join('');
 
         // Exiba a mensagem de erro usando o Swal
         swal.fire({
             icon: 'error',
-            title: response.data.msg,
+            title: error.response.data.msg,
             html: errorMessage
         });
     };
@@ -41,7 +42,12 @@ export function useHandlerMessage() {
     const handlerError = (error) => {
         let message = '';
         if (error.response !== undefined && error.response.data !== null && error.response.data.msg !== undefined) {
-            message = error.response.data.msg;
+            if (error.response.data.errors !== undefined && error.response.data.erros !== null) {
+                handlerErrorValidation(error);
+                return;
+            } else {
+                message = error.response.data.msg;
+            }
         } else {
             message = error;
         }
@@ -79,4 +85,12 @@ export function useHandlerMessage() {
     };
 
     return { handlerError, handlerErrorValidation, handlerModalSuccess, handlerToastSuccess };
+}
+
+export function useCurrency() {
+    const formatCurrency = (value) => {
+        return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    };
+
+    return { formatCurrency };
 }

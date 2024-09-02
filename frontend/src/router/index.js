@@ -34,6 +34,11 @@ const router = createRouter({
                     component: () => import('@/financial/accountPayment/view/AccountPaymentView.vue')
                 },
                 {
+                    path: '/accountTransfer',
+                    name: 'accountTransfer',
+                    component: () => import('@/financial/accountTransfer/view/AccountTransferView.vue')
+                },
+                {
                     path: '/uikit/formlayout',
                     name: 'formlayout',
                     component: () => import('@/views/uikit/FormLayout.vue')

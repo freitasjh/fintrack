@@ -30,6 +30,11 @@ public class AccountPaymentMapper {
         accountPayment.setTransactionType(TransactionType.EXPENSE);
         accountPayment.setCategoryTransactionType(CategoryTransactionType.PAYMENT);
         accountPayment.setTenantId(TenantContext.getTenant());
+        accountPayment.setPaymentDueDate(inputDTO.getPaymentDueDate());
+
+        if(inputDTO.getDateRegister() == null){
+            accountPayment.setDateRegister(new Date());
+        }
 
         if(inputDTO.getCategoryId() != null) {
             accountPayment.setCategory(new Category(inputDTO.getCategoryId()));
@@ -46,6 +51,8 @@ public class AccountPaymentMapper {
         paymentDTO.setBankAccount(accountPayment.getBankAccount().getDescription());
         paymentDTO.setDateProcessed(accountPayment.getDateProcessed());
         paymentDTO.setDateRegister(accountPayment.getDateRegister());
+        paymentDTO.setPaymentDueDate(accountPayment.getPaymentDueDate());
+
         if(accountPayment.getCategory() != null) {
             paymentDTO.setCategory(accountPayment.getCategory().getDescription());
         }
@@ -62,6 +69,8 @@ public class AccountPaymentMapper {
         inputDTO.setDateRegister(accountPayment.getDateRegister());
         inputDTO.setBankAccountId(accountPayment.getBankAccount().getId());
         inputDTO.setAmount(accountPayment.getAmount());
+        inputDTO.setPaymentDueDate(accountPayment.getPaymentDueDate());
+
 
         if(inputDTO.getDateRegister() != null) {
             inputDTO.setDateRegister(new Date());

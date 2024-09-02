@@ -7,7 +7,9 @@ import br.com.systec.controle.financeiro.commons.exception.ValidationError;
 import br.com.systec.controle.financeiro.financial.accountPayment.api.v1.dto.AccountPaymentDTO;
 import br.com.systec.controle.financeiro.financial.accountPayment.api.v1.dto.AccountPaymentInputDTO;
 import br.com.systec.controle.financeiro.financial.accountPayment.api.v1.mapper.AccountPaymentMapper;
+import br.com.systec.controle.financeiro.financial.accountPayment.filter.AccountPaymentFilterType;
 import br.com.systec.controle.financeiro.financial.accountPayment.filter.AccountPaymentFilterVO;
+import br.com.systec.controle.financeiro.financial.accountPayment.filter.AccountPaymentPageParam;
 import br.com.systec.controle.financeiro.financial.accountPayment.model.AccountPayment;
 import br.com.systec.controle.financeiro.financial.accountPayment.service.AccountPaymentService;
 import br.com.systec.controle.financeiro.financial.accountReceivable.api.v1.dto.AccountReceivableInputDTO;
@@ -24,12 +26,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.Date;
 
 @RestController
 @RequestMapping(RestPath.V1+"/payment")
@@ -73,13 +80,27 @@ public class AccountPaymentController extends AbstractController {
     public ResponseEntity<Page<AccountPaymentDTO>> findByFilter(@RequestParam(value = "search", required = false) String search,
                                                                 @RequestParam(value = "page", required = false, defaultValue = "0") int page,
                                                                 @RequestParam(value = "limit", required = false, defaultValue = "30") int limit,
-                                                                @RequestParam(value = "accountId", required = false) Long accountId){
-        AccountPaymentFilterVO filterVO = new AccountPaymentFilterVO(limit, page, search);
-        filterVO.setAccountId(accountId);
+                                                                @RequestParam(value = "accountId", required = false) Long accountId,
+                                                                @RequestParam(value = "paymentFilterType", required = false, defaultValue = "2") String paymentFilterType){
+        AccountPaymentPageParam pageParam = new AccountPaymentPageParam(limit, page, search);
+        pageParam.getFilterVO().setKeywordSearch(search);
+        pageParam.getFilterVO().setBankAccountId(accountId);
+        pageParam.getFilterVO().setFilterType(AccountPaymentFilterType.valueOfCode(paymentFilterType));
 
-        Page<AccountPayment> pageAccountPayment = service.findPaymentByFilter(filterVO);
+        Page<AccountPayment> pageAccountPayment = service.findPaymentByFilter(pageParam);
         Page<AccountPaymentDTO> pageAccountPaymentDTO = AccountPaymentMapper.toPageDTO(pageAccountPayment);
 
         return buildSuccessResponse(pageAccountPaymentDTO);
+    }
+
+    @PutMapping(value = "/register-payment/{id}/{dateregister}")
+    @Operation(description = "Registra o pagamento")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Ok"),
+    })
+    public ResponseEntity<Void> registerPayment(@PathVariable("id") Long id, @PathVariable("dateregister") Date dateRegister) {
+        service.registerPayment(id, dateRegister);
+
+        return buildSuccessResponseNoContent();
     }
 }

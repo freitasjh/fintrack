@@ -44,7 +44,7 @@ public class SecurityFilter extends OncePerRequestFilter {
                 Long tenantId = tokenService.getTenant(token);
 
                 if (tenantId == null) {
-                    throw new TenantNotFoundException("Tenant não encontrado", HttpStatus.NOT_ACCEPTABLE);
+                    throw new TenantNotFoundException();
                 }
 
                 TenantContext.add(tenantId);
@@ -67,5 +67,4 @@ public class SecurityFilter extends OncePerRequestFilter {
 
         return token.replace("Bearer ", "");
     }
-
 }

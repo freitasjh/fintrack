@@ -19,4 +19,8 @@ export default class AccountPaymentService {
     findByFilter(filter) {
         return http.get(`${this.endpoint}/filters${filter.toString()}`).then((response) => response);
     }
+    registerPayment(register) {
+        console.log(register);
+        return http.put(`${this.endpoint}/register-payment/${register.id}/${register.dateRegister}`).then((response) => response);
+    }
 }

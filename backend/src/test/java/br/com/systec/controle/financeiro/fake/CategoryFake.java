@@ -1,6 +1,7 @@
 package br.com.systec.controle.financeiro.fake;
 
 import br.com.systec.controle.financeiro.administrator.category.api.v1.dto.CategoryDTO;
+import br.com.systec.controle.financeiro.administrator.category.enums.CategoryType;
 import br.com.systec.controle.financeiro.administrator.category.model.Category;
 
 public class CategoryFake {
@@ -11,6 +12,7 @@ public class CategoryFake {
         category.setDescription("Alimentação");
         category.setSpendingLimit(1000.0);
         category.setTenantId(1L);
+        category.setCategoryType(CategoryType.EXPENSE);
 
         return category;
     }

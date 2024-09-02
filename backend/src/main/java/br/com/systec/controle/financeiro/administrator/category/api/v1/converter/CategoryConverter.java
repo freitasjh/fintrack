@@ -1,5 +1,6 @@
 package br.com.systec.controle.financeiro.administrator.category.api.v1.converter;
 
+import br.com.systec.controle.financeiro.administrator.category.enums.CategoryType;
 import br.com.systec.controle.financeiro.administrator.category.model.Category;
 import br.com.systec.controle.financeiro.administrator.category.api.v1.dto.CategoryDTO;
 import org.springframework.data.domain.Page;
@@ -16,7 +17,7 @@ public final class CategoryConverter {
         categoryDTO.setId(category.getId());
         categoryDTO.setDescription(category.getDescription());
         categoryDTO.setSpendingLimit(category.getSpendingLimit());
-        categoryDTO.setCategoryType(category.getCategotyType().getCode());
+        categoryDTO.setCategoryType(category.getCategoryType().getCode());
 
         return categoryDTO;
     }
@@ -31,6 +32,7 @@ public final class CategoryConverter {
         category.setDescription(categoryDTO.getDescription());
         category.setObservation(categoryDTO.getObservation());
         category.setSpendingLimit(categoryDTO.getSpendingLimit());
+        category.setCategoryType((CategoryType.valueOfCode(categoryDTO.getCategoryType())));
 
         return category;
     }

@@ -2,10 +2,15 @@ export default class FilterCategory {
     constructor() {
         this.limit = 30;
         this.page = 0;
-        this.search = "";
+        this.search = '';
+        this.categoryType = null;
     }
 
     toString() {
-        return `?limit=${this.limit}&page=${this.page}&search=${this.search}`;
+        let filter = `?limit=${this.limit}&page=${this.page}&search=${this.search}`;
+        if (this.categoryType !== null) {
+            filter = `${filter}&category_type=${this.categoryType}`;
+        }
+        return filter;
     }
 }

@@ -2,13 +2,13 @@ package br.com.systec.controle.financeiro.administrator.category.filter;
 
 import br.com.systec.controle.financeiro.administrator.category.enums.CategoryType;
 import br.com.systec.controle.financeiro.administrator.category.model.Category;
-import br.com.systec.controle.financeiro.commons.filter.FilterSearchVO;
+import br.com.systec.controle.financeiro.commons.filter.PageParamSearchVO;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
-public class FilterCategoryVO extends FilterSearchVO<Category> {
+public class FilterCategoryVO extends PageParamSearchVO<Category> {
     private static final String SORT_NAME = "description";
     private CategoryType categoryType;
 
@@ -20,7 +20,7 @@ public class FilterCategoryVO extends FilterSearchVO<Category> {
 
     @Override
     public Specification<Category> getSpecification() {
-        return CategorySpecification.filterByKeywordAndTenant(search);
+        return CategorySpecification.filterByKeywordAndTenant(search, categoryType);
     }
 
     public CategoryType getCategoryType() {

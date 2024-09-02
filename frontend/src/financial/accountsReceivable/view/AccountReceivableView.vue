@@ -8,6 +8,7 @@ import BankAccountFilter from "../../../administrator/bankAccount/model/BankAcco
 import { useI18n } from "vue-i18n";
 import { onMounted } from "vue";
 import AccountReceivable from '../model/AccountReceivable';
+import FilterCategory from "../../../administrator/category/model/FilterCategory";
 
 
 const listPageAccountReceivable = ref(new Pageable());
@@ -18,6 +19,8 @@ const bankAccountSelected = ref({});
 const bankAccountFilter = ref(new BankAccountFilter());
 const { t } = useI18n();
 const accountReceivableDialog = ref(false);
+const listOfCategory = ref([]);
+const categorySelected = ref({});
 
 const breadCrumbItem = ref([
     { label: t('financial') },
@@ -76,12 +79,15 @@ const findBankAccount = async () => {
         hideLoading();
     }
 };
+
 const newAccountReceivable = async () => {
     bankAccountSelected.value = {}
     accountReceivable.value = new AccountReceivable();
     findBankAccount();
     accountReceivableDialog.value = true;
+    await findCategory();
 };
+
 const editAccountReceivable = async (accountReceivableId) => {
     try {
         showLoading();
@@ -114,6 +120,18 @@ const save = async () => {
         handlerError(error);
     } finally {
         hideLoading();
+    }
+};
+
+const findCategory = async () => {
+    try {
+        let filterCategory = new FilterCategory();
+        filterCategory.categoryType = 0;
+        await store.dispatch('categoryStore/findCategoryByFilter', filterCategory);
+        listOfCategory.value = store.state.categoryStore.listPageCategory;
+    } catch (error) {
+        console.log(error);
+        handlerError(error);
     }
 };
 </script>
@@ -197,6 +215,13 @@ const save = async () => {
                                 </template>
                             </Dropdown>
                         </div>
+                        <div class="field col-12 md:col-12">
+                            <label>Categoria</label>
+                            <Dropdown v-model="categorySelected" :options="listOfCategory.content"
+                                optionLabel="description" placeholder="Selecione a categoria" class="w-full">
+                            </Dropdown>
+                        </div>
+
                         <div class="field col-12 md:col-12">
                             <label for="accountReceivable-amount">{{ $t('amount') }}</label>
                             <InputNumber v-model.lazy="accountReceivable.amount" :minFractionDigits="2"

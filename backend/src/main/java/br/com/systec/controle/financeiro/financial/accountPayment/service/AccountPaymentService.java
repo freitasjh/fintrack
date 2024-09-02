@@ -1,8 +1,13 @@
 package br.com.systec.controle.financeiro.financial.accountPayment.service;
 
 import br.com.systec.controle.financeiro.administrator.bankAccount.jms.BankAccountJms;
+import br.com.systec.controle.financeiro.administrator.bankAccount.service.BankAccountService;
+import br.com.systec.controle.financeiro.commons.exception.BaseException;
+import br.com.systec.controle.financeiro.commons.exception.ObjectNotFoundException;
+import br.com.systec.controle.financeiro.commons.exception.ValidatorException;
 import br.com.systec.controle.financeiro.config.RabbitMQConfig;
 import br.com.systec.controle.financeiro.financial.accountPayment.filter.AccountPaymentFilterVO;
+import br.com.systec.controle.financeiro.financial.accountPayment.filter.AccountPaymentPageParam;
 import br.com.systec.controle.financeiro.financial.accountPayment.model.AccountPayment;
 import br.com.systec.controle.financeiro.financial.accountPayment.repository.AccountPaymentRepository;
 import br.com.systec.controle.financeiro.financial.accountPayment.repository.AccountPaymentRepositoryJpa;
@@ -16,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -28,14 +34,29 @@ public class AccountPaymentService {
     private AccountPaymentRepositoryJpa repositoryJpa;
     @Autowired
     private RabbitTemplate template;
+    @Autowired
+    private BankAccountService bankAccountService;
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public AccountPayment save(AccountPayment accountPayment) {
-        AccountPayment accountPaymentSaved = repository.save(accountPayment);
+    public AccountPayment save(AccountPayment accountPayment) throws BaseException {
+        try {
+            if (accountPayment.getDateProcessed() == null && accountPayment.getPaymentDueDate() == null) {
+                throw new ValidatorException("Informe a data de pagamento ou a data de vencimento");
+            }
 
-        convertAndSendJmsBankAccount(accountPayment);
+            AccountPayment accountPaymentSaved = repository.save(accountPayment);
 
-        return accountPaymentSaved;
+            if (accountPayment.getDateProcessed() != null) {
+                updateBalanceAccountBank(accountPayment);
+            }
+
+            return accountPaymentSaved;
+        } catch (BaseException e) {
+            throw e;
+        } catch (Exception e) {
+            log.error("Ocorreu um erro ao tentar slavar o pagamento", e);
+            throw new BaseException("Ocorreu um erro ao tentar salvar o pagamento", e);
+        }
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
@@ -54,10 +75,17 @@ public class AccountPaymentService {
     }
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    public Page<AccountPayment> findPaymentByFilter(AccountPaymentFilterVO filterVO) {
-        Page<AccountPayment> pageOfAccountPayment = repositoryJpa.findAll(filterVO.getSpecification(), filterVO.getPageable());
+    public Page<AccountPayment> findPaymentByFilter(AccountPaymentPageParam pageParam) {
+        try {
+            Page<AccountPayment> pageOfAccountPayment = repositoryJpa.findAll(pageParam.getSpecification(),
+                    pageParam.getPageable());
 
-        return pageOfAccountPayment;
+            return pageOfAccountPayment;
+        } catch (Exception e) {
+            log.error("Erro ao tentar filtar os pagamento", e);
+            throw new BaseException("Erro ao tentar filtar os pagamentos", e);
+        }
+
     }
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
@@ -65,7 +93,54 @@ public class AccountPaymentService {
         return repository.findMonthlyExpenses();
     }
 
-    private void convertAndSendJmsBankAccount(AccountPayment accountPayment){
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    public List<AccountPayment> findLastTenPayment() throws BaseException {
+        try {
+            List<AccountPayment> listOfPayment = repository.findLastTenPayment();
+
+            return listOfPayment;
+        } catch (Exception e) {
+            log.error("Ocorreu um erro ao tentar pesquisar os ultimos pagamentos", e);
+            throw new BaseException("Ocorreu um erro ao tentar pesquisar os ultimos pagamentos", e);
+        }
+    }
+
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    public Double findTotalPaymentNotProcessed() {
+        return repository.findTotalPaymentNotProcessed();
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public List<AccountPayment> findAccountPaymentOpen() {
+        return repository.findAccountPaymentOpen();
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public void registerPayment(Long paymentId, Date dateRegister) throws BaseException {
+        try {
+            AccountPayment accountPayment = repository.findById(paymentId)
+                    .orElseThrow(() -> new ObjectNotFoundException("Conta não encontrada"));
+
+            accountPayment.setDateProcessed(dateRegister);
+            accountPayment.setProcessed(true);
+
+            repository.update(accountPayment);
+            updateBalanceAccountBank(accountPayment);
+
+        } catch (BaseException e) {
+            throw e;
+        } catch (Exception e) {
+            log.error("Ocorreu um erro ao tentar processar o pagamento", e);
+            throw new BaseException("Ocorreu um erro ao tentar processar o pagamento", e);
+        }
+    }
+
+
+    private void updateBalanceAccountBank(AccountPayment accountPayment) {
+        bankAccountService.updateBankAccountBalance(accountPayment);
+    }
+
+    private void convertAndSendJmsBankAccount(AccountPayment accountPayment) {
         BankAccountJms bankAccountJms = new BankAccountJms(accountPayment.getTenantId(),
                 accountPayment.getBankAccount().getId(), accountPayment.getAmount(), TransactionType.EXPENSE);
 

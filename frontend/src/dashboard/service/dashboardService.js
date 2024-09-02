@@ -11,4 +11,20 @@ export default class DashboardService {
     findMonthlyExpenses() {
         return http.get(`${this.endpoint}/monthly-expenses`).then((response) => response);
     }
+
+    findRecentPayment() {
+        return http.get(`${this.endpoint}/last-payment`).then((response) => response);
+    }
+
+    findExpenseByCategory() {
+        return http.get(`${this.endpoint}/category-expense`).then((response) => response);
+    }
+
+    findPaymentNotProcessed() {
+        return http.get(`${this.endpoint}/payment-not-processed`).then((response) => response);
+    }
+
+    findPaymentOpen() {
+        return http.get(`${this.endpoint}/payment-open`).then((response) => response);
+    }
 }

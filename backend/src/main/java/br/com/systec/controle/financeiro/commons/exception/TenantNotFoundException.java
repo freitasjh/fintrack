@@ -5,7 +5,11 @@ import org.springframework.http.HttpStatus;
 
 public class TenantNotFoundException extends BaseException{
     public TenantNotFoundException() {
-        super(I18nTranslate.toLocale("tenant.not.found"));
+        super(I18nTranslate.toLocale("tenant.not.found"), HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    public TenantNotFoundException(Throwable e){
+        super(I18nTranslate.toLocale("tenant.not.found"), e, HttpStatus.NOT_ACCEPTABLE);
     }
 
     public TenantNotFoundException(String message, Throwable e, HttpStatus httpStatus) {

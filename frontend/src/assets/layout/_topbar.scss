@@ -5,7 +5,6 @@
     left: 0;
     top: 0;
     width: 100%;
-    padding: 0 2rem;
     background-color: var(--surface-card);
     transition: left $transitionDuration;
     display: flex;
@@ -53,7 +52,7 @@
         }
 
         i {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
         }
 
         span {
@@ -63,7 +62,7 @@
     }
 
     .layout-menu-button {
-        margin-left: 2rem;
+        margin-left: 1rem;
     }
 
     .layout-topbar-menu-button {
@@ -81,7 +80,8 @@
         display: flex;
 
         .layout-topbar-button {
-            margin-left: 1rem;
+            margin-right: 1rem;
+            // margin-left: 0.rem;
         }
     }
 }

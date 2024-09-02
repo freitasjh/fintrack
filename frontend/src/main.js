@@ -120,6 +120,7 @@ import 'vue-loading-overlay/dist/css/index.css';
 
 const app = createApp(App);
 app.config.globalProperties.$axios = api;
+window.global = window;
 
 const i18n = createI18n({
     locale: 'pt_BR',

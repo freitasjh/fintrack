@@ -23,6 +23,7 @@ public class AccountPaymentFake {
         accountPayment.setTransactionType(TransactionType.EXPENSE);
         accountPayment.setCategoryTransactionType(CategoryTransactionType.PAYMENT);
         accountPayment.setAmount(1000.0);
+        accountPayment.setPaymentDueDate(new Date());
 
         return accountPayment;
     }
@@ -37,6 +38,7 @@ public class AccountPaymentFake {
         accountPayment.setDateProcessed(new Date());
         accountPayment.setProcessed(true);
         accountPayment.setAmount(150.0);
+        accountPayment.setPaymentDueDate(new Date());
 
         return accountPayment;
     }

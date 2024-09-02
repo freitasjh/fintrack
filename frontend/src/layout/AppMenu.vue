@@ -1,8 +1,11 @@
 <script setup>
-import { ref } from 'vue';
+import { onBeforeMount, ref } from 'vue';
 
 import AppMenuItem from './AppMenuItem.vue';
+import { useStore } from 'vuex';
 
+const store = useStore();
+const user = ref({});
 const model = ref([
     {
         label: 'Home',
@@ -20,6 +23,7 @@ const model = ref([
         items: [
             { label: 'Recebidos', icon: 'pi pi-fw pi-home', to: '/accountReceivable' },
             { label: 'Pagos', icon: 'pi pi-fw pi-home', to: '/accountPayment' },
+            { label: 'Transferencia', icon: 'pi pi-fw pi-home', to: '/accountTransfer' },
         ]
     },
     {
@@ -182,19 +186,27 @@ const model = ref([
         ]
     }
 ]);
+onBeforeMount(async () => {
+    await store.dispatch('userModuleStore/findUserById', localStorage.getItem('userId'));
+    user.value = store.state.userModuleStore.user;
+});
 </script>
 
 <template>
     <ul class="layout-menu">
+        <button v-ripple
+            class="relative overflow-hidden w-full p-link flex align-items-center p-2 pl-3 text-color hover:surface-200 border-noround">
+            <Avatar icon="pi pi-user" class="mr-2" size="xlarge" shape="circle" />
+            <span class="inline-flex flex-column">
+                <span class="font-bold">{{ user.name }}</span>
+                <span class="text-sm">Admin</span>
+            </span>
+        </button>
+        <Divider />
         <template v-for="(item, i) in model" :key="item">
             <app-menu-item v-if="!item.separator" :item="item" :index="i"></app-menu-item>
             <li v-if="item.separator" class="menu-separator"></li>
         </template>
-        <li>
-            <a href="https://www.primefaces.org/primeblocks-vue/#/" target="_blank">
-                <img src="/layout/images/banner-primeblocks.png" alt="Prime Blocks" class="w-full mt-3" />
-            </a>
-        </li>
     </ul>
 </template>
 

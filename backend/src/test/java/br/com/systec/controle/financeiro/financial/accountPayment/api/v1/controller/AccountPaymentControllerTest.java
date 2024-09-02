@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
@@ -31,7 +32,7 @@ import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingExcept
 @AutoConfigureMockMvc
 public class AccountPaymentControllerTest {
     private static final String ENDPOINT = "/v1/payment";
-    @MockBean
+    @SpyBean
     private AccountPaymentService service;
     @Autowired
     private MockMvc mockMvc;
@@ -55,6 +56,30 @@ public class AccountPaymentControllerTest {
                         .content(JsonUtil.converteObjetoParaString(accountPaymentInputDTOToSave)))
                 .andExpect(MockMvcResultMatchers.status().is(201))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNotEmpty())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+
+        Mockito.verify(service).save(Mockito.any(AccountPayment.class));
+    }
+
+    @Test
+    @WithMockUser
+    void whenSaveNewAccountPaymentAndDateProcessedAndPaymentDueDateNullValidationException() throws Exception {
+        TenantContext.add(1L);
+        AccountPaymentInputDTO accountPaymentInputDTOToSave = AccountPaymentFake.toInputDTO();
+        accountPaymentInputDTOToSave.setId(null);
+        accountPaymentInputDTOToSave.setPaymentDueDate(null);
+        accountPaymentInputDTOToSave.setDateProcessed(null);
+
+        AccountPayment accountPaymentToSave = AccountPaymentFake.toFake();
+        accountPaymentToSave.setId(null);
+
+
+        mockMvc.perform(MockMvcRequestBuilders.post(ENDPOINT)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(JsonUtil.converteObjetoParaString(accountPaymentInputDTOToSave)))
+                .andExpect(MockMvcResultMatchers.status().is(500))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.msg").value("Informe a data de pagamento ou a data de vencimento"))
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
 

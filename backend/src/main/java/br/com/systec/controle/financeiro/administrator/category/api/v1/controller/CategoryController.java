@@ -116,7 +116,7 @@ public class CategoryController extends AbstractController {
     public ResponseEntity<Page<CategoryDTO>> findByFilter(@RequestParam(value = "limit", defaultValue = "30") int limit,
                                                           @RequestParam(value = "page", defaultValue = "0") int page,
                                                           @RequestParam(value = "search", defaultValue = "") String search,
-                                                          @RequestParam(value = "category_type", required = false) Long categoryType) {
+                                                          @RequestParam(value = "category_type", required = false) Integer categoryType) {
 
         FilterCategoryVO filterCategoryVO = new FilterCategoryVO();
         filterCategoryVO.setLimit(limit);
