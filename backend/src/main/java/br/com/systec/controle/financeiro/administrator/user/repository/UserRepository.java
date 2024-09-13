@@ -2,6 +2,7 @@ package br.com.systec.controle.financeiro.administrator.user.repository;
 
 import br.com.systec.controle.financeiro.administrator.user.model.User;
 import br.com.systec.controle.financeiro.commons.AbstractRepository;
+import br.com.systec.controle.financeiro.commons.TenantContext;
 import br.com.systec.controle.financeiro.commons.exception.ObjectNotFoundException;
 import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
@@ -49,5 +50,16 @@ public class UserRepository extends AbstractRepository<User, Long> {
         }
 
         return Optional.of(listOfUser.get(0));
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public List<User> findAllByTenant() {
+        StringBuilder sql = new StringBuilder();
+        sql.append("select obj from User obj where obj.tenantId = :tenantId");
+
+        TypedQuery<User> query = entityManager.createQuery(sql.toString(), User.class);
+        query.setParameter("tenantId", TenantContext.getTenant());
+
+        return query.getResultList();
     }
 }

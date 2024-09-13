@@ -30,7 +30,7 @@ public class CategoryNewAccountJMS {
             objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
 
             ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-            try(InputStream inputStream = classLoader.getResourceAsStream("xml/category-insert.json")) {
+            try(InputStream inputStream = classLoader.getResourceAsStream("json/category-insert.json")) {
                 ListCategory listCategory = objectMapper.readValue(inputStream, ListCategory.class);
 
                 for (Category category : listCategory.getCategories()) {

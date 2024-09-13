@@ -38,6 +38,7 @@ public class NotificationService {
             notification.setUserEmail(user.getEmail());
 
             Notification notificationSaved = repository.save(notification);
+            sendWebSocketNotificationToUserEmail(user, null);
 
             return notificationSaved;
         } catch (Exception e) {
@@ -77,14 +78,16 @@ public class NotificationService {
         }
     }
 
-    @Transactional(propagation = Propagation.SUPPORTS)
-    public void sendWebSocketNotificationToUserEmail(Long userId, Long tenantId, String message) throws BaseException {
-        User user = userService.findById(userId);
-        messageTemplate.convertAndSend("/user/"+user.getEmail()+"/queue/notification");
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void sendWebSocketNotificationToUserEmail(User user, Long userId) throws BaseException {
+        if(user == null){
+            user = userService.findById(userId);
+        }
+        messageTemplate.convertAndSend("/user/"+user.getEmail()+"/queue/notification", "notificacao");
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
     public void sendEmailNotification() throws BaseException {
-
+        //TODO vai ser feita a logica para enviar e-mail
     }
 }

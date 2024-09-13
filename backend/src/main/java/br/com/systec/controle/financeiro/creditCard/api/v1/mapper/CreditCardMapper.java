@@ -1,8 +1,11 @@
 package br.com.systec.controle.financeiro.creditCard.api.v1.mapper;
 
 import br.com.systec.controle.financeiro.administrator.bankAccount.model.BankAccount;
+import br.com.systec.controle.financeiro.creditCard.api.v1.dto.CreditCardDTO;
 import br.com.systec.controle.financeiro.creditCard.api.v1.dto.CreditCardInputDTO;
+import br.com.systec.controle.financeiro.creditCard.model.BrandType;
 import br.com.systec.controle.financeiro.creditCard.model.CreditCard;
+import org.springframework.data.domain.Page;
 
 public class CreditCardMapper {
 
@@ -21,6 +24,10 @@ public class CreditCardMapper {
         creditCard.setClosingDate(inputDTO.getClosingDate());
         creditCard.setBankAccount(new BankAccount(inputDTO.getBankAccountId()));
         creditCard.setStatus(inputDTO.getStatus());
+
+        if(creditCard.getBrand() == null){
+            creditCard.setBrand(BrandType.VISA);
+        }
 
         return creditCard;
     }
@@ -46,5 +53,24 @@ public class CreditCardMapper {
         }
 
         return inputDTO;
+    }
+
+    public static CreditCardDTO toDTO(CreditCard creditCard) {
+        CreditCardDTO creditCardDTO = new CreditCardDTO();
+        creditCardDTO.setId(creditCard.getId());
+        creditCardDTO.setName(creditCard.getName());
+        creditCardDTO.setTotalLimit(creditCard.getTotalLimit());
+        creditCardDTO.setAvailableLimit(creditCard.getAvailableLimit());
+        creditCardDTO.setTotalLimit(creditCard.getTotalLimit());
+
+        if(creditCard.getBankAccount() != null) {
+            creditCardDTO.setBankAccountName(creditCard.getBankAccount().getDescription());
+        }
+
+        return creditCardDTO;
+    }
+
+    public static Page<CreditCardDTO> toPageDTO(Page<CreditCard> pageOfCreditCard) {
+        return pageOfCreditCard.map(CreditCardMapper::toDTO);
     }
 }

@@ -15,7 +15,8 @@ const model = ref([
         label: 'Cadastro',
         items: [
             { label: 'Categoria', icon: 'pi pi-fw pi-home', to: '/category' },
-            { label: 'Conta bancaria', icon: 'pi pi-fw pi-home', to: '/bankAccount' }
+            { label: 'Conta bancaria', icon: 'pi pi-fw pi-home', to: '/bankAccount' },
+            { label: 'Cartão de credito', icon: 'pi pi-fw pi-home', to: '/creditCard' }
         ]
     },
     {

@@ -22,6 +22,8 @@ public class CreditCardFake {
         creditCard.setStatus(CreditCardStatusType.ACTIVE);
         creditCard.setBankAccount(BankAccountFake.fake());
         creditCard.setBrand(BrandType.VISA);
+        creditCard.setTotalLimit(10000);
+        creditCard.setAvailableLimit(10000);
 
         return creditCard;
     }

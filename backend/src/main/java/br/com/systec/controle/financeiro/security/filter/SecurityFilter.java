@@ -55,6 +55,8 @@ public class SecurityFilter extends OncePerRequestFilter {
             throw e;
         }catch (RuntimeException | IOException | ServletException e){
             throw new BaseException(e.getMessage(), e);
+        }finally {
+            TenantContext.clear();
         }
     }
 

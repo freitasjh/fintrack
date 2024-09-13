@@ -5,7 +5,9 @@ import br.com.systec.controle.financeiro.commons.TenantContext;
 import br.com.systec.controle.financeiro.financial.accountPayment.model.AccountPayment;
 import br.com.systec.controle.financeiro.financial.transaction.enums.CategoryTransactionType;
 import br.com.systec.controle.financeiro.financial.transaction.enums.TransactionType;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
+import org.apache.commons.lang3.reflect.Typed;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -102,6 +104,20 @@ public class AccountPaymentRepository extends AbstractRepository<AccountPayment,
 
         TypedQuery<AccountPayment> query = entityManager.createQuery(sql.toString(), AccountPayment.class);
         query.setParameter("tenantId", TenantContext.getTenant());
+        query.setParameter("isProcessed", false);
+
+        return query.getResultList();
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public List<AccountPayment> findAccountPaymentPending() {
+        StringBuilder sql = new StringBuilder();
+        sql.append(" Select obj from AccountPayment obj where obj.tenantId = :tenantId ");
+        sql.append(" and obj.paymentDueDate > :dateNow and obj.processed = :isProcessed");
+
+        TypedQuery<AccountPayment> query = entityManager.createQuery(sql.toString(), AccountPayment.class);
+        query.setParameter("tenantId", TenantContext.getTenant());
+        query.setParameter("dateNow", new Date());
         query.setParameter("isProcessed", false);
 
         return query.getResultList();

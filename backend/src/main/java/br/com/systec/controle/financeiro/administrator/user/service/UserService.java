@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -101,6 +102,16 @@ public class UserService {
             throw new LoginUsernameValidateException();
         }else if(userReturn.get().getEmail().equalsIgnoreCase(user.getEmail())){
             throw new LoginEmailValidationException();
+        }
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public List<User> findAllByTenant() throws BaseException {
+        try {
+            return repository.findAllByTenant();
+        } catch (Exception e) {
+            log.error("Ocorreu um erro ao tentar pesquisar os usuarios", e);
+            throw new BaseException(e.getMessage(), e);
         }
     }
 }

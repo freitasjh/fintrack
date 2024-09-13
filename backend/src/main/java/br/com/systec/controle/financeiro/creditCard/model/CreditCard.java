@@ -1,6 +1,7 @@
 package br.com.systec.controle.financeiro.creditCard.model;
 
 import br.com.systec.controle.financeiro.administrator.bankAccount.model.BankAccount;
+import br.com.systec.controle.financeiro.commons.model.BaseModel;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,18 +14,17 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 
 @Table(name = "credit_card")
 @Entity
-public class CreditCard {
+public class CreditCard extends BaseModel {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     @Column(name = "name")
     private String name;
     @Column(name = "number")
@@ -54,14 +54,23 @@ public class CreditCard {
     @JoinColumn(name = "bank_account_id")
     private BankAccount bankAccount;
 
-
-    public Long getId() {
-        return id;
+    @PrePersist
+    void preSave() {
+        this.dateCreated = LocalDate.now();
+        this.dateUpdated = LocalDate.now();
+        if(status == null) {
+            this.status = CreditCardStatusType.ACTIVE;
+        }
+        if(availableLimit == 0.0) {
+            availableLimit = totalLimit;
+        }
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    @PreUpdate
+    void preUpdate() {
+        this.dateUpdated = LocalDate.now();
     }
+
 
     public String getName() {
         return name;
@@ -166,4 +175,5 @@ public class CreditCard {
     public void setBankAccount(BankAccount bankAccount) {
         this.bankAccount = bankAccount;
     }
+
 }

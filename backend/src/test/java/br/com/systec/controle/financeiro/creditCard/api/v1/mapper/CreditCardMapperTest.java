@@ -1,10 +1,15 @@
 package br.com.systec.controle.financeiro.creditCard.api.v1.mapper;
 
+import br.com.systec.controle.financeiro.creditCard.api.v1.dto.CreditCardDTO;
 import br.com.systec.controle.financeiro.creditCard.api.v1.dto.CreditCardInputDTO;
 import br.com.systec.controle.financeiro.creditCard.fake.CreditCardFake;
 import br.com.systec.controle.financeiro.creditCard.model.CreditCard;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+
+import java.util.List;
 
 public class CreditCardMapperTest {
 
@@ -46,5 +51,32 @@ public class CreditCardMapperTest {
         Assertions.assertThat(creditCardConverted.getBrand()).isEqualTo(inputDTO.getBrand());
         Assertions.assertThat(creditCardConverted.getBankAccount().getId()).isEqualTo(inputDTO.getBankAccountId());
         Assertions.assertThat(creditCardConverted.getInterestRate()).isEqualTo(inputDTO.getInterestRate());
+    }
+
+    @Test
+    void whenConverterCreditCardToCreditCardDTO() {
+        CreditCard creditCard = CreditCardFake.toFake();
+
+        CreditCardDTO creditCardConverted = CreditCardMapper.toDTO(creditCard);
+
+        Assertions.assertThat(creditCardConverted).isNotNull();
+        Assertions.assertThat(creditCardConverted.getId()).isEqualTo(creditCard.getId());
+        Assertions.assertThat(creditCardConverted.getName()).isEqualTo(creditCard.getName());
+        Assertions.assertThat(creditCardConverted.getAvailableLimit()).isEqualTo(creditCard.getAvailableLimit());
+        Assertions.assertThat(creditCardConverted.getTotalLimit()).isEqualTo(creditCard.getTotalLimit());
+        Assertions.assertThat(creditCardConverted.getBankAccountName()).isEqualTo(creditCard.getBankAccount().getDescription());
+    }
+
+    @Test
+    void whenConverterPageCreditCardToPageCreditCardDTO() {
+        Page<CreditCard> pageCreditCard = new PageImpl<>(List.of(CreditCardFake.toFake()));
+
+        Page<CreditCardDTO> pageConverted = CreditCardMapper.toPageDTO(pageCreditCard);
+
+        Assertions.assertThat(pageConverted).isNotNull();
+        Assertions.assertThat(pageConverted.getSize()).isEqualTo(pageCreditCard.getSize());
+        Assertions.assertThat(pageConverted.getTotalPages()).isEqualTo(pageCreditCard.getTotalPages());
+        Assertions.assertThat(pageConverted.getTotalElements()).isEqualTo(pageCreditCard.getTotalElements());
+        Assertions.assertThat(pageConverted.isLast()).isEqualTo(pageCreditCard.isLast());
     }
 }

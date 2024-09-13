@@ -19,6 +19,11 @@ const router = createRouter({
                     component: () => import('@/administrator/category/view/CategoryView.vue')
                 },
                 {
+                    path: '/creditCard',
+                    name: 'creditCard',
+                    component: () => import('@/administrator/creditCard/view/CreditCardView.vue')
+                },
+                {
                     path: '/bankAccount',
                     name: 'bankAccount',
                     component: () => import('../administrator/bankAccount/view/BankAccountView.vue')

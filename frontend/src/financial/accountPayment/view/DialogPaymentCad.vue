@@ -31,7 +31,6 @@ onUnmounted(() => {
 
 const openDialogHandler = async () => {
     try {
-        console.log("emit2")
         showLoading();
         await findBankAccount();
         dialogVisible.value = true;

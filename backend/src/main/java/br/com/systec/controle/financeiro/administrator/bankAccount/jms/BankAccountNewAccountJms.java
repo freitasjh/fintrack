@@ -32,7 +32,7 @@ public class BankAccountNewAccountJms {
             objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
 
             ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-            try (InputStream inputStream = classLoader.getResourceAsStream("xml/bankAccount-insert.json")) {
+            try (InputStream inputStream = classLoader.getResourceAsStream("json/bankAccount-insert.json")) {
                 List<BankAccount> listOfBankAccount = objectMapper.readValue(inputStream,new TypeReference<List<BankAccount>>() {});
 
                 for(BankAccount bankAccount : listOfBankAccount) {

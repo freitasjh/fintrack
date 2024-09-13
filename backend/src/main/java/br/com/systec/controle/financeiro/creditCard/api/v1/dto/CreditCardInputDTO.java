@@ -2,20 +2,28 @@ package br.com.systec.controle.financeiro.creditCard.api.v1.dto;
 
 import br.com.systec.controle.financeiro.creditCard.model.BrandType;
 import br.com.systec.controle.financeiro.creditCard.model.CreditCardStatusType;
+import jakarta.validation.constraints.NotNull;
 
 public class CreditCardInputDTO {
     private Long id;
+    @NotNull(message = "Informe um nome para o cartão")
     private String name;
+    @NotNull(message = "Informe o numero do cartão")
     private String number;
     private String cvc;
+    @NotNull(message = "Informe o nome que esta no cartão")
     private String nameCreditCard;
+    @NotNull(message = "Informe o limite total do cartão")
     private double totalLimit;
     private double availableLimit;
+    @NotNull
     private String dueDay;
+    @NotNull
     private String closingDate;
     private BrandType brand;
     private double interestRate;
     private CreditCardStatusType status;
+    @NotNull(message = "Infome a conta do Cartão")
     private Long bankAccountId;
 
     public Long getId() {

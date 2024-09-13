@@ -37,9 +37,9 @@ const connect = () => {
     const socket = new sockjs('/api/notification');
     stompClient = new Client({
         webSocketFactory: () => socket,
-        debug: (str) => {
-            console.log(str);
-        },
+        // debug: (str) => {
+        //     console.log(str);
+        // },
         reconnectDelay: 5000,
         heartbeatIncoming: 4000,
         heartbeatOutgoing: 4000,
@@ -47,7 +47,7 @@ const connect = () => {
     stompClient.onConnect = () => {
         console.log(store.state.userModuleStore.user);
         stompClient.subscribe(`/user/${store.state.userModuleStore.user.email}/queue/notification`, async (message) => {
-            // await findTotalNotificationNotVisualized();
+            await findTotalNotificationNotVisualized();
 
             console.log('Recebeu mensagem: ', message.body);
         });

@@ -7,6 +7,7 @@ import bankAccountStore from '../administrator/bankAccount/store/bankAccountStor
 import accountReceivableStore from '../financial/accountsReceivable/store/accountReceivableStore';
 import accountPaymentStore from '../financial/accountPayment/store/accountPaymentStore';
 import accountTransferStore from '../financial/accountTransfer/store/accountTransferStore';
+import { creditCardStore } from '../administrator/creditCard/store/credtiCardStore';
 export default new Vuex.Store({
     modules: {
         userModuleStore,
@@ -15,7 +16,8 @@ export default new Vuex.Store({
         bankAccountStore,
         accountReceivableStore,
         accountPaymentStore,
-        accountTransferStore
+        accountTransferStore,
+        creditCardStore
     },
     state: {
         token: '',

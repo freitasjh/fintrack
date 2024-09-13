@@ -18,6 +18,8 @@ public class RabbitMQConfig {
     public static final String NEW_ACCOUNT_BANK_ACCOUNT_QUEUE = "new-account-bank-account";
     public static final String BANK_ACCOUNT_BALANCE_UPDATE = "bank-account-balance-update";
     public static final String BANK_ACCOUNT_NEW = "bank-account-new";
+    public static final String JOB_NEW_ACCOUNT = "job-new-account";
+    public static final String ACCOUNT_PAYMENT = "account-payment";
     public static final String ROUTING_KEY_NEW_ACCOUNT = "rt-newaccount";
     public static final String ROUTING_KEY_NEW_BANK_ACCOUNT = "rt-new-bank-account";
     public static final String ROUTING_KEY_NEW_BALANCE_ACCOUNT = "rt-newbalance-account";
@@ -46,6 +48,12 @@ public class RabbitMQConfig {
     Queue queueBankAccountNew() {
         return new Queue(BANK_ACCOUNT_NEW, true, false, true);
     }
+    @Bean
+    Queue queueAccountPayment() {
+        return new Queue(ACCOUNT_PAYMENT, true, false, true);
+    }
+    @Bean
+    Queue queueJobNewAccount() { return new Queue(JOB_NEW_ACCOUNT, true, false, true); }
 
     @Bean
     DirectExchange directExchange(){
@@ -76,6 +84,11 @@ public class RabbitMQConfig {
                 .to(directExchange()).with(ROUTING_KEY_NEW_BANK_ACCOUNT);
     }
 
+    @Bean
+    Binding bindingJobNewAccount() {
+        return BindingBuilder.bind(queueJobNewAccount())
+                .to(directExchange()).with(ROUTING_KEY_NEW_ACCOUNT);
+    }
     @Bean
     Jackson2JsonMessageConverter converter() {
         return new Jackson2JsonMessageConverter();

@@ -14,5 +14,9 @@
     <include file="db/changelog/changes/account_transfer-changelog.xml" />
     <include file="db/changelog/changes/notification-changelog.xml" />
     <include file="db/changelog/changes/creditcard-changelog.xml" />
+    <include file="db/changelog/changes/credit_card_invoice-changelog.xml" />
+    <include file="db/changelog/changes/credit_card_transaction-changelog.xml" />
+    <include file="db/changelog/changes/credit_card_installment-changelog.xml" />
+    <include file="db/changelog/changes/quartz-changelog.xml" />
 
 </databaseChangeLog>

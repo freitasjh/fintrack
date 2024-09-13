@@ -135,6 +135,11 @@ public class AccountPaymentService {
         }
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public List<AccountPayment> findAccountPaymentPending() {
+        return repository.findAccountPaymentPending();
+    }
+
 
     private void updateBalanceAccountBank(AccountPayment accountPayment) {
         bankAccountService.updateBankAccountBalance(accountPayment);

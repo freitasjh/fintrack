@@ -48,7 +48,11 @@ export const message_pt_BR = {
     dateIncoming: 'Data Pago',
     duePayment: 'Data Vencimento',
     accountTransfer: 'Transferencia',
-    dueDate: 'Data vencimento'
+    dueDate: 'Data vencimento',
+    creditCard: 'Cartão de Credito',
+    name: 'Nome',
+    totalLimit: 'Limite total',
+    availableLimit: 'Limite disponivel'
 };
 
 export const message_en = {
@@ -100,5 +104,9 @@ export const message_en = {
     categoryType: 'Tipo de Categoria',
     dateIncoming: 'Data Pago',
     dueDate: 'Due Date',
-    accountTransfer: 'Transfer'
+    accountTransfer: 'Transfer',
+    creditCard: 'Cartão de Credito',
+    name: 'Nome',
+    totalLimit: 'Total Limit',
+    availableLimit: 'Available Limit'
 };

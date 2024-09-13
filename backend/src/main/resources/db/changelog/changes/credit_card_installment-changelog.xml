@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+    <changeSet id="credit_card_installment-J1" author="Joao">
+        <createTable tableName="credit_card_installment">
+            <column name="id" type="int8" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="description" type="varchar(255)"/>
+            <column name="amount" type="float" defaultValue="0"/>
+            <column name="due_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_create" type="date"/>
+            <column name="installment" type="int4" defaultValue="1"/>
+            <column name="transaction_id" type="int8"/>
+            <column name="credit_card_invoice_id" type="int8" />
+        </createTable>
+        <addForeignKeyConstraint baseTableName="credit_card_installment" baseColumnNames="transaction_id"
+                                 constraintName="fk_credit_card_installment_transcation_id"
+                                 referencedTableName="credit_card_transaction"
+                                 referencedColumnNames="id"/>
+        <createIndex tableName="credit_card_installment" indexName="idx_credit_card_installment_invoice">
+            <column name="credit_card_invoice_id" type="int8" />
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

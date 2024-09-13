@@ -27,6 +27,8 @@
         <column name="tenant_id" type="int8" >
             <constraints nullable="false" />
         </column>
+        <column name="date_created" type="date" />
+        <column name="date_updated" type="date" />
     </createTable>
     <addForeignKeyConstraint baseTableName="credit_card"
                              baseColumnNames="bank_account_id"
