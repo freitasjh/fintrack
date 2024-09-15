@@ -72,6 +72,12 @@ public class CreditCard extends BaseModel {
     }
 
 
+    public CreditCard() {
+    }
+    public CreditCard(Long id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }

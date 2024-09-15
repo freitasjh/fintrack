@@ -25,6 +25,22 @@ const model = ref([
             { label: 'Recebidos', icon: 'pi pi-fw pi-home', to: '/accountReceivable' },
             { label: 'Pagos', icon: 'pi pi-fw pi-home', to: '/accountPayment' },
             { label: 'Transferencia', icon: 'pi pi-fw pi-home', to: '/accountTransfer' },
+            {
+                label: 'Cartão de Credito',
+                icon: 'pi pi-fw pi-id-card',
+                items: [
+                    {
+                        label: 'Transação',
+                        icon: 'pi pi-fw pi-list',
+                        to: '/creditCard/transactions'
+                    },
+                    {
+                        label: 'Fatura',
+                        icon: 'pi pi-fw pi-file',
+
+                    }
+                ]
+            },
         ]
     },
     {

@@ -19,7 +19,6 @@ export default class CreditCardService {
     findById(id) {}
 
     findByFilter(filter) {
-        console.log(filter.toString());
         return http.get(`${this.endpoint}/filter${filter.toString()}`).then((response) => response);
     }
 }

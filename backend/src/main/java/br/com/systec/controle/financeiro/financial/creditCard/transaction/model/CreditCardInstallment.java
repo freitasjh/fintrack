@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
 import java.time.LocalDate;
@@ -36,6 +37,10 @@ public class CreditCardInstallment {
     @Column(name = "credit_card_invoice_id")
     private Long creditCardInvoiceId;
 
+    @PrePersist
+    void prePersist(){
+        this.dateCreate = LocalDate.now();
+    }
 
     public Long getId() {
         return id;
