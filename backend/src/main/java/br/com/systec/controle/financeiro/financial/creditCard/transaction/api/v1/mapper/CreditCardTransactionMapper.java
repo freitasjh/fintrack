@@ -11,7 +11,7 @@ public class CreditCardTransactionMapper {
 
     public static CreditCardTransaction toEntity(CreditCardTransactionInputDTO inputDTO) {
         CreditCardTransaction transaction = new CreditCardTransaction();
-        transaction.setTenantId(TenantContext.getTenant());
+        transaction.setId(inputDTO.getId());
         transaction.setCreditCard(new CreditCard(inputDTO.getCreditCardId()));
         transaction.setInstallments(inputDTO.getInstallments());
         transaction.setAmount(inputDTO.getAmount());
@@ -26,6 +26,7 @@ public class CreditCardTransactionMapper {
         inputDTO.setAmount(transaction.getAmount());
         inputDTO.setDescription(transaction.getDescription());
         inputDTO.setCreditCardId(transaction.getCreditCard().getId());
+        inputDTO.setInstallments(transaction.getInstallments());
 
         return inputDTO;
     }

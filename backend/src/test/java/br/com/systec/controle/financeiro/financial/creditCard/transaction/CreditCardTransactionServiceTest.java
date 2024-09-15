@@ -1,5 +1,6 @@
 package br.com.systec.controle.financeiro.financial.creditCard.transaction;
 
+import br.com.systec.controle.financeiro.commons.TenantContext;
 import br.com.systec.controle.financeiro.creditCard.fake.CreditCardFake;
 import br.com.systec.controle.financeiro.creditCard.model.CreditCard;
 import br.com.systec.controle.financeiro.creditCard.service.CreditCardService;
@@ -47,6 +48,7 @@ public class CreditCardTransactionServiceTest {
 
     @Test
     void whenGenerateInstalmentOnSaveTransaction() {
+        TenantContext.add(1L);
         CreditCardTransaction creditCardTransactionToSave = CreditCardTransactionFake.toFake();
         CreditCardInvoice creditCardInvoiceToReturn = CreditCardInvoiceFake.toFake();
         CreditCard creditCardToReturn = CreditCardFake.toFake();

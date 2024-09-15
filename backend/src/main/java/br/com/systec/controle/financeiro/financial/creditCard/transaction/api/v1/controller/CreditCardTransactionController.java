@@ -20,6 +20,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
@@ -54,7 +55,7 @@ public class CreditCardTransactionController extends AbstractController {
                     @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = StandardError.class))
             })
     })
-    public ResponseEntity<CreditCardTransactionInputDTO> save(@RequestBody CreditCardTransactionInputDTO inputDTO, UriComponentsBuilder uri) {
+    public ResponseEntity<CreditCardTransactionInputDTO> save(@RequestBody @Valid CreditCardTransactionInputDTO inputDTO, UriComponentsBuilder uri) {
         CreditCardTransaction transaction = CreditCardTransactionMapper.toEntity(inputDTO);
 
         CreditCardTransaction transactionSaved = service.save(transaction);

@@ -1,5 +1,6 @@
 package br.com.systec.controle.financeiro.financial.creditCard.transaction.service;
 
+import br.com.systec.controle.financeiro.commons.TenantContext;
 import br.com.systec.controle.financeiro.commons.exception.BaseException;
 import br.com.systec.controle.financeiro.creditCard.model.CreditCard;
 import br.com.systec.controle.financeiro.creditCard.service.CreditCardService;
@@ -39,12 +40,15 @@ public class CreditCardTransactionService {
     public CreditCardTransaction save(CreditCardTransaction creditCardTransaction) throws BaseException {
         try {
             CreditCard creditCard = creditCardService.findById(creditCardTransaction.getCreditCard().getId());
-
             if (creditCard.getAvailableLimit() < creditCardTransaction.getAmount()) {
                 throw new CreditCardLimitException();
             }
 
             creditCardTransaction.setCreditCard(creditCard);
+
+            if(creditCardTransaction.getTenantId() == null) {
+                creditCardTransaction.setTenantId(TenantContext.getTenant());
+            }
 
             CreditCardInvoice creditCardInvoice = creditCardInvoiceService.findByDateIfNotExistCreate(creditCard);
 

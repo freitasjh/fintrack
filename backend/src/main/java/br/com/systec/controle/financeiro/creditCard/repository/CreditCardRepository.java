@@ -12,7 +12,7 @@ public class CreditCardRepository extends AbstractRepository<CreditCard, Long> {
 
     @Transactional(propagation = Propagation.REQUIRED)
     public void updateCreditCardAvailableLimit(double newLimitAvailable, Long creditCardId) {
-        Query query = entityManager.createQuery("update CreditCard set availableLimit = :newLimit, id = :creditCardId");
+        Query query = entityManager.createQuery("update CreditCard set availableLimit = :newLimit where id = :creditCardId");
         query.setParameter("newLimit", newLimitAvailable);
         query.setParameter("creditCardId", creditCardId);
 
