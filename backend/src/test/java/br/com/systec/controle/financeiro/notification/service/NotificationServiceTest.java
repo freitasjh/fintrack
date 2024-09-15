@@ -12,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Arrays;
@@ -24,6 +25,8 @@ public class NotificationServiceTest {
     private NotificationRepository repository;
     @Mock
     private UserService userService;
+    @Mock
+    private SimpMessagingTemplate messageTemplate;;
     @InjectMocks
     private NotificationService service;
 

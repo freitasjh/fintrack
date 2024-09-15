@@ -32,11 +32,12 @@ public class CreditCardTransaction extends BaseModel {
     private CreditCard creditCard;
     @Column(name = "tenant_id")
     private Long tenantId;
-    @OneToMany(targetEntity = CreditCard.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = CreditCardInstallment.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "transaction_id")
     private List<CreditCardInstallment> listOfInstallment;
 
     @PrePersist
-    void prePersist(){
+    void prePersist() {
         this.dateCreated = LocalDate.now();
         this.dateUpdated = LocalDate.now();
     }
@@ -82,7 +83,7 @@ public class CreditCardTransaction extends BaseModel {
     }
 
     public List<CreditCardInstallment> getListOfInstallment() {
-        if(listOfInstallment == null){
+        if (listOfInstallment == null) {
             listOfInstallment = new ArrayList<>();
         }
         return listOfInstallment;

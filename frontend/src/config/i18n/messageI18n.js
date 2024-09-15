@@ -52,7 +52,11 @@ export const message_pt_BR = {
     creditCard: 'Cartão de Credito',
     name: 'Nome',
     totalLimit: 'Limite total',
-    availableLimit: 'Limite disponivel'
+    availableLimit: 'Limite disponivel',
+    transaction: 'Transação',
+    selectCreditCard: 'Selecione o Cartão de Credito',
+    installments: 'Qtd Parcelas',
+    date: 'Data'
 };
 
 export const message_en = {
@@ -108,5 +112,9 @@ export const message_en = {
     creditCard: 'Cartão de Credito',
     name: 'Nome',
     totalLimit: 'Total Limit',
-    availableLimit: 'Available Limit'
+    availableLimit: 'Available Limit',
+    transaction: 'Transação',
+    selectCreditCard: 'Selecione o Cartão de Credito',
+    installments: 'Qtd Parcelas',
+    date: 'Data'
 };

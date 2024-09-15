@@ -22,7 +22,7 @@ public class CreditCardInvoice extends BaseModel {
     @JoinColumn(name = "credit_card_id")
     private CreditCard creditCard;
     @Column(name = "status_type")
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
     private InvoiceStatusType statusType;
     @Column(name = "date_close")
     private LocalDate dateClose;
@@ -30,6 +30,7 @@ public class CreditCardInvoice extends BaseModel {
     private LocalDate dueDate;
     @Column(name = "tenant_id")
     private Long tenantId;
+
 
     public Long getTenantId() {
         return tenantId;

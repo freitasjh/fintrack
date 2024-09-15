@@ -22,7 +22,7 @@ public class CreditCardInvoiceRepository extends AbstractRepository<CreditCardIn
 
         sql.append(" Select obj from CreditCardInvoice obj ");
         sql.append(" where obj.tenantId = :tenantId ");
-        sql.append(" and obj.closeDate >= :dateTransaction");
+        sql.append(" and obj.dateClose >= :dateTransaction");
 
         TypedQuery<CreditCardInvoice> query = entityManager.createQuery(sql.toString(), CreditCardInvoice.class);
         query.setParameter("tenantId", TenantContext.getTenant());

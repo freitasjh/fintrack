@@ -21,7 +21,7 @@ public class CreditCardInvoiceService {
     @Autowired
     private CreditCardInvoiceRepository repository;
 
-    @Transactional(propagation = Propagation.SUPPORTS)
+    @Transactional(propagation = Propagation.REQUIRED)
     public CreditCardInvoice findByDateIfNotExistCreate(CreditCard creditCard) throws BaseException {
         CreditCardInvoice creditCardInvoice = repository.findByDateClose(LocalDate.now()).orElse(null);
 

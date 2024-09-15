@@ -8,12 +8,15 @@ import br.com.systec.controle.financeiro.financial.creditCard.commons.DateCredit
 import br.com.systec.controle.financeiro.financial.creditCard.exceptions.CreditCardLimitException;
 import br.com.systec.controle.financeiro.financial.creditCard.invoice.model.CreditCardInvoice;
 import br.com.systec.controle.financeiro.financial.creditCard.invoice.service.CreditCardInvoiceService;
+import br.com.systec.controle.financeiro.financial.creditCard.transaction.filter.CreditCardTransactionPageParam;
 import br.com.systec.controle.financeiro.financial.creditCard.transaction.model.CreditCardInstallment;
 import br.com.systec.controle.financeiro.financial.creditCard.transaction.model.CreditCardTransaction;
 import br.com.systec.controle.financeiro.financial.creditCard.transaction.repository.CreditCardTransactionRepository;
+import br.com.systec.controle.financeiro.financial.creditCard.transaction.repository.CreditCardTransactionRepositoryJPA;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +28,8 @@ public class CreditCardTransactionService {
     private static final Logger log = LoggerFactory.getLogger(CreditCardTransaction.class);
     @Autowired
     private CreditCardTransactionRepository repository;
+    @Autowired
+    private CreditCardTransactionRepositoryJPA repositoryJPA;
     @Autowired
     private CreditCardInvoiceService creditCardInvoiceService;
     @Autowired
@@ -38,6 +43,8 @@ public class CreditCardTransactionService {
             if (creditCard.getAvailableLimit() < creditCardTransaction.getAmount()) {
                 throw new CreditCardLimitException();
             }
+
+            creditCardTransaction.setCreditCard(creditCard);
 
             CreditCardInvoice creditCardInvoice = creditCardInvoiceService.findByDateIfNotExistCreate(creditCard);
 
@@ -70,11 +77,17 @@ public class CreditCardTransactionService {
             installments.setDescription(String.format("%s, %d/%d", transaction.getDescription(), transaction.getInstallments(), index));
             installments.setDueDate(DateCreditCardUtils.generateDueDate(transaction.getCreditCard(), index));
             installments.setInstallment(index);
+            installments.setTransaction(transaction);
             if (index == 1) {
                 installments.setCreditCardInvoiceId(creditCardInvoice.getId());
             }
 
             transaction.getListOfInstallment().add(installments);
         }
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public Page<CreditCardTransaction> findByFilter(CreditCardTransactionPageParam pageParam) throws BaseException {
+        return repositoryJPA.findAll(pageParam.getSpecification(), pageParam.getPageable());
     }
 }

@@ -93,7 +93,9 @@ public class CreditCardService {
                 newLimitAvailable = newLimitAvailable + amount;
             }
 
-            repository.updateCreditCardAvailableLimit(newLimitAvailable, creditCard.getId());
+            creditCard.setAvailableLimit(newLimitAvailable);
+
+            repository.update(creditCard);
         } catch (BaseException e) {
             throw e;
         } catch (Exception e) {

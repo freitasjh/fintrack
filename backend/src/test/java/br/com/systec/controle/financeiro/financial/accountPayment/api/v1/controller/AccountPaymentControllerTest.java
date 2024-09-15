@@ -7,7 +7,10 @@ import br.com.systec.controle.financeiro.financial.accountPayment.fake.AccountPa
 import br.com.systec.controle.financeiro.financial.accountPayment.model.AccountPayment;
 import br.com.systec.controle.financeiro.financial.accountPayment.repository.AccountPaymentRepository;
 import br.com.systec.controle.financeiro.financial.accountPayment.service.AccountPaymentService;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -37,9 +40,12 @@ public class AccountPaymentControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+
     @Test
     @WithMockUser
     void whenSaveNewAccountPayment() throws Exception {
+        TenantContext.add(1L);
+
         AccountPaymentInputDTO accountPaymentInputDTOToSave = AccountPaymentFake.toInputDTO();
         accountPaymentInputDTOToSave.setId(null);
 
