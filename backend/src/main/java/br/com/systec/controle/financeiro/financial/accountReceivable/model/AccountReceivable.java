@@ -9,4 +9,8 @@ import jakarta.persistence.Entity;
 @DiscriminatorValue("0")
 public class AccountReceivable extends Transaction {
 
+    @Override
+    public TransactionType getTransactionType() {
+        return TransactionType.INCOMING;
+    }
 }

@@ -45,11 +45,9 @@ public class AccountReceivableService {
             if(accountReceivable.getTenantId() == null){
                 accountReceivable.setTenantId(TenantContext.getTenant());
             }
-
             AccountReceivable accountReceivableSaved = repository.save(accountReceivable);
 
             updateBalanceAccountBank(accountReceivableSaved);
-//            convertAndSendJms(accountReceivable);
 
             return accountReceivableSaved;
         } catch (BaseException e) {

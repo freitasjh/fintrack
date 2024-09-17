@@ -3,7 +3,8 @@
     "description": "Conta padrão",
     "agency": "",
     "account": "",
-    "balance": 1000,
+    "balance": 0.0,
+    "initialValue": 0.0,
     "bank": {
       "id" : 1
     },

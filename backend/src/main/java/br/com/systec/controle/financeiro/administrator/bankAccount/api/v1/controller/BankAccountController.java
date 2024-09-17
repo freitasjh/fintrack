@@ -52,7 +52,6 @@ public class BankAccountController extends AbstractController {
     @Autowired
     private BankAccountConverter converter;
 
-
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @Operation(description = "Cadastra novas contas")
     @ApiResponses(value = {
@@ -81,7 +80,6 @@ public class BankAccountController extends AbstractController {
             throw new BaseException("Ocorreu um erro ao tentar salvar a conta", e);
         }
     }
-
 
     @PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(description = "Atualiza as contas cadastradas")

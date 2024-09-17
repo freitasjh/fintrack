@@ -6,9 +6,9 @@ public class BankFake {
 
     public static Bank toFake() {
         Bank bank = new Bank();
-        bank.setId(1L);
+        bank.setId(79L);
         bank.setName("Itau");
-        bank.setCode(288);
+        bank.setCode(341);
         bank.setWebsite("www.itau.com.br");
 
         return bank;

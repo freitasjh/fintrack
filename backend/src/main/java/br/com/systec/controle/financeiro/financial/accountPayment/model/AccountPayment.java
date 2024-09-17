@@ -1,5 +1,6 @@
 package br.com.systec.controle.financeiro.financial.accountPayment.model;
 
+import br.com.systec.controle.financeiro.financial.transaction.enums.TransactionType;
 import br.com.systec.controle.financeiro.financial.transaction.model.Transaction;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
@@ -20,5 +21,10 @@ public class AccountPayment extends Transaction {
 
     public void setPaymentDueDate(Date paymentDueDate) {
         this.paymentDueDate = paymentDueDate;
+    }
+
+    @Override
+    public TransactionType getTransactionType() {
+        return TransactionType.EXPENSE;
     }
 }
