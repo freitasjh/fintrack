@@ -29,6 +29,7 @@ public class BankAccountNewJms {
     @RabbitListener(queues = RabbitMQConfig.BANK_ACCOUNT_NEW)
     public void saveNewAccountReceivableForNewBankAccount(BankAccountJmsVO bankAccountJmsVO) {
         try {
+            log.info("@@@@@ salvando o valor inicial da conta");
             TenantContext.add(bankAccountJmsVO.getTenantId());
 
             AccountReceivable receive = new AccountReceivable();
@@ -41,7 +42,10 @@ public class BankAccountNewJms {
             receive.setTenantId(bankAccountJmsVO.getTenantId());
             receive.setCategoryTransactionType(CategoryTransactionType.INITIAL_AMOUNT);
 
-            receivableService.save(receive);
+            log.info("Salvando");
+
+            AccountReceivable saved = receivableService.save(receive);
+            log.info("@@@@ Salvo {}", saved.getId());
         } catch (Exception e) {
             log.error("Ocorreu um erro ao tentar salvar o valor inicial do banco no recebido", e);
         }

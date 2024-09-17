@@ -5,15 +5,20 @@ import br.com.systec.controle.financeiro.JsonUtil;
 import br.com.systec.controle.financeiro.administrator.bankAccount.api.v1.dto.BankAccountInputDTO;
 import br.com.systec.controle.financeiro.commons.TenantContext;
 import br.com.systec.controle.financeiro.fake.BankAccountFake;
+import br.com.systec.controle.financeiro.financial.accountReceivable.api.v1.dto.AccountReceivableDTO;
 import br.com.systec.controle.financeiro.financial.accountReceivable.filter.AccountReceivableFilterVO;
 import br.com.systec.controle.financeiro.financial.accountReceivable.model.AccountReceivable;
 import br.com.systec.controle.financeiro.financial.accountReceivable.service.AccountReceivableService;
+import br.com.systec.controle.financeiro.integration.RabbitMQContainerIT;
+import br.com.systec.controle.financeiro.integration.util.EndpointsContastsV1Test;
+import br.com.systec.controle.financeiro.integration.util.UserUtil;
 import org.assertj.core.api.Assertions;
 import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,87 +30,88 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-@SpringBootTest
-@ActiveProfiles("integration")
 @AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class BankAccountControllerIT extends AbstractIT {
-    private static Logger log = LoggerFactory.getLogger(BankAccountControllerIT.class);
-    private static final String ENDPOINT = "/v1/bank-accounts";
+    private static final Logger log = LoggerFactory.getLogger(BankAccountControllerIT.class);
     private static Long bankAccountId;
     @Autowired
     private MockMvc mockMvc;
     @Autowired
     private AccountReceivableService accountReceivableService;
 
-    @BeforeAll
-    static void init(){
-        TenantContext.add(1L);
-    }
-
     @Test
-    @WithMockUser
     @Order(1)
-    @Ignore
-    void whenSaveNewBankAccount() throws Exception {
-        log.info("@@@@@@@ Salvando nova conta bancaria @@@@@@@");
-        BankAccountInputDTO bankAccountInputDTO = BankAccountFake.fakeInputDTO();
-        bankAccountInputDTO.setId(null);
-        bankAccountInputDTO.setBankId(1L);
-        bankAccountInputDTO.setInitialValue(1000.0);
+    void whenSaveNewBakAccount() throws Exception {
+        log.info("@@@@@@@ Salvando nova conta bancaria");
+        BankAccountInputDTO bankAccountToSave = BankAccountFake.fakeInputDTO();
+        bankAccountToSave.setId(null);
+        bankAccountToSave.setInitialValue(1000.0);
 
-        String contentJson = JsonUtil.converteObjetoParaString(bankAccountInputDTO);
-
-        mockMvc.perform(MockMvcRequestBuilders.post(ENDPOINT)
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(contentJson))
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(EndpointsContastsV1Test.BANK_ACCOUNT)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .header("Authorization", "Bearer "+ UserUtil.tokenAccess)
+                        .content(JsonUtil.converteObjetoParaString(bankAccountToSave)))
                 .andExpect(MockMvcResultMatchers.status().is(201))
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
 
-        AccountReceivableFilterVO filterAccountReceivable = new AccountReceivableFilterVO();
-        filterAccountReceivable.setAccountId(1L);
+        BankAccountInputDTO bankAccountSaved = (BankAccountInputDTO) JsonUtil.convertStringToObject(result.getResponse().getContentAsString(), BankAccountInputDTO.class);
+        bankAccountId = bankAccountSaved.getId();
 
-        log.info("@@@@@@@ Verificando se foi cadastrado a receita de valor inicial da nova conta bancaria");
-        Thread.sleep(2000);
-        Page<AccountReceivable> pageAccountReceivable = accountReceivableService.findByFilter(filterAccountReceivable);
-
-        Assertions.assertThat(pageAccountReceivable).isNotNull();
-        Assertions.assertThat(pageAccountReceivable.getSize()).isNotZero();
-        Assertions.assertThat(pageAccountReceivable.getContent()).isNotEmpty();
-        Assertions.assertThat(pageAccountReceivable.getContent().get(0).getAmount()).isEqualTo(bankAccountInputDTO.getInitialValue());
-
-        log.info("@@@@@@@@ Valor inicial da conta bancaria {}", pageAccountReceivable.getContent().get(0).getAmount());
+        Assertions.assertThat(bankAccountSaved).isNotNull();
+        Assertions.assertThat(bankAccountSaved.getId()).isNotNull();
+        Assertions.assertThat(bankAccountSaved.getDescription()).isEqualTo(bankAccountToSave.getDescription());
+        Assertions.assertThat(bankAccountSaved.getBankId()).isEqualTo(bankAccountToSave.getBankId());
+        Thread.sleep(5000);
     }
 
     @Test
-    @WithMockUser
     @Order(2)
-    @Ignore
-    void whenFindBankAccountId() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get(ENDPOINT+"/1")
-                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+    void validateIfNewBankAccountRegisterAmountInitial() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(EndpointsContastsV1Test.RECEIVER+"/filter?accountId="+bankAccountId)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .header("Authorization", "Bearer "+ UserUtil.tokenAccess))
                 .andExpect(MockMvcResultMatchers.status().is(200))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.content").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.content.[0].amount").value(1000.0))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.page.totalElements").value(1))
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
     }
 
     @Test
-    @WithMockUser
     @Order(3)
-    @Ignore
-    void whenFindBankAccountIdAndObjectNotFound() throws Exception {
+    void whenFindBankAccountById() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(EndpointsContastsV1Test.BANK_ACCOUNT+"/"+bankAccountId)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .header("Authorization", "Bearer "+ UserUtil.tokenAccess))
+                .andExpect(MockMvcResultMatchers.status().is(200))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(bankAccountId))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.balance").value(1000.0))
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
 
-        mockMvc.perform(MockMvcRequestBuilders.get(ENDPOINT+"/2")
-                        .contentType(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(MockMvcResultMatchers.status().is(500))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.msg")
-                        .value("Conta bancaria não encotrada"))
+    @Test
+    @Order(4)
+    void whenFindBankAccountByFilter() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get(EndpointsContastsV1Test.BANK_ACCOUNT+"/filter")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .header("Authorization", "Bearer "+ UserUtil.tokenAccess))
+                .andExpect(MockMvcResultMatchers.status().is(200))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.content").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.page.totalElements").value(2))
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
     }

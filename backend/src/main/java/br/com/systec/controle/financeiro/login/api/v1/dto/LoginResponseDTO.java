@@ -6,11 +6,14 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class LoginResponseDTO {
 
-    private final String token;
-    private final String type;
+    private String token;
+    private String type;
     private String profile;
     private Long userId;
     private Long tenantId;
+
+    public LoginResponseDTO() {
+    }
 
     public LoginResponseDTO(String token, String type) {
         this.token = token;

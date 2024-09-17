@@ -7,6 +7,7 @@ import br.com.systec.controle.financeiro.administrator.bankAccount.model.BankAcc
 import br.com.systec.controle.financeiro.administrator.bankAccount.repository.BankAccountRepository;
 import br.com.systec.controle.financeiro.administrator.bankAccount.repository.BankAccountRepositoryJPA;
 import br.com.systec.controle.financeiro.commons.TenantContext;
+import br.com.systec.controle.financeiro.commons.exception.BaseException;
 import br.com.systec.controle.financeiro.commons.exception.ObjectNotFoundException;
 import br.com.systec.controle.financeiro.config.I18nTranslate;
 import br.com.systec.controle.financeiro.config.RabbitMQConfig;
@@ -16,6 +17,8 @@ import br.com.systec.controle.financeiro.financial.accountReceivable.service.Acc
 import br.com.systec.controle.financeiro.financial.transaction.enums.CategoryTransactionType;
 import br.com.systec.controle.financeiro.financial.transaction.enums.TransactionType;
 import br.com.systec.controle.financeiro.financial.transaction.model.Transaction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,7 +31,7 @@ import java.util.Date;
 
 @Service
 public class BankAccountService {
-
+    private static final Logger log = LoggerFactory.getLogger(BankAccountService.class);
     @Autowired
     private BankAccountRepository repository;
     @Autowired
@@ -53,10 +56,11 @@ public class BankAccountService {
 
     private void saveAmountInitialAccount(BankAccount bankAccount) {
         try {
-            BankAccountJmsVO bankAccountJmsVO = new BankAccountJmsVO(bankAccount.getId(), bankAccount.getTenantId(), bankAccount.getInitialValue());
+            BankAccountJmsVO bankAccountJmsVO = new BankAccountJmsVO(TenantContext.getTenant(), bankAccount.getId(), bankAccount.getInitialValue());
 
             rabbitTemplate.convertAndSend(RabbitMQConfig.FINANCIAL_EXCHANGE, RabbitMQConfig.ROUTING_KEY_NEW_BANK_ACCOUNT, bankAccountJmsVO);
         } catch (Exception e) {
+            log.error("Ocorreu um erro ao tentar enviar a mensagem para salvar o valor inicial", e);
             throw new AccountReceivableException(I18nTranslate.toLocale("error.save.account.opening.balance"));
         }
     }
@@ -93,31 +97,41 @@ public class BankAccountService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public void updateBankAccountBalance(Double amount, Long bankAccountId, TransactionType transactionType) {
-        BankAccount bankAccount = findById(bankAccountId);
-        double balanceOld = bankAccount.getBalance();
-        double balanceNew;
+    public void updateBankAccountBalance(Double amount, Long bankAccountId, TransactionType transactionType) throws BaseException {
+        try {
+            BankAccount bankAccount = findById(bankAccountId);
+            double balanceOld = bankAccount.getBalance();
+            double balanceNew;
 
-        if (transactionType == TransactionType.INCOMING) {
-            balanceNew = balanceOld + amount;
-        } else {
-            balanceNew = balanceOld - amount;
+            if (transactionType == TransactionType.INCOMING) {
+                balanceNew = balanceOld + amount;
+            } else {
+                balanceNew = balanceOld - amount;
+            }
+
+            repository.saveNewBalance(bankAccountId, balanceNew);
+        }catch (Exception e){
+            log.error("Ocorreu um erro ao tentar salvar o balanco da conta", e);
+            throw new BaseException("Ocorreu um erro ao tentar salvar o balanco da conta",e);
         }
-
-        repository.saveNewBalance(bankAccountId, balanceNew);
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public void updateBankAccountBalance(Transaction transaction) {
-        BankAccount bankAccount = findById(transaction.getBankAccount().getId());
-        double balanceOld = bankAccount.getBalance();
-        double balanceNew;
-        if (transaction.getTransactionType() == TransactionType.INCOMING) {
-            balanceNew = balanceOld + transaction.getAmount();
-        } else {
-            balanceNew = balanceOld - transaction.getAmount();
-        }
+    public void updateBankAccountBalance(Transaction transaction) throws BaseException {
+        try {
+            BankAccount bankAccount = findById(transaction.getBankAccount().getId());
+            double balanceOld = bankAccount.getBalance();
+            double balanceNew;
+            if (transaction.getTransactionType() == TransactionType.INCOMING) {
+                balanceNew = balanceOld + transaction.getAmount();
+            } else {
+                balanceNew = balanceOld - transaction.getAmount();
+            }
 
-        repository.saveNewBalance(bankAccount.getId(), balanceNew);
+            repository.saveNewBalance(bankAccount.getId(), balanceNew);
+        }catch (Exception e) {
+            log.error("Ocorreu um erro ao tentar salvar o balanco da conta", e);
+            throw new BaseException("Ocorreu um erro ao tentar salvar o balanco da conta",e);
+        }
     }
 }
