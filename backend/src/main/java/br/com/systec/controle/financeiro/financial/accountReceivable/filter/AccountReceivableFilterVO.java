@@ -10,6 +10,7 @@ public class AccountReceivableFilterVO extends PageParamSearchVO<AccountReceivab
     private Long dateReceiver;
 
     public AccountReceivableFilterVO() {
+        super(30,0, null);
     }
 
     public AccountReceivableFilterVO(int limit, int page, String filter) {

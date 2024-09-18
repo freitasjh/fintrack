@@ -3,6 +3,7 @@ package br.com.systec.controle.financeiro.financial.accountReceivable.fake;
 import br.com.systec.controle.financeiro.administrator.bankAccount.model.BankAccount;
 import br.com.systec.controle.financeiro.fake.BankAccountFake;
 import br.com.systec.controle.financeiro.financial.accountReceivable.api.v1.dto.AccountReceivableDTO;
+import br.com.systec.controle.financeiro.financial.accountReceivable.api.v1.dto.AccountReceivableInputDTO;
 import br.com.systec.controle.financeiro.financial.accountReceivable.model.AccountReceivable;
 
 import java.util.Date;
@@ -15,6 +16,18 @@ public class AccountReceivableFake {
         accountReceivable.setDescription("Cadastro de nova conta");
         accountReceivable.setAmount(1000.0);
         accountReceivable.setTenantId(1L);
+        accountReceivable.setDateRegister(new Date());
+        accountReceivable.setDateProcessed(new Date());
+        accountReceivable.setProcessed(true);
+
+        return accountReceivable;
+    }
+
+    public static AccountReceivableInputDTO toInputDTO() {
+        AccountReceivableInputDTO accountReceivable = new AccountReceivableInputDTO();
+        accountReceivable.setBankAccountId(BankAccountFake.fake().getId());
+        accountReceivable.setDescription("Cadastro de nova conta");
+        accountReceivable.setAmount(1000.0);
         accountReceivable.setDateRegister(new Date());
         accountReceivable.setDateProcessed(new Date());
         accountReceivable.setProcessed(true);

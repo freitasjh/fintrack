@@ -42,9 +42,6 @@ public class AccountReceivableService {
     @Transactional(propagation = Propagation.REQUIRED)
     public AccountReceivable save(AccountReceivable accountReceivable) throws AccountReceivableException {
         try{
-            if(accountReceivable.getTenantId() == null){
-                accountReceivable.setTenantId(TenantContext.getTenant());
-            }
             AccountReceivable accountReceivableSaved = repository.save(accountReceivable);
 
             updateBalanceAccountBank(accountReceivableSaved);
@@ -56,12 +53,6 @@ public class AccountReceivableService {
             log.error("Ocorreu um erro ao tentar salvar o recebimento", e);
             throw new AccountReceivableException("Ocorreu um erro ao tentar salvar o recebimento", e);
         }
-    }
-
-    @Transactional(propagation = Propagation.REQUIRED)
-    public AccountReceivable update(AccountReceivable accountReceivable) {
-
-        return null;
     }
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
@@ -81,20 +72,20 @@ public class AccountReceivableService {
         return repository.findById(id).orElseThrow(AccountReceivableNotFoundException::new);
     }
 
-    @Transactional(propagation = Propagation.REQUIRED)
-    public void delete(Long id) {
-        repository.deleteById(id);
-    }
+//    @Transactional(propagation = Propagation.REQUIRED)
+//    public void delete(Long id) {
+//        repository.deleteById(id);
+//    }
 
     private void updateBalanceAccountBank(AccountReceivable accountReceivable) {
         bankAccountService.updateBankAccountBalance(accountReceivable);
     }
 
     //TODO vai ficar aqui ate resolver se vai ser por messageria ou vai ser por transação
-    private void convertAndSendJms(AccountReceivable accountReceivable) {
-        BankAccountJms bankAccountJms = new BankAccountJms(accountReceivable.getTenantId(),
-                accountReceivable.getBankAccount().getId(), accountReceivable.getAmount(), TransactionType.INCOMING);
-
-        //template.convertAndSend(RabbitMQConfig.FINANCIAL_EXCHANGE, RabbitMQConfig.ROUTING_KEY_NEW_BALANCE_ACCOUNT, bankAccountJms);
-    }
+//    private void convertAndSendJms(AccountReceivable accountReceivable) {
+//        BankAccountJms bankAccountJms = new BankAccountJms(accountReceivable.getTenantId(),
+//                accountReceivable.getBankAccount().getId(), accountReceivable.getAmount(), TransactionType.INCOMING);
+//
+//        //template.convertAndSend(RabbitMQConfig.FINANCIAL_EXCHANGE, RabbitMQConfig.ROUTING_KEY_NEW_BALANCE_ACCOUNT, bankAccountJms);
+//    }
 }

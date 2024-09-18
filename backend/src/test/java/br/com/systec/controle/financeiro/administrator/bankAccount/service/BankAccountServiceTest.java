@@ -4,10 +4,12 @@ import br.com.systec.controle.financeiro.administrator.bankAccount.filter.BankAc
 import br.com.systec.controle.financeiro.administrator.bankAccount.model.BankAccount;
 import br.com.systec.controle.financeiro.administrator.bankAccount.repository.BankAccountRepository;
 import br.com.systec.controle.financeiro.administrator.bankAccount.repository.BankAccountRepositoryJPA;
+import br.com.systec.controle.financeiro.commons.TenantContext;
 import br.com.systec.controle.financeiro.fake.BankAccountFake;
 import br.com.systec.controle.financeiro.financial.accountReceivable.service.AccountReceivableService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -18,11 +20,14 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.event.annotation.AfterTestClass;
+import org.springframework.test.context.event.annotation.BeforeTestClass;
 
 import java.util.List;
 
 @SpringBootTest
 @ActiveProfiles("test")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class BankAccountServiceTest {
 
     @Mock
@@ -36,6 +41,7 @@ public class BankAccountServiceTest {
 
     @Test
     void whenSaveNewAccountTest() {
+        TenantContext.add(1L);
         BankAccount bankAccountToReturn = BankAccountFake.fake();
         bankAccountToReturn.setInitialValue(1000.0);
         BankAccount bankAccountToSave = BankAccountFake.fake();
@@ -56,6 +62,7 @@ public class BankAccountServiceTest {
 
     @Test
     void whenFindAndReturnPage() {
+        TenantContext.add(1L);
         BankAccount bankAccount = BankAccountFake.fake();
         Page<BankAccount> pageBankAccount = new PageImpl<>(List.of(bankAccount));
         BankAccountFilterVO filterVO = new BankAccountFilterVO(30, 0, "");

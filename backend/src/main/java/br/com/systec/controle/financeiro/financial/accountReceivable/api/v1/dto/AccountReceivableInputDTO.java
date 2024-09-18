@@ -1,15 +1,19 @@
 package br.com.systec.controle.financeiro.financial.accountReceivable.api.v1.dto;
 
+import jakarta.validation.constraints.NotNull;
+
 import java.util.Date;
 
 public class AccountReceivableInputDTO {
 
     private Long id;
+    @NotNull(message = "Informe uma descrição")
     private String description;
     private double amount;
     private boolean processed;
     private Date dateRegister;
     private Date dateProcessed;
+    @NotNull(message = "Infome a conta bancaria")
     private Long bankAccountId;
 
     public Long getId() {

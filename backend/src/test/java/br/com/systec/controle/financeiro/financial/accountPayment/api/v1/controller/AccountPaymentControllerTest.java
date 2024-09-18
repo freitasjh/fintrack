@@ -13,6 +13,7 @@ import org.junit.BeforeClass;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
@@ -33,13 +34,13 @@ import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingExcept
 @SpringBootTest
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class AccountPaymentControllerTest {
     private static final String ENDPOINT = "/v1/payment";
     @SpyBean
     private AccountPaymentService service;
     @Autowired
     private MockMvc mockMvc;
-
 
     @Test
     @WithMockUser

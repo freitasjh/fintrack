@@ -60,7 +60,7 @@ public class CreditCardService {
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public List<CreditCard> findAll() {
-        return StreamSupport.stream(repository.findAll().spliterator(), false).toList();
+        return StreamSupport.stream(repository.findAllByTenantId().spliterator(), false).toList();
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)

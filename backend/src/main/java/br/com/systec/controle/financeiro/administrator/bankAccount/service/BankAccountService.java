@@ -1,6 +1,6 @@
 package br.com.systec.controle.financeiro.administrator.bankAccount.service;
 
-import br.com.systec.controle.financeiro.administrator.bankAccount.exceptions.BankAccountNotFound;
+import br.com.systec.controle.financeiro.administrator.bankAccount.exceptions.BankAccountNotFoundException;
 import br.com.systec.controle.financeiro.administrator.bankAccount.filter.BankAccountFilterVO;
 import br.com.systec.controle.financeiro.administrator.bankAccount.jms.BankAccountJmsVO;
 import br.com.systec.controle.financeiro.administrator.bankAccount.model.BankAccount;
@@ -8,13 +8,9 @@ import br.com.systec.controle.financeiro.administrator.bankAccount.repository.Ba
 import br.com.systec.controle.financeiro.administrator.bankAccount.repository.BankAccountRepositoryJPA;
 import br.com.systec.controle.financeiro.commons.TenantContext;
 import br.com.systec.controle.financeiro.commons.exception.BaseException;
-import br.com.systec.controle.financeiro.commons.exception.ObjectNotFoundException;
 import br.com.systec.controle.financeiro.config.I18nTranslate;
 import br.com.systec.controle.financeiro.config.RabbitMQConfig;
 import br.com.systec.controle.financeiro.financial.accountReceivable.exceptions.AccountReceivableException;
-import br.com.systec.controle.financeiro.financial.accountReceivable.model.AccountReceivable;
-import br.com.systec.controle.financeiro.financial.accountReceivable.service.AccountReceivableService;
-import br.com.systec.controle.financeiro.financial.transaction.enums.CategoryTransactionType;
 import br.com.systec.controle.financeiro.financial.transaction.enums.TransactionType;
 import br.com.systec.controle.financeiro.financial.transaction.model.Transaction;
 import org.slf4j.Logger;
@@ -25,9 +21,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
-import java.util.Date;
 
 @Service
 public class BankAccountService {
@@ -81,7 +74,7 @@ public class BankAccountService {
 
     private BankAccount findAccountById(Long id) {
         return repository.findById(id)
-                .orElseThrow(BankAccountNotFound::new);
+                .orElseThrow(BankAccountNotFoundException::new);
     }
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
