@@ -45,6 +45,8 @@ public class SecurityConfiguration {
                         new AntPathRequestMatcher("/configuration/**"),
                         new AntPathRequestMatcher("/swagger-resources/**"),
                         new AntPathRequestMatcher("/swagger-ui/**"),
+                        new AntPathRequestMatcher("/actuator/**"),
+                        new AntPathRequestMatcher("/manage/**"),
                         new AntPathRequestMatcher("/notification/**")).permitAll()
                 .anyRequest().authenticated()
                 .and().addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class).build();
