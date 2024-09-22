@@ -10,13 +10,13 @@
         <relativePath/>
     </parent>
 
-    <groupId>br.com.systec.controle.financeiro</groupId>
-    <artifactId>dependencies</artifactId>
+    <groupId>br.com.systec.fintrack</groupId>
+    <artifactId>fintrack-dependencies</artifactId>
     <version>${revision}</version>
     <packaging>pom</packaging>
 
-    <name>Controle Financeiro - Dependencias</name>
-    <description>Controle Financeiro - Dependencias</description>
+    <name>FinTrack - Dependencias</name>
+    <description>FinTrack - Dependencias</description>
 
     <properties>
         <java.version>17</java.version>
@@ -182,26 +182,26 @@
 
             <!-- Pacotes do projeto -->
             <dependency>
-                <groupId>br.com.systec.controle.financeiro</groupId>
-                <artifactId>controle-financeiro-commons</artifactId>
+                <groupId>br.com.systec.fintrack</groupId>
+                <artifactId>fintrack-commons</artifactId>
                 <version>${revision}</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
-                <groupId>br.com.systec.controle.financeiro</groupId>
-                <artifactId>controle-financeiro-I18n</artifactId>
+                <groupId>br.com.systec.fintrack</groupId>
+                <artifactId>fintrack-i18n</artifactId>
                 <version>${revision}</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
-                <groupId>br.com.systec.controle.financeiro</groupId>
-                <artifactId>controle-financeiro-dbupdate</artifactId>
+                <groupId>br.com.systec.fintrack</groupId>
+                <artifactId>fintrack-dbupdate</artifactId>
                 <version>${revision}</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
-                <groupId>br.com.systec.controle.financeiro</groupId>
-                <artifactId>controle-financeiro-rabbitmq</artifactId>
+                <groupId>br.com.systec.fintrack</groupId>
+                <artifactId>fintrack-rabbitmq</artifactId>
                 <version>${revision}</version>
                 <scope>provided</scope>
             </dependency>

@@ -3,23 +3,23 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>br.com.systec.controle.financeiro</groupId>
-		<artifactId>dependencies</artifactId>
+		<groupId>br.com.systec.fintrack</groupId>
+		<artifactId>fintrack-dependencies</artifactId>
 		<version>${revision}</version>
 		<relativePath>dependencies/pom.xml</relativePath>
 	</parent>
 
-	<artifactId>controle-financeiro</artifactId>
+	<artifactId>fintrack</artifactId>
 	<packaging>pom</packaging>
-	<name>Controle Financeiro</name>
-	<description>Controle financeiro pessoal</description>
+	<name>FinTrack Controle Financeiro</name>
+	<description>FinTrack Controle financeiro pessoal</description>
 
 	<modules>
 		<module>dependencies</module>
-		<module>controle-financeiro-commons</module>
-		<module>controle-financeiro-I18n</module>
-		<module>controle-financeiro-dbupdate</module>
-		<module>controle-financeiro-app</module>
-		<module>controle-financeiro-rabbitmq</module>
-	</modules>
+		<module>commons</module>
+		<module>I18n</module>
+		<module>dbupdate</module>
+		<module>app</module>
+		<module>rabbitmq</module>
+    </modules>
 </project>
