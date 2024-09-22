@@ -1,0 +1,85 @@
+package br.com.systec.controle.financeiro.financial.accountPayment.api.v1.controller;
+
+import br.com.systec.controle.financeiro.JsonUtil;
+import br.com.systec.controle.financeiro.commons.TenantContext;
+import br.com.systec.controle.financeiro.financial.accountPayment.api.v1.dto.AccountPaymentInputDTO;
+import br.com.systec.controle.financeiro.financial.accountPayment.fake.AccountPaymentFake;
+import br.com.systec.controle.financeiro.financial.accountPayment.model.AccountPayment;
+import br.com.systec.controle.financeiro.financial.accountPayment.service.AccountPaymentService;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+@SpringBootTest
+@ActiveProfiles("test")
+@AutoConfigureMockMvc
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+public class AccountPaymentControllerTest {
+    private static final String ENDPOINT = "/v1/payment";
+    @SpyBean
+    private AccountPaymentService service;
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Test
+    @WithMockUser
+    void whenSaveNewAccountPayment() throws Exception {
+        TenantContext.add(1L);
+
+        AccountPaymentInputDTO accountPaymentInputDTOToSave = AccountPaymentFake.toInputDTO();
+        accountPaymentInputDTOToSave.setId(null);
+
+        AccountPayment accountPaymentToSave = AccountPaymentFake.toFake();
+        accountPaymentToSave.setId(null);
+
+        AccountPayment accountPaymentReturn = AccountPaymentFake.toFake();
+
+        Mockito.doReturn(accountPaymentReturn).when(service)
+                .save(Mockito.any(AccountPayment.class));
+
+        mockMvc.perform(MockMvcRequestBuilders.post(ENDPOINT)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(JsonUtil.converteObjetoParaString(accountPaymentInputDTOToSave)))
+                .andExpect(MockMvcResultMatchers.status().is(201))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").isNotEmpty())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+
+        Mockito.verify(service).save(Mockito.any(AccountPayment.class));
+    }
+
+    @Test
+    @WithMockUser
+    void whenSaveNewAccountPaymentAndDateProcessedAndPaymentDueDateNullValidationException() throws Exception {
+        TenantContext.add(1L);
+        AccountPaymentInputDTO accountPaymentInputDTOToSave = AccountPaymentFake.toInputDTO();
+        accountPaymentInputDTOToSave.setId(null);
+        accountPaymentInputDTOToSave.setPaymentDueDate(null);
+        accountPaymentInputDTOToSave.setDateProcessed(null);
+
+        AccountPayment accountPaymentToSave = AccountPaymentFake.toFake();
+        accountPaymentToSave.setId(null);
+
+
+        mockMvc.perform(MockMvcRequestBuilders.post(ENDPOINT)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(JsonUtil.converteObjetoParaString(accountPaymentInputDTOToSave)))
+                .andExpect(MockMvcResultMatchers.status().is(500))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.msg").value("Informe a data de pagamento ou a data de vencimento"))
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+
+        Mockito.verify(service).save(Mockito.any(AccountPayment.class));
+    }
+}
