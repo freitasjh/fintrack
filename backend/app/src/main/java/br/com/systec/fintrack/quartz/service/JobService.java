@@ -37,21 +37,29 @@ public class JobService {
     public void save(JobVO jobVO) throws Exception {
         Class jobClass = Class.forName(jobVO.getClassName());
 
-        JobDetail jobDetail = JobBuilder.newJob(jobClass)
-                .withIdentity(jobVO.getName(), jobVO.getName())
-                .usingJobData("tenantId", jobVO.getTenantId())
-                .build();
+        JobBuilder jobDetail = JobBuilder.newJob(jobClass)
+                .withIdentity(jobVO.getName(), jobVO.getGroup());
+
+        if (jobVO.getJobDataMap() == null) {
+            jobDetail.usingJobData("tenantId", jobVO.getTenantId());
+        } else {
+            jobDetail.setJobData(jobVO.getJobDataMap());
+        }
 
         Trigger trigger = TriggerBuilder.newTrigger()
                 .withIdentity(jobVO.getName() + "Trigger", jobVO.getGroup())
                 .withSchedule(CronScheduleBuilder.cronSchedule(jobVO.getCron()))
                 .build();
 
-        scheduler.scheduleJob(jobDetail, trigger);
+        scheduler.scheduleJob(jobDetail.build(), trigger);
+
     }
 
     public void deleteJob(String jobName, String groupName) throws SchedulerException {
         JobKey jobKey = new JobKey(jobName, groupName);
-        scheduler.deleteJob(jobKey);
+
+        if(scheduler.checkExists(jobKey)) {
+            scheduler.deleteJob(jobKey);
+        }
     }
 }

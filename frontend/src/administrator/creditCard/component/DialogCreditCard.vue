@@ -55,6 +55,7 @@ const save = async () => {
         await store.dispatch("creditCardStore/save", creditCard.value);
         handlerToastSuccess("Salvo com sucesso")
         dialogVisible.value = false
+        eventBus.emit("refresh-credit-card-cad");
     } catch (error) {
         handlerError(error)
     } finally {

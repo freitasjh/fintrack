@@ -7,6 +7,7 @@ import { useHandlerMessage, useLoader } from "../../../composables/commons";
 import DialogCreditCard from "../component/DialogCreditCard.vue";
 import { eventBus } from "@/config/eventBus";
 import CreditCardFilter from "../model/creditCardFilter";
+import { onUnmounted } from "vue";
 
 const { t } = useI18n();
 const { showLoading, hideLoading } = useLoader();
@@ -24,6 +25,18 @@ const home = ref({
 const openDialogCad = async () => {
     await eventBus.emit("open-dialog-credit-card");
 };
+
+onMounted(() => {
+    eventBus.on("refresh-credit-card-cad", async () => {
+        await findCreditCard();
+    });
+});
+
+onUnmounted(() => {
+    eventBus.off("refresh-credit-card-cad");
+});
+
+
 onBeforeMount(async () => {
     await findCreditCard();
 })

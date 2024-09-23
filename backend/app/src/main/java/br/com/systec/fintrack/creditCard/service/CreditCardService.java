@@ -4,12 +4,17 @@ import br.com.systec.fintrack.commons.TenantContext;
 import br.com.systec.fintrack.commons.exception.BaseException;
 import br.com.systec.fintrack.commons.exception.ObjectNotFoundException;
 import br.com.systec.fintrack.creditCard.filter.CreditCardFilterVO;
+import br.com.systec.fintrack.creditCard.jms.CreditCardJmsType;
+import br.com.systec.fintrack.creditCard.jms.CreditCardJobJmsVO;
 import br.com.systec.fintrack.creditCard.model.CreditCard;
 import br.com.systec.fintrack.creditCard.repository.CreditCardRepository;
 import br.com.systec.fintrack.creditCard.repository.CreditCardRepositoryJPA;
 import br.com.systec.fintrack.financial.creditCard.commons.CreditCardTransactionType;
+import br.com.systec.fintrack.quartz.jms.CreditCardJobJms;
+import br.com.systec.fintrack.rabbitmq.utils.RabbitMQConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -26,6 +31,8 @@ public class CreditCardService {
     private CreditCardRepository repository;
     @Autowired
     private CreditCardRepositoryJPA repositoryJPA;
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     @Transactional(propagation = Propagation.REQUIRED)
     public CreditCard save(CreditCard creditCard) throws  BaseException {
@@ -34,7 +41,11 @@ public class CreditCardService {
                 creditCard.setTenantId(TenantContext.getTenant());
             }
 
-            return repository.save(creditCard);
+            CreditCard creditCardAfterSave = repository.save(creditCard);
+
+            createQueue(creditCardAfterSave);
+
+            return creditCardAfterSave;
         } catch (Exception e) {
             log.error("Ocorreu um erro ao tentar salvar o cartao de credito", e);
             throw new BaseException(e.getMessage(), e);
@@ -108,5 +119,15 @@ public class CreditCardService {
         } catch (Exception e){
             throw new BaseException(e.getMessage(), e);
         }
+    }
+
+    private void createQueue(CreditCard creditCard) {
+        CreditCardJobJmsVO creditCardJobJms = new CreditCardJobJmsVO();
+        creditCardJobJms.setCreditCardId(creditCard.getId());
+        creditCardJobJms.setTenantId(creditCard.getTenantId());
+        creditCardJobJms.setCloseDay(creditCard.getClosingDate());
+        creditCardJobJms.setCreditCardJobType("INSERT");
+
+        rabbitTemplate.convertAndSend(RabbitMQConstants.CREDIT_CARD_JOB, creditCardJobJms);
     }
 }

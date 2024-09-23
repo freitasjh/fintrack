@@ -1,5 +1,7 @@
 package br.com.systec.fintrack.quartz.model;
 
+import org.quartz.JobDataMap;
+
 import java.io.Serializable;
 
 public class JobVO implements Serializable {
@@ -9,6 +11,7 @@ public class JobVO implements Serializable {
     private String className;
     private String cron;
     private Long tenantId;
+    private JobDataMap jobDataMap;
 
     public String getName() {
         return name;
@@ -48,5 +51,13 @@ public class JobVO implements Serializable {
 
     public Long getTenantId() {
         return tenantId;
+    }
+
+    public JobDataMap getJobDataMap() {
+        return jobDataMap;
+    }
+
+    public void setJobDataMap(JobDataMap jobDataMap) {
+        this.jobDataMap = jobDataMap;
     }
 }

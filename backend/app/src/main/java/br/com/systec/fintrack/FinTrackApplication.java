@@ -17,9 +17,9 @@ import static org.springframework.data.web.config.EnableSpringDataWebSupport.Pag
 		, description = "Sistema para controle financeiro pessoal"))
 @SecurityScheme(name = "Authorization", scheme = "bearer",
 		type = SecuritySchemeType.APIKEY, in = SecuritySchemeIn.HEADER)
-public class ControleFinanceiroApplication {
+public class FinTrackApplication {
 	public static void main(String[] args) {
-		SpringApplication.run(ControleFinanceiroApplication.class, args);
+		SpringApplication.run(FinTrackApplication.class, args);
 	}
 
 }
