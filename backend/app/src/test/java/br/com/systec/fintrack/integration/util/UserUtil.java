@@ -1,6 +1,6 @@
 package br.com.systec.fintrack.integration.util;
 
-import br.com.systec.fintrack.administrator.user.v1.dto.UserInputDTO;
+import br.com.systec.fintrack.user.v1.dto.UserInputDTO;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

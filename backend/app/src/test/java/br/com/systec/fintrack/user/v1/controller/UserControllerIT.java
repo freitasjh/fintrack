@@ -2,10 +2,10 @@ package br.com.systec.fintrack.user.v1.controller;
 
 import br.com.systec.fintrack.AbstractIT;
 import br.com.systec.fintrack.JsonUtil;
-import br.com.systec.fintrack.administrator.user.v1.dto.UserInputDTO;
 import br.com.systec.fintrack.commons.RestPath;
 import br.com.systec.fintrack.integration.RabbitMQContainerIT;
 import br.com.systec.fintrack.integration.util.UserUtil;
+import br.com.systec.fintrack.user.v1.dto.UserInputDTO;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;

@@ -205,6 +205,37 @@
                 <version>${revision}</version>
                 <scope>provided</scope>
             </dependency>
+            <dependency>
+                <groupId>br.com.systec.fintrack</groupId>
+                <artifactId>fintrack-administrator-user-api</artifactId>
+                <version>${revision}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>br.com.systec.fintrack</groupId>
+                <artifactId>fintrack-administrator-tenant-api</artifactId>
+                <version>${revision}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>br.com.systec.fintrack</groupId>
+                <artifactId>fintrack-administrator-user-impl</artifactId>
+                <version>${revision}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>br.com.systec.fintrack</groupId>
+                <artifactId>fintrack-administrator-tenant-impl</artifactId>
+                <version>${revision}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>br.com.systec.fintrack</groupId>
+                <artifactId>fintrack-administrator-user-public-api-v1</artifactId>
+                <version>${revision}</version>
+                <scope>provided</scope>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

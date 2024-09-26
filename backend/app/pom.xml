@@ -117,6 +117,31 @@
             <artifactId>fintrack-rabbitmq</artifactId>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>br.com.systec.fintrack</groupId>
+            <artifactId>fintrack-administrator-user-api</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>br.com.systec.fintrack</groupId>
+            <artifactId>fintrack-administrator-tenant-api</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>br.com.systec.fintrack</groupId>
+            <artifactId>fintrack-administrator-user-impl</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>br.com.systec.fintrack</groupId>
+            <artifactId>fintrack-administrator-tenant-impl</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>br.com.systec.fintrack</groupId>
+            <artifactId>fintrack-administrator-user-public-api-v1</artifactId>
+            <scope>compile</scope>
+        </dependency>
 
         <dependency>
             <groupId>com.mysql</groupId>

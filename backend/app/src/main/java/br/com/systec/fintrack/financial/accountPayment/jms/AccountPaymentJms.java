@@ -1,7 +1,5 @@
 package br.com.systec.fintrack.financial.accountPayment.jms;
 
-import br.com.systec.fintrack.administrator.user.model.User;
-import br.com.systec.fintrack.administrator.user.service.UserService;
 import br.com.systec.fintrack.commons.TenantContext;
 import br.com.systec.fintrack.financial.accountPayment.model.AccountPayment;
 import br.com.systec.fintrack.financial.accountPayment.service.AccountPaymentService;
@@ -9,6 +7,8 @@ import br.com.systec.fintrack.notification.enums.NotificationType;
 import br.com.systec.fintrack.notification.model.Notification;
 import br.com.systec.fintrack.notification.service.NotificationService;
 import br.com.systec.fintrack.rabbitmq.utils.RabbitMQConstants;
+import br.com.systec.fintrack.user.model.User;
+import br.com.systec.fintrack.user.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;

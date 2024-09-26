@@ -18,8 +18,8 @@ public class TransactionRepository extends AbstractRepository<Transaction, Long>
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public List<CategoryExpenseVO> findTotalExpenseCategory() {
         StringBuilder sql = new StringBuilder();
-        sql.append(" select new br.com.systec.controle.financeiro.financial.transaction.vo.CategoryExpenseVO(c.description, SUM(t.amount)) ");
-        sql.append(" from br.com.systec.controle.financeiro.financial.transaction.model.Transaction t ");
+        sql.append(" select new br.com.systec.fintrack.financial.transaction.vo.CategoryExpenseVO(c.description, SUM(t.amount)) ");
+        sql.append(" from br.com.systec.fintrack.financial.transaction.model.Transaction t ");
         sql.append(" join Category c on t.category.id = c.id ");
         sql.append(" where t.transactionType = :transactionType and t.tenantId = :tenantId ");
         sql.append(" group by c.description ");

@@ -1,9 +1,9 @@
 package br.com.systec.fintrack.security.service;
 
-import br.com.systec.fintrack.administrator.user.model.User;
 import br.com.systec.fintrack.commons.exception.BaseException;
 import br.com.systec.fintrack.login.api.v1.dto.LoginResponseDTO;
 import br.com.systec.fintrack.security.exceptions.SecurityTokenExpiredException;
+import br.com.systec.fintrack.user.model.User;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;

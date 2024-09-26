@@ -1,11 +1,11 @@
 package br.com.systec.fintrack.notification.service;
 
-import br.com.systec.fintrack.administrator.user.model.User;
-import br.com.systec.fintrack.administrator.user.service.UserService;
 import br.com.systec.fintrack.commons.TenantContext;
 import br.com.systec.fintrack.notification.fake.NotificationFake;
 import br.com.systec.fintrack.notification.model.Notification;
 import br.com.systec.fintrack.notification.repository.NotificationRepository;
+import br.com.systec.fintrack.user.model.User;
+import br.com.systec.fintrack.user.service.UserService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

@@ -1,6 +1,6 @@
 package br.com.systec.fintrack.fake;
 
-import br.com.systec.fintrack.administrator.tenant.model.Tenant;
+import br.com.systec.fintrack.tenant.model.Tenant;
 
 public class TenantFake {
 

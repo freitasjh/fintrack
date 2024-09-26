@@ -46,7 +46,7 @@ public class CreditCardJobJms {
             TenantContext.clear();
         }
     }
-    
+
     private JobVO createJob(CreditCardJobJmsVO creditCardJobJmsVO) {
         JobVO jobVO = new JobVO();
         jobVO.setCron("0 0 0 "+creditCardJobJmsVO.getCloseDay()+" * ? *");

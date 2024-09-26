@@ -2,7 +2,7 @@
   {
     "name": "account_payment_pending",
     "group": "payment",
-    "className": "br.com.systec.controle.financeiro.quartz.jobs.AccountPaymentJob",
+    "className": "br.com.fintrack.quartz.jobs.AccountPaymentJob",
     "cron": "0 0 0 ? * * *"
   }
 ]

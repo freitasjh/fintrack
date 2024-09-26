@@ -2,12 +2,12 @@ package br.com.systec.fintrack.login.api.v1;
 
 import br.com.systec.fintrack.AbstractIT;
 import br.com.systec.fintrack.JsonUtil;
-import br.com.systec.fintrack.administrator.user.v1.dto.UserInputDTO;
 import br.com.systec.fintrack.commons.RestPath;
 import br.com.systec.fintrack.integration.util.UserUtil;
 import br.com.systec.fintrack.login.api.v1.dto.LoginDTO;
 import br.com.systec.fintrack.login.api.v1.dto.LoginResponseDTO;
 import br.com.systec.fintrack.user.v1.controller.UserControllerIT;
+import br.com.systec.fintrack.user.v1.dto.UserInputDTO;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;

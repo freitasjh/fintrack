@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -34,6 +35,8 @@ public class CreditCardServiceTest {
     private CreditCardRepositoryJPA repositoryJPA;
     @Mock
     private CreditCardRepository repository;
+    @Mock
+    private RabbitTemplate template;
     @InjectMocks
     private CreditCardService service;
 

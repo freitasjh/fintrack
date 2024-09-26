@@ -21,5 +21,6 @@
 		<module>dbupdate</module>
 		<module>app</module>
 		<module>rabbitmq</module>
+        <module>administrator</module>
     </modules>
 </project>
