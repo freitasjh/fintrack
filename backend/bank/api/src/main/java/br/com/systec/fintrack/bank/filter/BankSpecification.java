@@ -1,6 +1,6 @@
-package br.com.systec.fintrack.administrator.bank.filter;
+package br.com.systec.fintrack.bank.filter;
 
-import br.com.systec.fintrack.administrator.bank.model.Bank;
+import br.com.systec.fintrack.bank.model.Bank;
 import org.springframework.data.jpa.domain.Specification;
 
 public class BankSpecification {

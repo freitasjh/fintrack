@@ -1,7 +1,7 @@
 package br.com.systec.fintrack.administrator.bank.api.v1.converter;
 
 import br.com.systec.fintrack.administrator.bank.api.v1.dto.BankDTO;
-import br.com.systec.fintrack.administrator.bank.model.Bank;
+import br.com.systec.fintrack.bank.model.Bank;
 import org.springframework.data.domain.Page;
 
 public class BankConverter {

@@ -36,5 +36,66 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <includes>
+                        <include>**/*Test*.java</include>
+                    </includes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <excludes>
+                        <exclude>**/config/**/*</exclude>
+                        <exclude>**/model/**/*</exclude>
+                        <exclude>**/enums/**/*</exclude>
+                        <exclude>**/*DTO.*</exclude>
+                        <exclude>**/*LoginConverter.*</exclude>
+                        <exclude>**/*Exception*.*</exclude>
+                        <exclude>**/*ExceptionHandler.*</exclude>
+                        <exclude>**/*BasePath*.*</exclude>
+                        <exclude>**/*Repository*.*</exclude>
+                        <exclude>**/*Application*.*</exclude>
+                        <exclude>**/core/**/*</exclude>
+                        <exclude>**/filter/**/*</exclude>
+                    </excludes>
+                    <destFile>${project.build.directory}/jacoco.exec</destFile>
+                    <fileSets>
+                        <fileSet>
+                            <directory>${project.basedir}systec-agendamento/target</directory>
+                            <includes>
+                                <include>jacoco.exec</include>
+                            </includes>
+                        </fileSet>
+                    </fileSets>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

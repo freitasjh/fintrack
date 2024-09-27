@@ -1,4 +1,4 @@
-package br.com.systec.fintrack.administrator.bank.model;
+package br.com.systec.fintrack.bank.model;
 
 
 import jakarta.persistence.Column;

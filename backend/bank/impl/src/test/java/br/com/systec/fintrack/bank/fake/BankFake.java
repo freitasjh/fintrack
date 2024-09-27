@@ -1,4 +1,4 @@
-package br.com.systec.fintrack.fake;
+package br.com.systec.fintrack.bank.fake;
 
 import br.com.systec.fintrack.bank.model.Bank;
 

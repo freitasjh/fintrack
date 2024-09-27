@@ -1,6 +1,6 @@
-package br.com.systec.fintrack.administrator.bank.filter;
+package br.com.systec.fintrack.bank.filter;
 
-import br.com.systec.fintrack.administrator.bank.model.Bank;
+import br.com.systec.fintrack.bank.model.Bank;
 import br.com.systec.fintrack.commons.filter.PageParamSearchVO;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

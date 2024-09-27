@@ -2,9 +2,9 @@ package br.com.systec.fintrack.administrator.bank.api.v1;
 
 import br.com.systec.fintrack.administrator.bank.api.v1.converter.BankConverter;
 import br.com.systec.fintrack.administrator.bank.api.v1.dto.BankDTO;
-import br.com.systec.fintrack.administrator.bank.filter.FilterBankVO;
-import br.com.systec.fintrack.administrator.bank.model.Bank;
-import br.com.systec.fintrack.administrator.bank.service.BankService;
+import br.com.systec.fintrack.bank.filter.FilterBankVO;
+import br.com.systec.fintrack.bank.impl.BankServiceImpl;
+import br.com.systec.fintrack.bank.model.Bank;
 import br.com.systec.fintrack.commons.AbstractController;
 import br.com.systec.fintrack.commons.RestPath;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class BankController extends AbstractController {
 
     @Autowired
-    private BankService service;
+    private BankServiceImpl service;
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     @ApiResponses(value = {

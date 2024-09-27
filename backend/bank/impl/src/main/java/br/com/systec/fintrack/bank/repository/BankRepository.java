@@ -1,6 +1,6 @@
-package br.com.systec.fintrack.administrator.bank.repository;
+package br.com.systec.fintrack.bank.repository;
 
-import br.com.systec.fintrack.administrator.bank.model.Bank;
+import br.com.systec.fintrack.bank.model.Bank;
 import br.com.systec.fintrack.commons.AbstractRepository;
 import org.springframework.stereotype.Repository;
 

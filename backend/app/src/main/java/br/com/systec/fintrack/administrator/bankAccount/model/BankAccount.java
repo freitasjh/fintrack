@@ -1,7 +1,7 @@
 package br.com.systec.fintrack.administrator.bankAccount.model;
 
-import br.com.systec.fintrack.administrator.bank.model.Bank;
 import br.com.systec.fintrack.administrator.bankAccount.enums.AccountType;
+import br.com.systec.fintrack.bank.model.Bank;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

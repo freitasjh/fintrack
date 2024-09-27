@@ -5,42 +5,25 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>br.com.systec.fintrack</groupId>
-        <artifactId>fintrack-administrator-user</artifactId>
+        <artifactId>fintrack-bank</artifactId>
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>fintrack-administrator-user-impl</artifactId>
-    <name>FinTrack Administrador Usuario - Impl</name>
+    <artifactId>fintrack-bank-impl</artifactId>
+    <name>Fintrack Banco - Impl</name>
     <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <groupId>br.com.systec.fintrack</groupId>
+            <artifactId>fintrack-bank-api</artifactId>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>br.com.systec.fintrack</groupId>
-            <artifactId>fintrack-rabbitmq</artifactId>
+            <artifactId>fintrack-commons</artifactId>
             <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>br.com.systec.fintrack</groupId>
-            <artifactId>fintrack-administrator-user-api</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>br.com.systec.fintrack</groupId>
-            <artifactId>fintrack-administrator-tenant-api</artifactId>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>${h2.database.version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -48,6 +31,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <plugin>

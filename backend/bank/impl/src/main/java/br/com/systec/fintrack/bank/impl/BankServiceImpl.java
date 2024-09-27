@@ -1,9 +1,10 @@
-package br.com.systec.fintrack.administrator.bank.service;
+package br.com.systec.fintrack.bank.impl;
 
-import br.com.systec.fintrack.administrator.bank.filter.FilterBankVO;
-import br.com.systec.fintrack.administrator.bank.model.Bank;
-import br.com.systec.fintrack.administrator.bank.repository.BankRepository;
-import br.com.systec.fintrack.administrator.bank.repository.BankRepositoryJPA;
+import br.com.systec.fintrack.bank.filter.FilterBankVO;
+import br.com.systec.fintrack.bank.model.Bank;
+import br.com.systec.fintrack.bank.repository.BankRepository;
+import br.com.systec.fintrack.bank.repository.BankRepositoryJPA;
+import br.com.systec.fintrack.bank.service.BankService;
 import br.com.systec.fintrack.commons.exception.BaseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,7 +13,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class BankService {
+public class BankServiceImpl implements BankService {
 
     @Autowired
     private BankRepository repository;
@@ -20,7 +21,7 @@ public class BankService {
     private BankRepositoryJPA repositoryJPA;
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    public Iterable<Bank> findAll() {
+    public Iterable<Bank> findAll() throws BaseException{
         try{
             return repository.findAll();
         }catch (BaseException e) {
@@ -29,7 +30,7 @@ public class BankService {
     }
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    public Page<Bank> findByPage(FilterBankVO filter) {
+    public Page<Bank> findByPage(FilterBankVO filter) throws BaseException {
         try {
             Page<Bank> listOfBank = repositoryJPA.findAll(filter.getSpecification(), filter.getPageable());
 

@@ -142,6 +142,16 @@
             <artifactId>fintrack-administrator-user-public-api-v1</artifactId>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>br.com.systec.fintrack</groupId>
+            <artifactId>fintrack-bank-api</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>br.com.systec.fintrack</groupId>
+            <artifactId>fintrack-bank-impl</artifactId>
+            <scope>compile</scope>
+        </dependency>
 
         <dependency>
             <groupId>com.mysql</groupId>
