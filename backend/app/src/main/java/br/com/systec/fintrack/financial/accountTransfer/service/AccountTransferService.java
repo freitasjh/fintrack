@@ -1,7 +1,7 @@
 package br.com.systec.fintrack.financial.accountTransfer.service;
 
-import br.com.systec.fintrack.administrator.bankAccount.model.BankAccount;
-import br.com.systec.fintrack.administrator.bankAccount.service.BankAccountService;
+import br.com.systec.fintrack.bankAccount.model.BankAccount;
+import br.com.systec.fintrack.bankAccount.service.BankAccountService;
 import br.com.systec.fintrack.commons.TenantContext;
 import br.com.systec.fintrack.commons.exception.BaseException;
 import br.com.systec.fintrack.financial.accountPayment.model.AccountPayment;

@@ -1,5 +1,6 @@
 package br.com.systec.fintrack.financial.accountPayment.fake;
 
+import br.com.systec.fintrack.category.model.Category;
 import br.com.systec.fintrack.fake.BankAccountFake;
 import br.com.systec.fintrack.fake.CategoryFake;
 import br.com.systec.fintrack.financial.accountPayment.api.v1.dto.AccountPaymentInputDTO;
@@ -16,7 +17,7 @@ public class AccountPaymentFake {
         accountPayment.setId(1L);
         accountPayment.setDescription("Teste de pagamento");
         accountPayment.setBankAccount(BankAccountFake.fake());
-        accountPayment.setCategory(CategoryFake.fakeCategory());
+        accountPayment.setCategory(new Category(1L));
         accountPayment.setDateRegister(new Date());
         accountPayment.setDateProcessed(new Date());
         accountPayment.setProcessed(true);
@@ -33,7 +34,7 @@ public class AccountPaymentFake {
         accountPayment.setId(1L);
         accountPayment.setDescription("Teste de pagamento");
         accountPayment.setBankAccountId(BankAccountFake.fake().getId());
-        accountPayment.setCategoryId(CategoryFake.fakeCategory().getId());
+        accountPayment.setCategoryId(1L);
         accountPayment.setDateRegister(new Date());
         accountPayment.setDateProcessed(new Date());
         accountPayment.setProcessed(true);

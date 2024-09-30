@@ -1,6 +1,6 @@
 package br.com.systec.fintrack.creditCard.api.v1.mapper;
 
-import br.com.systec.fintrack.administrator.bankAccount.model.BankAccount;
+import br.com.systec.fintrack.bankAccount.model.BankAccount;
 import br.com.systec.fintrack.creditCard.api.v1.dto.CreditCardDTO;
 import br.com.systec.fintrack.creditCard.api.v1.dto.CreditCardInputDTO;
 import br.com.systec.fintrack.creditCard.model.BrandType;

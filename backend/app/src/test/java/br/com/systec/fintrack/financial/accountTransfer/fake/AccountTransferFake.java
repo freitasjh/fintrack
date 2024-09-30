@@ -1,6 +1,6 @@
 package br.com.systec.fintrack.financial.accountTransfer.fake;
 
-import br.com.systec.fintrack.administrator.bankAccount.model.BankAccount;
+import br.com.systec.fintrack.bankAccount.model.BankAccount;
 import br.com.systec.fintrack.fake.BankAccountFake;
 import br.com.systec.fintrack.financial.accountTransfer.api.v1.dto.AccountTransferInputDTO;
 import br.com.systec.fintrack.financial.accountTransfer.api.v1.dto.AccountTransferResponseDTO;

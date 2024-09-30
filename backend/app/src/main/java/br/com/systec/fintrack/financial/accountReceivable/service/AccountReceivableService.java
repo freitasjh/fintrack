@@ -1,8 +1,9 @@
 package br.com.systec.fintrack.financial.accountReceivable.service;
 
-import br.com.systec.fintrack.administrator.bankAccount.service.BankAccountService;
+import br.com.systec.fintrack.bankAccount.service.BankAccountService;
 import br.com.systec.fintrack.commons.TenantContext;
 import br.com.systec.fintrack.commons.exception.BaseException;
+import br.com.systec.fintrack.commons.model.TransactionType;
 import br.com.systec.fintrack.financial.accountReceivable.exceptions.AccountReceivableException;
 import br.com.systec.fintrack.financial.accountReceivable.exceptions.AccountReceivableNotFoundException;
 import br.com.systec.fintrack.financial.accountReceivable.filter.AccountReceivableFilterVO;
@@ -66,13 +67,8 @@ public class AccountReceivableService {
         return repository.findById(id).orElseThrow(AccountReceivableNotFoundException::new);
     }
 
-//    @Transactional(propagation = Propagation.REQUIRED)
-//    public void delete(Long id) {
-//        repository.deleteById(id);
-//    }
-
     private void updateBalanceAccountBank(AccountReceivable accountReceivable) {
-        bankAccountService.updateBankAccountBalance(accountReceivable);
+        bankAccountService.updateBankAccountBalance(accountReceivable.getAmount(), accountReceivable.getBankAccount().getId(), TransactionType.INCOMING);
     }
 
     //TODO vai ficar aqui ate resolver se vai ser por messageria ou vai ser por transação

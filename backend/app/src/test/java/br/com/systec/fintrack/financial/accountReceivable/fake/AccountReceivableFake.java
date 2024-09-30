@@ -1,6 +1,6 @@
 package br.com.systec.fintrack.financial.accountReceivable.fake;
 
-import br.com.systec.fintrack.administrator.bankAccount.model.BankAccount;
+import br.com.systec.fintrack.bankAccount.model.BankAccount;
 import br.com.systec.fintrack.fake.BankAccountFake;
 import br.com.systec.fintrack.financial.accountReceivable.api.v1.dto.AccountReceivableDTO;
 import br.com.systec.fintrack.financial.accountReceivable.api.v1.dto.AccountReceivableInputDTO;

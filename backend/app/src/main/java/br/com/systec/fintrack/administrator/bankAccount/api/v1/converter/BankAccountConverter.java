@@ -2,9 +2,9 @@ package br.com.systec.fintrack.administrator.bankAccount.api.v1.converter;
 
 import br.com.systec.fintrack.administrator.bankAccount.api.v1.dto.BankAccountDTO;
 import br.com.systec.fintrack.administrator.bankAccount.api.v1.dto.BankAccountInputDTO;
-import br.com.systec.fintrack.administrator.bankAccount.enums.AccountType;
-import br.com.systec.fintrack.administrator.bankAccount.model.BankAccount;
 import br.com.systec.fintrack.bank.model.Bank;
+import br.com.systec.fintrack.bankAccount.model.AccountType;
+import br.com.systec.fintrack.bankAccount.model.BankAccount;
 import br.com.systec.fintrack.commons.TenantContext;
 import br.com.systec.fintrack.commons.converter.ConverterPageable;
 import org.springframework.data.domain.Page;

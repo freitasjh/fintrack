@@ -22,6 +22,8 @@
 		<module>app</module>
 		<module>rabbitmq</module>
         <module>administrator</module>
-        <module>bank</module>
+		<module>category</module>
+		<module>bank</module>
+        <module>bank-account</module>
     </modules>
 </project>

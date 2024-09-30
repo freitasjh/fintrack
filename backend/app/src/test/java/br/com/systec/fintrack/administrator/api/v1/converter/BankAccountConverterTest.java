@@ -3,7 +3,7 @@ package br.com.systec.fintrack.administrator.api.v1.converter;
 import br.com.systec.fintrack.administrator.bankAccount.api.v1.converter.BankAccountConverter;
 import br.com.systec.fintrack.administrator.bankAccount.api.v1.dto.BankAccountDTO;
 import br.com.systec.fintrack.administrator.bankAccount.api.v1.dto.BankAccountInputDTO;
-import br.com.systec.fintrack.administrator.bankAccount.model.BankAccount;
+import br.com.systec.fintrack.bankAccount.model.BankAccount;
 import br.com.systec.fintrack.fake.BankAccountFake;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;

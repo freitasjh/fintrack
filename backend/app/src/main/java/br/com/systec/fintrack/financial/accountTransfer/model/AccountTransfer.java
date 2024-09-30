@@ -1,6 +1,6 @@
 package br.com.systec.fintrack.financial.accountTransfer.model;
 
-import br.com.systec.fintrack.administrator.bankAccount.model.BankAccount;
+import br.com.systec.fintrack.bankAccount.model.BankAccount;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

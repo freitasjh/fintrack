@@ -247,8 +247,42 @@
                 <version>${revision}</version>
                 <scope>provided</scope>
             </dependency>
-
-
+            <dependency>
+                <groupId>br.com.systec.fintrack</groupId>
+                <artifactId>fintrack-bank-public-api-v1</artifactId>
+                <version>${revision}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>br.com.systec.fintrack</groupId>
+                <artifactId>fintrack-category-api</artifactId>
+                <version>${revision}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>br.com.systec.fintrack</groupId>
+                <artifactId>fintrack-category-impl</artifactId>
+                <version>${revision}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>br.com.systec.fintrack</groupId>
+                <artifactId>fintrack-category-public-api-v1</artifactId>
+                <version>${revision}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>br.com.systec.fintrack</groupId>
+                <artifactId>fintrack-bank-account-api</artifactId>
+                <version>${revision}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>br.com.systec.fintrack</groupId>
+                <artifactId>fintrack-bank-account-impl</artifactId>
+                <version>${revision}</version>
+                <scope>provided</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

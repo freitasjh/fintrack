@@ -1,7 +1,7 @@
 package br.com.systec.fintrack.financial.accountPayment.api.v1.mapper;
 
-import br.com.systec.fintrack.administrator.bankAccount.model.BankAccount;
-import br.com.systec.fintrack.administrator.category.model.Category;
+import br.com.systec.fintrack.bankAccount.model.BankAccount;
+import br.com.systec.fintrack.category.model.Category;
 import br.com.systec.fintrack.commons.TenantContext;
 import br.com.systec.fintrack.financial.accountPayment.api.v1.dto.AccountPaymentDTO;
 import br.com.systec.fintrack.financial.accountPayment.api.v1.dto.AccountPaymentInputDTO;

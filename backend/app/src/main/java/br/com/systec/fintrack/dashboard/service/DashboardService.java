@@ -1,6 +1,6 @@
 package br.com.systec.fintrack.dashboard.service;
 
-import br.com.systec.fintrack.administrator.bankAccount.service.BankAccountService;
+import br.com.systec.fintrack.bankAccount.service.BankAccountService;
 import br.com.systec.fintrack.financial.accountPayment.model.AccountPayment;
 import br.com.systec.fintrack.financial.accountPayment.service.AccountPaymentService;
 import br.com.systec.fintrack.financial.transaction.service.TransactionService;

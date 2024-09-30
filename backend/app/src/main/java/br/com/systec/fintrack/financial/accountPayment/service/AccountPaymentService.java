@@ -1,15 +1,15 @@
 package br.com.systec.fintrack.financial.accountPayment.service;
 
-import br.com.systec.fintrack.administrator.bankAccount.jms.BankAccountJms;
-import br.com.systec.fintrack.administrator.bankAccount.service.BankAccountService;
+import br.com.systec.fintrack.bankAccount.service.BankAccountService;
+import br.com.systec.fintrack.bankaccount.impl.jms.BankAccountJms;
 import br.com.systec.fintrack.commons.exception.BaseException;
 import br.com.systec.fintrack.commons.exception.ObjectNotFoundException;
 import br.com.systec.fintrack.commons.exception.ValidatorException;
+import br.com.systec.fintrack.commons.model.TransactionType;
 import br.com.systec.fintrack.financial.accountPayment.filter.AccountPaymentPageParam;
 import br.com.systec.fintrack.financial.accountPayment.model.AccountPayment;
 import br.com.systec.fintrack.financial.accountPayment.repository.AccountPaymentRepository;
 import br.com.systec.fintrack.financial.accountPayment.repository.AccountPaymentRepositoryJpa;
-import br.com.systec.fintrack.financial.transaction.enums.TransactionType;
 import br.com.systec.fintrack.rabbitmq.utils.RabbitMQConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -141,7 +141,7 @@ public class AccountPaymentService {
 
 
     private void updateBalanceAccountBank(AccountPayment accountPayment) {
-        bankAccountService.updateBankAccountBalance(accountPayment);
+        bankAccountService.updateBankAccountBalance(accountPayment.getAmount(), accountPayment.getBankAccount().getId(), TransactionType.EXPENSE);
     }
 
     private void convertAndSendJmsBankAccount(AccountPayment accountPayment) {

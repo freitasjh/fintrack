@@ -25,7 +25,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-
 @ExtendWith(MockitoExtension.class)
 public class UserControllerTest {
     private static final String ENDPOINT = RestPath.V1 + "/users";

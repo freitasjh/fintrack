@@ -1,6 +1,6 @@
 package br.com.systec.fintrack.financial.accountPayment.service;
 
-import br.com.systec.fintrack.administrator.bankAccount.service.BankAccountService;
+import br.com.systec.fintrack.bankAccount.service.BankAccountService;
 import br.com.systec.fintrack.commons.TenantContext;
 import br.com.systec.fintrack.commons.exception.ValidatorException;
 import br.com.systec.fintrack.financial.accountPayment.fake.AccountPaymentFake;

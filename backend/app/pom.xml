@@ -96,7 +96,6 @@
             <artifactId>jackson-datatype-jsr310</artifactId>
             <scope>compile</scope>
         </dependency>
-
         <dependency>
             <groupId>br.com.systec.fintrack</groupId>
             <artifactId>fintrack-commons</artifactId>
@@ -119,12 +118,12 @@
         </dependency>
         <dependency>
             <groupId>br.com.systec.fintrack</groupId>
-            <artifactId>fintrack-administrator-user-api</artifactId>
+            <artifactId>fintrack-administrator-tenant-api</artifactId>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>br.com.systec.fintrack</groupId>
-            <artifactId>fintrack-administrator-tenant-api</artifactId>
+            <artifactId>fintrack-administrator-tenant-impl</artifactId>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -134,7 +133,7 @@
         </dependency>
         <dependency>
             <groupId>br.com.systec.fintrack</groupId>
-            <artifactId>fintrack-administrator-tenant-impl</artifactId>
+            <artifactId>fintrack-administrator-user-api</artifactId>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -152,7 +151,35 @@
             <artifactId>fintrack-bank-impl</artifactId>
             <scope>compile</scope>
         </dependency>
-
+        <dependency>
+            <groupId>br.com.systec.fintrack</groupId>
+            <artifactId>fintrack-bank-public-api-v1</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>br.com.systec.fintrack</groupId>
+            <artifactId>fintrack-category-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>br.com.systec.fintrack</groupId>
+            <artifactId>fintrack-category-impl</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>br.com.systec.fintrack</groupId>
+            <artifactId>fintrack-category-public-api-v1</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>br.com.systec.fintrack</groupId>
+            <artifactId>fintrack-bank-account-api</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>br.com.systec.fintrack</groupId>
+            <artifactId>fintrack-bank-account-impl</artifactId>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>

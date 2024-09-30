@@ -30,7 +30,7 @@ public class CreditCardJobJms {
     @Transactional(propagation = Propagation.REQUIRED)
     public void execute(@Payload Message message) {
         try {
-            log.info("@@ Salvando jb do cartao de credito");
+            log.info("@@ Salvando job do cartao de credito");
 
             CreditCardJobJmsVO creditCardJobJmsVO = (CreditCardJobJmsVO) message.getPayload();
             TenantContext.add(creditCardJobJmsVO.getTenantId());

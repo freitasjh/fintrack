@@ -1,8 +1,9 @@
 package br.com.systec.fintrack.financial.accountReceivable.service;
 
-import br.com.systec.fintrack.administrator.bankAccount.service.BankAccountService;
+import br.com.systec.fintrack.bankAccount.service.BankAccountService;
 import br.com.systec.fintrack.commons.TenantContext;
 import br.com.systec.fintrack.commons.exception.BaseException;
+import br.com.systec.fintrack.commons.model.TransactionType;
 import br.com.systec.fintrack.financial.accountReceivable.exceptions.AccountReceivableException;
 import br.com.systec.fintrack.financial.accountReceivable.exceptions.AccountReceivableNotFoundException;
 import br.com.systec.fintrack.financial.accountReceivable.fake.AccountReceivableFake;
@@ -79,7 +80,7 @@ public class AccountReceivableServiceTest {
                 .thenReturn(AccountReceivableFake.toFake());
 
         Mockito.doThrow(new RuntimeException()).when(bankAccountService)
-                .updateBankAccountBalance(Mockito.any(AccountReceivable.class));
+                .updateBankAccountBalance(Mockito.anyDouble(), Mockito.anyLong(), Mockito.any(TransactionType.class));
 
         Assertions.assertThatThrownBy(() -> service.save(AccountReceivableFake.toFake()))
                 .isInstanceOf(AccountReceivableException.class);
