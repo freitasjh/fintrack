@@ -1,4 +1,4 @@
-package br.com.systec.fintrack.administrator.bankAccount.api.v1.dto;
+package br.com.systec.fintrack.publicapi.v1.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

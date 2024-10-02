@@ -5,18 +5,16 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>br.com.systec.fintrack</groupId>
-        <artifactId>fintrack</artifactId>
+        <artifactId>fintrack-bank-account</artifactId>
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>fintrack-bank-account</artifactId>
+    <artifactId>fintrack-bank-account-public-api</artifactId>
     <packaging>pom</packaging>
-    <name>FinTrack Conta Bancaria</name>
-    <modules>
-        <module>api</module>
-        <module>impl</module>
-        <module>public-api</module>
-    </modules>
+    <name>FinTrack Conta Bancaria - Public Api</name>
 
+    <modules>
+        <module>v1</module>
+    </modules>
 </project>

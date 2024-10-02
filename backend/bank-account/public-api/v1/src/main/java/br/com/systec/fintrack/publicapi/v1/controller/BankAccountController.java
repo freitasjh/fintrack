@@ -1,8 +1,5 @@
-package br.com.systec.fintrack.administrator.bankAccount.api.v1.controller;
+package br.com.systec.fintrack.publicapi.v1.controller;
 
-import br.com.systec.fintrack.administrator.bankAccount.api.v1.converter.BankAccountConverter;
-import br.com.systec.fintrack.administrator.bankAccount.api.v1.dto.BankAccountDTO;
-import br.com.systec.fintrack.administrator.bankAccount.api.v1.dto.BankAccountInputDTO;
 import br.com.systec.fintrack.bankAccount.filter.BankAccountFilterVO;
 import br.com.systec.fintrack.bankAccount.model.BankAccount;
 import br.com.systec.fintrack.bankAccount.service.BankAccountService;
@@ -11,6 +8,9 @@ import br.com.systec.fintrack.commons.RestPath;
 import br.com.systec.fintrack.commons.exception.BaseException;
 import br.com.systec.fintrack.commons.exception.StandardError;
 import br.com.systec.fintrack.commons.exception.ValidationError;
+import br.com.systec.fintrack.publicapi.v1.converter.BankAccountConverter;
+import br.com.systec.fintrack.publicapi.v1.dto.BankAccountDTO;
+import br.com.systec.fintrack.publicapi.v1.dto.BankAccountInputDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

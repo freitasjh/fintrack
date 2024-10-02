@@ -2,11 +2,11 @@ package br.com.systec.fintrack.administrator.api.v1.controller;
 
 import br.com.systec.fintrack.AbstractIT;
 import br.com.systec.fintrack.JsonUtil;
-import br.com.systec.fintrack.administrator.bankAccount.api.v1.dto.BankAccountInputDTO;
 import br.com.systec.fintrack.fake.BankAccountFake;
 import br.com.systec.fintrack.financial.accountReceivable.service.AccountReceivableService;
 import br.com.systec.fintrack.integration.util.EndpointsContastsV1Test;
 import br.com.systec.fintrack.integration.util.UserUtil;
+import br.com.systec.fintrack.publicapi.v1.dto.BankAccountInputDTO;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
