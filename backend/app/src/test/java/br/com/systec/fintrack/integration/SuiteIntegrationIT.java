@@ -1,6 +1,6 @@
 package br.com.systec.fintrack.integration;
 
-import br.com.systec.fintrack.administrator.api.v1.controller.BankAccountControllerIT;
+import br.com.systec.fintrack.integration.bankaccount.v1.BankAccountControllerIT;
 import br.com.systec.fintrack.login.api.v1.LoginControllerIT;
 import br.com.systec.fintrack.user.v1.controller.UserControllerIT;
 import br.com.systec.fintrack.user.v1.controller.ValidateCreateNewAccountIT;

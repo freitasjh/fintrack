@@ -289,6 +289,66 @@
                 <version>${revision}</version>
                 <scope>provided</scope>
             </dependency>
+            <dependency>
+                <groupId>br.com.systec.fintrack</groupId>
+                <artifactId>fintrack-credit-card-customer-api</artifactId>
+                <version>${revision}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>br.com.systec.fintrack</groupId>
+                <artifactId>fintrack-credit-card-customer-jms</artifactId>
+                <version>${revision}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>br.com.systec.fintrack</groupId>
+                <artifactId>fintrack-credit-card-customer-impl</artifactId>
+                <version>${revision}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>br.com.systec.fintrack</groupId>
+                <artifactId>fintrack-credit-card-customer-public-api-v1</artifactId>
+                <version>${revision}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>br.com.systec.fintrack</groupId>
+                <artifactId>fintrack-credit-card-transaction-api</artifactId>
+                <version>${revision}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>br.com.systec.fintrack</groupId>
+                <artifactId>fintrack-credit-card-transaction-impl</artifactId>
+                <version>${revision}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>br.com.systec.fintrack</groupId>
+                <artifactId>fintrack-credit-card-transaction-v1</artifactId>
+                <version>${revision}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>br.com.systec.fintrack</groupId>
+                <artifactId>fintrack-credit-card-invoice-api</artifactId>
+                <version>${revision}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>br.com.systec.fintrack</groupId>
+                <artifactId>fintrack-credit-card-invoice-impl</artifactId>
+                <version>${revision}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>br.com.systec.fintrack</groupId>
+                <artifactId>fintrack-credit-card-invoice-v1</artifactId>
+                <version>${revision}</version>
+                <scope>provided</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

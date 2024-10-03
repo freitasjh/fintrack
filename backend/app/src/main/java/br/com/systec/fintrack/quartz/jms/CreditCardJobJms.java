@@ -1,14 +1,11 @@
 package br.com.systec.fintrack.quartz.jms;
 
 import br.com.systec.fintrack.commons.TenantContext;
-import br.com.systec.fintrack.creditCard.jms.CreditCardJmsVO;
-import br.com.systec.fintrack.creditCard.jms.CreditCardJobJmsVO;
+import br.com.systec.fintrack.creditcard.jms.CreditCardJobJmsVO;
 import br.com.systec.fintrack.quartz.jobs.CreditCardInvoiceJob;
 import br.com.systec.fintrack.quartz.model.JobVO;
 import br.com.systec.fintrack.quartz.service.JobService;
 import br.com.systec.fintrack.rabbitmq.utils.RabbitMQConstants;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import org.quartz.JobDataMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class CreditCardJobJms {
-    private static final Logger log = LoggerFactory.getLogger(CreditCardJmsVO.class);
+    private static final Logger log = LoggerFactory.getLogger(CreditCardJobJms.class);
     @Autowired
     private JobService service;
 

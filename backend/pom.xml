@@ -25,5 +25,6 @@
 		<module>category</module>
 		<module>bank</module>
         <module>bank-account</module>
+        <module>credit-card</module>
     </modules>
 </project>

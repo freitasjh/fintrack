@@ -186,15 +186,63 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>br.com.systec.fintrack</groupId>
+            <artifactId>fintrack-credit-card-customer-api</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>br.com.systec.fintrack</groupId>
+            <artifactId>fintrack-credit-card-customer-impl</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>br.com.systec.fintrack</groupId>
+            <artifactId>fintrack-credit-card-customer-jms</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>br.com.systec.fintrack</groupId>
+            <artifactId>fintrack-credit-card-customer-public-api-v1</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>br.com.systec.fintrack</groupId>
+            <artifactId>fintrack-credit-card-transaction-api</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>br.com.systec.fintrack</groupId>
+            <artifactId>fintrack-credit-card-transaction-impl</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>br.com.systec.fintrack</groupId>
+            <artifactId>fintrack-credit-card-transaction-v1</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>br.com.systec.fintrack</groupId>
+            <artifactId>fintrack-credit-card-invoice-api</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>br.com.systec.fintrack</groupId>
+            <artifactId>fintrack-credit-card-invoice-impl</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>br.com.systec.fintrack</groupId>
+            <artifactId>fintrack-credit-card-invoice-v1</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
-            <version>${mysql.version}</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>${h2.database.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -205,14 +253,12 @@
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>mysql</artifactId>
-            <version>${testcontainers.version}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>${testcontainers.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
