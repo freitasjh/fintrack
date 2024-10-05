@@ -26,5 +26,8 @@
 		<module>bank</module>
         <module>bank-account</module>
         <module>credit-card</module>
+        <module>financial</module>
+        <module>notification</module>
+        <module>quartz</module>
     </modules>
 </project>

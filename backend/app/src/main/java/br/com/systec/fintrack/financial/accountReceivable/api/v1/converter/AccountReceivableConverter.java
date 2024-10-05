@@ -4,7 +4,7 @@ import br.com.systec.fintrack.bankAccount.model.BankAccount;
 import br.com.systec.fintrack.financial.accountReceivable.api.v1.dto.AccountReceivableDTO;
 import br.com.systec.fintrack.financial.accountReceivable.api.v1.dto.AccountReceivableInputDTO;
 import br.com.systec.fintrack.financial.accountReceivable.model.AccountReceivable;
-import br.com.systec.fintrack.financial.transaction.enums.CategoryTransactionType;
+import br.com.systec.fintrack.financial.transaction.model.CategoryTransactionType;
 import org.springframework.data.domain.Page;
 
 import java.util.Date;

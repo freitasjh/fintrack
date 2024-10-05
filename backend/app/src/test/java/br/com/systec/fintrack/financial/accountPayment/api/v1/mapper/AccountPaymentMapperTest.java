@@ -1,9 +1,10 @@
 package br.com.systec.fintrack.financial.accountPayment.api.v1.mapper;
 
-import br.com.systec.fintrack.financial.accountPayment.api.v1.dto.AccountPaymentDTO;
-import br.com.systec.fintrack.financial.accountPayment.api.v1.dto.AccountPaymentInputDTO;
 import br.com.systec.fintrack.financial.accountPayment.fake.AccountPaymentFake;
-import br.com.systec.fintrack.financial.accountPayment.model.AccountPayment;
+import br.com.systec.fintrack.financial.payment.model.AccountPayment;
+import br.com.systec.fintrack.financial.payment.v1.dto.AccountPaymentDTO;
+import br.com.systec.fintrack.financial.payment.v1.dto.AccountPaymentInputDTO;
+import br.com.systec.fintrack.financial.payment.v1.mapper.AccountPaymentMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Page;

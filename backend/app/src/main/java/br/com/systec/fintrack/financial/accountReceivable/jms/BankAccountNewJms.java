@@ -5,7 +5,7 @@ import br.com.systec.fintrack.commons.TenantContext;
 import br.com.systec.fintrack.config.I18nTranslate;
 import br.com.systec.fintrack.financial.accountReceivable.model.AccountReceivable;
 import br.com.systec.fintrack.financial.accountReceivable.service.AccountReceivableService;
-import br.com.systec.fintrack.financial.transaction.enums.CategoryTransactionType;
+import br.com.systec.fintrack.financial.transaction.model.CategoryTransactionType;
 import br.com.systec.fintrack.rabbitmq.utils.RabbitMQConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

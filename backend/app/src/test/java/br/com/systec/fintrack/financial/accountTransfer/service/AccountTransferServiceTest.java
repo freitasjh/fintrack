@@ -5,8 +5,6 @@ import br.com.systec.fintrack.bankAccount.service.BankAccountService;
 import br.com.systec.fintrack.commons.TenantContext;
 import br.com.systec.fintrack.commons.exception.BaseException;
 import br.com.systec.fintrack.fake.BankAccountFake;
-import br.com.systec.fintrack.financial.accountPayment.model.AccountPayment;
-import br.com.systec.fintrack.financial.accountPayment.service.AccountPaymentService;
 import br.com.systec.fintrack.financial.accountReceivable.model.AccountReceivable;
 import br.com.systec.fintrack.financial.accountReceivable.service.AccountReceivableService;
 import br.com.systec.fintrack.financial.accountTransfer.fake.AccountTransferFake;
@@ -14,6 +12,8 @@ import br.com.systec.fintrack.financial.accountTransfer.filter.AccountTransferFi
 import br.com.systec.fintrack.financial.accountTransfer.model.AccountTransfer;
 import br.com.systec.fintrack.financial.accountTransfer.repository.AccountTransferRepository;
 import br.com.systec.fintrack.financial.accountTransfer.repository.AccountTransferRepositoryJPA;
+import br.com.systec.fintrack.financial.payment.model.AccountPayment;
+import br.com.systec.fintrack.financial.payment.service.AccountPaymentService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

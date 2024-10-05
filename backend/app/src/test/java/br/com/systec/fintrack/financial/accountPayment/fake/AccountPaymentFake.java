@@ -1,12 +1,11 @@
 package br.com.systec.fintrack.financial.accountPayment.fake;
 
 import br.com.systec.fintrack.category.model.Category;
+import br.com.systec.fintrack.commons.model.TransactionType;
 import br.com.systec.fintrack.fake.BankAccountFake;
-import br.com.systec.fintrack.fake.CategoryFake;
-import br.com.systec.fintrack.financial.accountPayment.api.v1.dto.AccountPaymentInputDTO;
-import br.com.systec.fintrack.financial.accountPayment.model.AccountPayment;
-import br.com.systec.fintrack.financial.transaction.enums.CategoryTransactionType;
-import br.com.systec.fintrack.financial.transaction.enums.TransactionType;
+import br.com.systec.fintrack.financial.payment.model.AccountPayment;
+import br.com.systec.fintrack.financial.payment.v1.dto.AccountPaymentInputDTO;
+import br.com.systec.fintrack.financial.transaction.model.CategoryTransactionType;
 
 import java.util.Date;
 

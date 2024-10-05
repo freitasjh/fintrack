@@ -2,8 +2,8 @@ package br.com.systec.fintrack.financial.accountReceivable.filter;
 
 import br.com.systec.fintrack.bankAccount.model.BankAccount;
 import br.com.systec.fintrack.commons.TenantContext;
+import br.com.systec.fintrack.commons.model.TransactionType;
 import br.com.systec.fintrack.financial.accountReceivable.model.AccountReceivable;
-import br.com.systec.fintrack.financial.transaction.enums.TransactionType;
 import org.springframework.data.jpa.domain.Specification;
 
 public class AccountReceivableSpecification {

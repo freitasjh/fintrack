@@ -1,7 +1,7 @@
 package br.com.systec.fintrack.dashboard.api.v1.mapper;
 
 import br.com.systec.fintrack.dashboard.api.v1.dto.AccountPaymentDashboardDTO;
-import br.com.systec.fintrack.financial.accountPayment.model.AccountPayment;
+import br.com.systec.fintrack.financial.payment.model.AccountPayment;
 
 import java.util.List;
 

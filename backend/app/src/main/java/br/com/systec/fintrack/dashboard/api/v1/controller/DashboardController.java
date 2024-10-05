@@ -7,7 +7,7 @@ import br.com.systec.fintrack.dashboard.api.v1.dto.CategoryExpenseDTO;
 import br.com.systec.fintrack.dashboard.api.v1.mapper.AccountPaymentDashboardMapper;
 import br.com.systec.fintrack.dashboard.api.v1.mapper.CategoryExpenseMapper;
 import br.com.systec.fintrack.dashboard.service.DashboardService;
-import br.com.systec.fintrack.financial.accountPayment.model.AccountPayment;
+import br.com.systec.fintrack.financial.payment.model.AccountPayment;
 import br.com.systec.fintrack.financial.transaction.vo.CategoryExpenseVO;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;

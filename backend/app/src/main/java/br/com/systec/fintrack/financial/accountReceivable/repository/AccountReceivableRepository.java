@@ -1,8 +1,8 @@
 package br.com.systec.fintrack.financial.accountReceivable.repository;
 
 import br.com.systec.fintrack.commons.AbstractRepository;
+import br.com.systec.fintrack.commons.model.TransactionType;
 import br.com.systec.fintrack.financial.accountReceivable.model.AccountReceivable;
-import br.com.systec.fintrack.financial.transaction.enums.TransactionType;
 import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
