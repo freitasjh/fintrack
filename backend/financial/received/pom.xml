@@ -15,5 +15,8 @@
     <packaging>pom</packaging>
     <modules>
 
+        <module>api</module>
+        <module>impl</module>
+        <module>v1</module>
     </modules>
 </project>

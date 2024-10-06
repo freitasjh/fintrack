@@ -421,6 +421,42 @@
                 <version>${revision}</version>
                 <scope>provided</scope>
             </dependency>
+            <dependency>
+                <groupId>br.com.systec.fintrack</groupId>
+                <artifactId>fintrack-financial-received-api</artifactId>
+                <version>${revision}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>br.com.systec.fintrack</groupId>
+                <artifactId>fintrack-financial-received-impl</artifactId>
+                <version>${revision}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>br.com.systec.fintrack</groupId>
+                <artifactId>fintrack-financial-received-v1</artifactId>
+                <version>${revision}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>br.com.systec.fintrack</groupId>
+                <artifactId>fintrack-financial-transfer-api</artifactId>
+                <version>${revision}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>br.com.systec.fintrack</groupId>
+                <artifactId>fintrack-financial-transfer-impl</artifactId>
+                <version>${revision}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>br.com.systec.fintrack</groupId>
+                <artifactId>fintrack-financial-transfer-v1</artifactId>
+                <version>${revision}</version>
+                <scope>provided</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

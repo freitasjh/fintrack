@@ -30,22 +30,27 @@
         <dependency>
             <groupId>br.com.systec.fintrack</groupId>
             <artifactId>fintrack-commons</artifactId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>br.com.systec.fintrack</groupId>
             <artifactId>fintrack-quartz-api</artifactId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>br.com.systec.fintrack</groupId>
             <artifactId>fintrack-rabbitmq</artifactId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>br.com.systec.fintrack</groupId>
             <artifactId>fintrack-credit-card-customer-jms</artifactId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>br.com.systec.fintrack</groupId>
             <artifactId>fintrack-financial-payment-jms</artifactId>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

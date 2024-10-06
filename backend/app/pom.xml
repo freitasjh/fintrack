@@ -159,6 +159,7 @@
         <dependency>
             <groupId>br.com.systec.fintrack</groupId>
             <artifactId>fintrack-category-api</artifactId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>br.com.systec.fintrack</groupId>
@@ -293,6 +294,36 @@
         <dependency>
             <groupId>br.com.systec.fintrack</groupId>
             <artifactId>fintrack-quartz-v1</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>br.com.systec.fintrack</groupId>
+            <artifactId>fintrack-financial-received-api</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>br.com.systec.fintrack</groupId>
+            <artifactId>fintrack-financial-received-impl</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>br.com.systec.fintrack</groupId>
+            <artifactId>fintrack-financial-received-v1</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>br.com.systec.fintrack</groupId>
+            <artifactId>fintrack-financial-transfer-api</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>br.com.systec.fintrack</groupId>
+            <artifactId>fintrack-financial-transfer-impl</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>br.com.systec.fintrack</groupId>
+            <artifactId>fintrack-financial-transfer-v1</artifactId>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -437,6 +468,9 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-failsafe-plugin</artifactId>
+                        <configuration>
+                            <skip>false</skip>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
