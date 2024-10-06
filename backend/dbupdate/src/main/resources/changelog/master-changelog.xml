@@ -1,0 +1,22 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <include file="changelog/changes/dbchangelog-changelog.xml"/>
+    <include file="changelog/changes/user-changelog.xml"/>
+    <include file="changelog/changes/category-changelog.xml"/>
+    <include file="changelog/changes/tenant-changelog.xml"/>
+    <include file="changelog/changes/profile-changelog.xml" />
+    <include file="changelog/changes/bank-changelog.xml" />
+    <include file="changelog/changes/bank_account-changelog.xml" />
+    <include file="changelog/changes/transaction-changelog.xml" />
+    <include file="changelog/changes/account_transfer-changelog.xml" />
+    <include file="changelog/changes/notification-changelog.xml" />
+    <include file="changelog/changes/creditcard-changelog.xml" />
+    <include file="changelog/changes/credit_card_invoice-changelog.xml" />
+    <include file="changelog/changes/credit_card_transaction-changelog.xml" />
+    <include file="changelog/changes/credit_card_installment-changelog.xml" />
+    <include file="changelog/changes/quartz-changelog.xml" />
+
+</databaseChangeLog>

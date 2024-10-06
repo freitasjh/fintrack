@@ -1,0 +1,8 @@
+[
+  {
+    "name": "account_payment_pending",
+    "group": "payment",
+    "className": "br.com.systec.fintrack.quarz.impl.job.AccountPaymentJob",
+    "cron": "0 0 0 ? * * *"
+  }
+]
