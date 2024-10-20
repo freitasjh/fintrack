@@ -11,4 +11,6 @@ public interface JobService {
                             String cronExpression, Long tenantId) throws SchedulerException;
     void save(JobVO jobVO) throws Exception;
     void deleteJob(String jobName, String groupName) throws SchedulerException;
+
+    void executeJobNow(String jobName, String groupName) throws SchedulerException;
 }

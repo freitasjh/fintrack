@@ -7,5 +7,9 @@ export default class AccountReceivable {
         this.dateProcessed = null;
         this.dateReceiver = null;
         this.bankAccountDescription = null;
+        this.recurringTransaction = false;
+        this.recurringTransactionFixed = false;
+        this.totalInstallments = 0;
+        this.frequencyType = '';
     }
 }

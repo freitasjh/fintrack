@@ -12,6 +12,7 @@ import br.com.systec.fintrack.financial.received.exceptions.AccountReceivableNot
 import br.com.systec.fintrack.financial.received.filter.AccountReceivableFilterVO;
 import br.com.systec.fintrack.financial.received.model.AccountReceivable;
 import br.com.systec.fintrack.financial.received.service.AccountReceivableService;
+import br.com.systec.fintrack.financial.received.vo.AccountReceivableVO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import org.assertj.core.api.Assertions;
@@ -84,11 +85,11 @@ public class AccountReceivableControllerTest {
     void whenSaveAccountReceivable() throws Exception {
         AccountReceivableInputDTO accountReceivableToSave = AccountReceivableFake.toInputDTO();
 
-        AccountReceivable accountReceivableAfterSave = AccountReceivableFake.toFake();
+        AccountReceivableVO accountReceivableAfterSave = AccountReceivableFake.toFakeVO();
         accountReceivableAfterSave.setId(1L);
 
         Mockito.doReturn(accountReceivableAfterSave).when(service)
-                .save(Mockito.any(AccountReceivable.class));
+                .save(Mockito.any(AccountReceivableVO.class));
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(RECEIVER)
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -104,7 +105,7 @@ public class AccountReceivableControllerTest {
         Assertions.assertThat(accountReceivableReturn.getId()).isNotNull();
         Assertions.assertThat(accountReceivableReturn.getBankAccountId()).isEqualTo(accountReceivableToSave.getBankAccountId());
 
-        Mockito.verify(service).save(Mockito.any(AccountReceivable.class));
+        Mockito.verify(service).save(Mockito.any(AccountReceivableVO.class));
     }
 
     @Test
@@ -123,7 +124,7 @@ public class AccountReceivableControllerTest {
 
     @Test
     void whenFindAccountReceivable() throws Exception {
-        AccountReceivable accountReceivableToReturn = AccountReceivableFake.toFake();
+        AccountReceivableVO accountReceivableToReturn = AccountReceivableFake.toFakeVO();
         accountReceivableToReturn.setId(1L);
 
         Mockito.doReturn(accountReceivableToReturn).when(service).findById(Mockito.anyLong());
@@ -141,7 +142,7 @@ public class AccountReceivableControllerTest {
 
     @Test
     void whenFindAccountReceivableObjectNotFoundException() throws Exception {
-        AccountReceivable accountReceivableToReturn = AccountReceivableFake.toFake();
+        AccountReceivableVO accountReceivableToReturn = AccountReceivableFake.toFakeVO();
         accountReceivableToReturn.setId(1L);
 
         Mockito.doThrow(new AccountReceivableNotFoundException())
@@ -161,7 +162,7 @@ public class AccountReceivableControllerTest {
 
     @Test
     void whenFindAllAccountReceivable() throws Exception {
-        List<AccountReceivable> listAccountReceivableReturn = List.of(AccountReceivableFake.toFake());
+        List<AccountReceivableVO> listAccountReceivableReturn = List.of(AccountReceivableFake.toFakeVO());
 
         Mockito.doReturn(listAccountReceivableReturn).when(service).findAll();
 
@@ -176,7 +177,7 @@ public class AccountReceivableControllerTest {
 
     @Test
     void whenFindByFilter() throws Exception {
-        Page<AccountReceivable> pageOfReturn = new PageImpl<>(List.of(AccountReceivableFake.toFake()), PageRequest.of(0, 1, Sort.by("id")), 1);
+        Page<AccountReceivableVO> pageOfReturn = new PageImpl<>(List.of(AccountReceivableFake.toFakeVO()), PageRequest.of(0, 1, Sort.by("id")), 1);
 
         Mockito.doReturn(pageOfReturn).when(service).findByFilter(Mockito.any(AccountReceivableFilterVO.class));
 

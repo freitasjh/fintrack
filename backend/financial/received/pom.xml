@@ -18,5 +18,6 @@
         <module>api</module>
         <module>impl</module>
         <module>v1</module>
+        <module>sdk</module>
     </modules>
 </project>

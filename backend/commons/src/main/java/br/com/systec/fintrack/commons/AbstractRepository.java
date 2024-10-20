@@ -102,6 +102,22 @@ public abstract class AbstractRepository<T, ID> implements CrudRepository<T, ID>
         return query.getResultList();
     }
 
+    public Optional<T> findByIdAndTenant(Long id) {
+        TypedQuery<T> query = entityManager.createQuery("select obj from "+entityClass.getSimpleName()+" obj " +
+                "where obj.tenantId = :tenantId and obj.id = :id",entityClass);
+
+        query.setParameter("tenantId", TenantContext.getTenant());
+        query.setParameter("id", id);
+
+        List<T> listReturn = query.getResultList();
+
+        if(listReturn.isEmpty()){
+            Optional.empty();
+        }
+
+        return Optional.of(listReturn.get(0));
+    }
+
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
     public Iterable<T> findAllById(Iterable<ID> ids) {

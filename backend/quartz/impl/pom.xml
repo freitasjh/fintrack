@@ -52,6 +52,14 @@
             <artifactId>fintrack-financial-payment-jms</artifactId>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>br.com.systec.fintrack</groupId>
+            <artifactId>fintrack-financial-recurring-transaction-jms</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>br.com.systec.fintrack</groupId>
+            <artifactId>fintrack-financial-received-sdk</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

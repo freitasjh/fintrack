@@ -24,7 +24,6 @@ public class AccountPaymentJob implements Job {
     public void execute(JobExecutionContext context) throws JobExecutionException {
         try {
             Long tenantId = (Long) context.getJobDetail().getJobDataMap().get("tenantId");
-            log.warn("Testando tenantId {}", tenantId);
 
             if (tenantId == null) {
                 throw new TenantNotFoundException("Sem tenant cadastrado no job, entre em contato com o suporte");

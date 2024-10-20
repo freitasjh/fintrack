@@ -2,7 +2,10 @@ package br.com.systec.fintrack.creditcard.commons;
 
 import br.com.systec.fintrack.creditcard.model.CreditCard;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DateCreditCardUtils {
 
@@ -20,5 +23,4 @@ public class DateCreditCardUtils {
 
         return LocalDate.now().withDayOfMonth(Integer.parseInt(creditCard.getDueDay())).plusMonths(installment);
     }
-
 }

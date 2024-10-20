@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+    <changeSet id="recurring-transaction-16102024J-1" author="Joao">
+        <createTable tableName="recurring_transaction">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="transaction_id" type="int8">
+                <constraints nullable="false" />
+            </column>
+            <column name="transaction_type" type="varchar(255)"/>
+            <column name="frequency_type" type="varchar(255)"/>
+            <column name="total_instalments" type="int4"/>
+            <column name="current_installments" type="int4"/>
+            <column name="transaction_fixed" type="bool"/>
+            <column name="tenant_id" type="int8" >
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

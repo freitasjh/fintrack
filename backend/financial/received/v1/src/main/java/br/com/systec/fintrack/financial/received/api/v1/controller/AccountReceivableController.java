@@ -10,6 +10,7 @@ import br.com.systec.fintrack.financial.received.api.v1.dto.AccountReceivableInp
 import br.com.systec.fintrack.financial.received.filter.AccountReceivableFilterVO;
 import br.com.systec.fintrack.financial.received.model.AccountReceivable;
 import br.com.systec.fintrack.financial.received.service.AccountReceivableService;
+import br.com.systec.fintrack.financial.received.vo.AccountReceivableVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -45,7 +46,8 @@ public class AccountReceivableController extends AbstractController {
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<List<AccountReceivableDTO>> findAll() {
-        List<AccountReceivable> listAll = service.findAll();
+        List<AccountReceivableVO> listAll = service.findAll();
+
         List<AccountReceivableDTO> listAccountReceivableDTO = AccountReceivableConverter.toListDTO(listAll);
 
         return buildSuccessResponse(listAccountReceivableDTO);
@@ -65,7 +67,7 @@ public class AccountReceivableController extends AbstractController {
         AccountReceivableFilterVO filterVO = new AccountReceivableFilterVO(limit, page, search);
         filterVO.setAccountId(accountId);
 
-        Page<AccountReceivable> pageOfAccountReceivable = service.findByFilter(filterVO);
+        Page<AccountReceivableVO> pageOfAccountReceivable = service.findByFilter(filterVO);
         Page<AccountReceivableDTO> pageOfAccountReceivableDTO = AccountReceivableConverter.toPageDTO(pageOfAccountReceivable);
 
         return buildSuccessResponse(pageOfAccountReceivableDTO);
@@ -85,7 +87,7 @@ public class AccountReceivableController extends AbstractController {
             })
     })
     public ResponseEntity<AccountReceivableInputDTO> findById(@PathVariable("accountReceivableId") Long accountReceivableId) {
-        AccountReceivable accountReceivable = service.findById(accountReceivableId);
+        AccountReceivableVO accountReceivable = service.findById(accountReceivableId);
 
         AccountReceivableInputDTO inputDTO = AccountReceivableConverter.toInputDTO(accountReceivable);
 
@@ -106,11 +108,12 @@ public class AccountReceivableController extends AbstractController {
     })
     public ResponseEntity<AccountReceivableInputDTO> save(@RequestBody @Valid AccountReceivableInputDTO inputDTO,
                                                           UriComponentsBuilder builder) {
-        AccountReceivable accountReceivable = AccountReceivableConverter.toModel(inputDTO);
-        AccountReceivable accountReceivableSaved = service.save(accountReceivable);
+        AccountReceivableVO accountReceivable = AccountReceivableConverter.toVO(inputDTO);
 
-        AccountReceivableInputDTO accountReceivableInputDTO = AccountReceivableConverter.toInputDTO(accountReceivableSaved);
+        AccountReceivableVO accountReceivableAfterSave = service.save(accountReceivable);
 
-        return buildSuccessResponseCreated(accountReceivableInputDTO, builder, ENDPOINT, accountReceivableSaved.getId());
+        AccountReceivableInputDTO accountReceivableInputDTO = AccountReceivableConverter.toInputDTO(accountReceivableAfterSave);
+
+        return buildSuccessResponseCreated(accountReceivableInputDTO, builder, ENDPOINT, accountReceivableAfterSave.getId());
     }
 }

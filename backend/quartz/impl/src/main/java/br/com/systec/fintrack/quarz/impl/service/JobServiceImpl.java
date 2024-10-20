@@ -68,4 +68,15 @@ public class JobServiceImpl implements JobService {
             scheduler.deleteJob(jobKey);
         }
     }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public void executeJobNow(String jobName, String groupName) throws SchedulerException {
+        JobKey jobKey = new JobKey(jobName, groupName);
+        if (scheduler.checkExists(jobKey)) {
+            scheduler.triggerJob(jobKey);
+            System.out.println("Job executado manualmente: " + jobName);
+        } else {
+            System.out.println("Job não encontrado: " + jobName);
+        }
+    }
 }

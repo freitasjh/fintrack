@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,6 +43,16 @@ public class JobController {
             return "Job removido com sucesso!";
         } catch (SchedulerException e) {
             return "Erro ao remover o job: " + e.getMessage();
+        }
+    }
+
+    @PostMapping("/execute")
+    public ResponseEntity<String> executeJobNow(@RequestParam String jobName, @RequestParam String groupName) {
+        try {
+            jobService.executeJobNow(jobName, groupName);
+            return ResponseEntity.ok("Job executado com sucesso!");
+        } catch (SchedulerException e) {
+            return ResponseEntity.status(500).body("Erro ao executar o job: " + e.getMessage());
         }
     }
 }
