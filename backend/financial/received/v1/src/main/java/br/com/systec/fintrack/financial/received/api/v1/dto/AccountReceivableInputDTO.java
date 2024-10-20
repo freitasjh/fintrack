@@ -2,10 +2,14 @@ package br.com.systec.fintrack.financial.received.api.v1.dto;
 
 import jakarta.validation.constraints.NotNull;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Date;
 
-public class AccountReceivableInputDTO {
+public class AccountReceivableInputDTO implements Serializable {
 
+    @Serial
+    private static final long serialVersionUID = -1L;
     private Long id;
     @NotNull(message = "Informe uma descrição")
     private String description;
@@ -15,6 +19,11 @@ public class AccountReceivableInputDTO {
     private Date dateProcessed;
     @NotNull(message = "Infome a conta bancaria")
     private Long bankAccountId;
+    private boolean recurringTransaction;
+    private boolean recurringTransactionFixed;
+    private int totalInstallments;
+    private String frequencyType;
+
 
     public Long getId() {
         return id;
@@ -70,5 +79,37 @@ public class AccountReceivableInputDTO {
 
     public void setBankAccountId(Long bankAccountId) {
         this.bankAccountId = bankAccountId;
+    }
+
+    public int getTotalInstallments() {
+        return totalInstallments;
+    }
+
+    public void setTotalInstallments(int totalInstallments) {
+        this.totalInstallments = totalInstallments;
+    }
+
+    public void setFrequencyType(String frequencyType) {
+        this.frequencyType = frequencyType;
+    }
+
+    public String getFrequencyType() {
+        return frequencyType;
+    }
+
+    public void setRecurringTransactionFixed(boolean recurringTransactionFixed) {
+        this.recurringTransactionFixed = recurringTransactionFixed;
+    }
+
+    public boolean isRecurringTransactionFixed() {
+        return recurringTransactionFixed;
+    }
+
+    public void setRecurringTransaction(boolean recurringTransaction) {
+        this.recurringTransaction = recurringTransaction;
+    }
+
+    public boolean isRecurringTransaction() {
+        return recurringTransaction;
     }
 }

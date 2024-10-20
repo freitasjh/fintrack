@@ -5,6 +5,7 @@ import br.com.systec.fintrack.commons.TenantContext;
 import br.com.systec.fintrack.config.I18nTranslate;
 import br.com.systec.fintrack.financial.received.model.AccountReceivable;
 import br.com.systec.fintrack.financial.received.service.AccountReceivableService;
+import br.com.systec.fintrack.financial.received.vo.AccountReceivableVO;
 import br.com.systec.fintrack.financial.transaction.model.CategoryTransactionType;
 import br.com.systec.fintrack.rabbitmq.utils.RabbitMQConstants;
 import org.slf4j.Logger;
@@ -28,7 +29,7 @@ public class BankAccountNewJms {
             log.info("@@@@@ salvando o valor inicial da conta");
             TenantContext.add(bankAccountJmsVO.getTenantId());
 
-            AccountReceivable receive = new AccountReceivable();
+            AccountReceivableVO receive = new AccountReceivableVO();
             receive.setDateProcessed(new Date());
             receive.setDateRegister(new Date());
             receive.setProcessed(true);
@@ -40,8 +41,8 @@ public class BankAccountNewJms {
 
             log.info("Salvando");
 
-            AccountReceivable saved = service.save(receive);
-            log.info("@@@@ Salvo {}", saved.getId());
+            AccountReceivableVO accountReceivableVO = service.save(receive);
+            log.info("@@@@ Salvo {}", accountReceivableVO.getId());
         } catch (Exception e) {
             log.error("Ocorreu um erro ao tentar salvar o valor inicial do banco no recebido", e);
         }

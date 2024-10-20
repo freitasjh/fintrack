@@ -34,7 +34,7 @@ public class AccountPaymentJms {
     @Transactional(propagation = Propagation.REQUIRED)
     public void readyJms(@Payload Message message) throws Exception {
         try {
-            AccountPaymentJmsVO accountPaymentJmsVO = AccountPaymentJmsMapper.toObject(message.getPayload().toString());
+            AccountPaymentJmsVO accountPaymentJmsVO = (AccountPaymentJmsVO) message.getPayload();
             TenantContext.add(accountPaymentJmsVO.getTenantId());
 
             if (accountPaymentJmsVO.getJmsType() == AccountPaymentJmsType.PENDING) {
@@ -47,6 +47,7 @@ public class AccountPaymentJms {
         }
     }
 
+    //TODO arrumar a logica de enviar as notificações pendentes.
     private void findAccountPaymentPending() {
         List<AccountPayment> listOfPayment = accountPaymentService.findAccountPaymentPending();
         if (listOfPayment.isEmpty()) {

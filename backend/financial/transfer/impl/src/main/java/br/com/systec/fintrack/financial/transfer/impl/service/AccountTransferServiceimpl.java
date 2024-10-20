@@ -9,6 +9,7 @@ import br.com.systec.fintrack.financial.payment.model.AccountPayment;
 import br.com.systec.fintrack.financial.payment.service.AccountPaymentService;
 import br.com.systec.fintrack.financial.received.model.AccountReceivable;
 import br.com.systec.fintrack.financial.received.service.AccountReceivableService;
+import br.com.systec.fintrack.financial.received.vo.AccountReceivableVO;
 import br.com.systec.fintrack.financial.transaction.model.CategoryTransactionType;
 import br.com.systec.fintrack.financial.transfer.exceptions.AccountTransferFindException;
 import br.com.systec.fintrack.financial.transfer.filters.AccountTransferFilterVO;
@@ -110,7 +111,7 @@ public class AccountTransferServiceimpl implements AccountTransferService {
     }
 
     private void saveAccountReceiver(AccountTransfer accountTransfer) throws BaseException {
-        AccountReceivable accountReceivable = new AccountReceivable();
+        AccountReceivableVO accountReceivable = new AccountReceivableVO();
         accountReceivable.setTenantId(TenantContext.getTenant());
         accountReceivable.setDescription("Transferencia de "+accountTransfer.getBankAccountFrom().getDescription());
         accountReceivable.setBankAccount(accountTransfer.getBankAccountTo());

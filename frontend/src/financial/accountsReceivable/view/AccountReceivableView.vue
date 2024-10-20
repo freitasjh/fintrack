@@ -30,6 +30,13 @@ const home = ref({
     icon: 'pi pi-home'
 });
 
+const selectedRecurringFrequency = ref({});
+const recurringFrequencyList = ref([
+    { name: "Semanal", code: "WEEKLY" },
+    { name: "Mensal", code: "MONTHLY" },
+    { name: "Anual", code: "YEAR" },
+]);
+
 const { showLoading, hideLoading } = useLoader();
 const { handlerError, handlerToastSuccess } = useHandlerMessage();
 const store = useStore();
@@ -81,10 +88,13 @@ const findBankAccount = async () => {
 };
 
 const newAccountReceivable = async () => {
+    accountReceivableDialog.value = true;
     bankAccountSelected.value = {}
     accountReceivable.value = new AccountReceivable();
-    findBankAccount();
-    accountReceivableDialog.value = true;
+    selectedRecurringFrequency.value = {};
+    await findBankAccount();
+
+
     await findCategory();
 };
 
@@ -110,6 +120,8 @@ const save = async () => {
     try {
         showLoading();
         accountReceivable.value.bankAccountId = bankAccountSelected.value.id;
+        accountReceivable.value.frequencyType = selectedRecurringFrequency.code;
+
         await store.dispatch('accountReceivableStore/save', accountReceivable.value);
         handlerToastSuccess("Salvo com sucesso");
         accountReceivableDialog.value = false;
@@ -231,6 +243,25 @@ const findCategory = async () => {
                             <label for="accountReceivable-dateReceiver">{{ $t('dateReceiver') }}</label>
                             <Calendar v-model.lazy="accountReceivable.dateProcessed" showIcon iconDisplay="input"
                                 dateFormat="dd/mm/yy" />
+                        </div>
+                        <div class="field col-12 md:col-12">
+                            <label for="accountReceivable-recurring Transaction">Recorrente</label>
+                            <div>
+                                <InputSwitch v-model="accountReceivable.recurringTransaction" />
+                            </div>
+                        </div>
+                        <div v-if="accountReceivable.recurringTransaction">
+                            <div class="field col-12 md:col-12">
+                                <label>Fixo</label>
+                                <div>
+                                    <InputSwitch v-model="accountReceivable.recurringTransactionFixed" />
+                                </div>
+                            </div>
+                            <div class="field col-12 md:col-12" v-if="!accountReceivable.recurringTransactionFixed">
+                                <label>Frequencia</label>
+                                <Dropdown v-model="selectedRecurringFrequency" :options="recurringFrequencyList"
+                                    optionLabel="name" placeholder="Selecione a frequencia" class="w-full" />
+                            </div>
                         </div>
                     </div>
                     <template #footer>

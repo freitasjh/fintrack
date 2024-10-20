@@ -13,4 +13,5 @@ public class RabbitMQConstants {
     public static final String ROUTING_KEY_NEW_BANK_ACCOUNT = "rt-new-bank-account";
     public static final String ROUTING_KEY_NEW_BALANCE_ACCOUNT = "rt-newbalance-account";
     public static final String FINANCIAL_EXCHANGE = "fx-financial";
+    public static final String RECURRING_FINANCIAL_JOB = "recurring-financial-job-queue";
 }

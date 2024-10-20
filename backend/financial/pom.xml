@@ -18,5 +18,6 @@
         <module>received</module>
         <module>transfer</module>
         <module>transaction</module>
+        <module>recurring-transaction</module>
     </modules>
 </project>

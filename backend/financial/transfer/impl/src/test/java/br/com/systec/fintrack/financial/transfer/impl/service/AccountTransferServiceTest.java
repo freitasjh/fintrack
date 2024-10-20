@@ -8,6 +8,7 @@ import br.com.systec.fintrack.financial.payment.model.AccountPayment;
 import br.com.systec.fintrack.financial.payment.service.AccountPaymentService;
 import br.com.systec.fintrack.financial.received.model.AccountReceivable;
 import br.com.systec.fintrack.financial.received.service.AccountReceivableService;
+import br.com.systec.fintrack.financial.received.vo.AccountReceivableVO;
 import br.com.systec.fintrack.financial.transfer.filters.AccountTransferFilterVO;
 import br.com.systec.fintrack.financial.transfer.impl.fake.AccountTransferFake;
 import br.com.systec.fintrack.financial.transfer.impl.repository.AccountTransferRepository;
@@ -81,7 +82,7 @@ public class AccountTransferServiceTest {
 
         Mockito.verify(repository).save(Mockito.any(AccountTransfer.class));
         Mockito.verify(accountPaymentService).save(Mockito.any(AccountPayment.class));
-        Mockito.verify(accountReceivableService).save(Mockito.any(AccountReceivable.class));
+        Mockito.verify(accountReceivableService).save(Mockito.any(AccountReceivableVO.class));
         Mockito.verify(bankAccountService, Mockito.times(2)).findById(Mockito.anyLong());
     }
 

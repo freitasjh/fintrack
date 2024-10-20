@@ -3,7 +3,9 @@ package br.com.systec.fintrack.financial.received.impl.fake;
 import br.com.systec.fintrack.bank.model.Bank;
 import br.com.systec.fintrack.bankAccount.model.AccountType;
 import br.com.systec.fintrack.bankAccount.model.BankAccount;
+import br.com.systec.fintrack.commons.model.TransactionType;
 import br.com.systec.fintrack.financial.received.model.AccountReceivable;
+import br.com.systec.fintrack.financial.received.vo.AccountReceivableVO;
 
 import java.util.Date;
 
@@ -21,6 +23,21 @@ public class AccountReceivableFake {
 
         return accountReceivable;
     }
+
+    public static AccountReceivableVO toFakeVO() {
+        AccountReceivableVO accountReceivable = new AccountReceivableVO();
+        accountReceivable.setBankAccount(bankAccountFake());
+        accountReceivable.setDescription("Cadastro de nova conta");
+        accountReceivable.setAmount(1000.0);
+        accountReceivable.setTenantId(1L);
+        accountReceivable.setDateRegister(new Date());
+        accountReceivable.setDateProcessed(new Date());
+        accountReceivable.setProcessed(true);
+        accountReceivable.setTransactionType(TransactionType.INCOMING);
+
+        return accountReceivable;
+    }
+
     private static BankAccount bankAccountFake() {
         BankAccount bankAccount = new BankAccount();
         bankAccount.setId(1L);

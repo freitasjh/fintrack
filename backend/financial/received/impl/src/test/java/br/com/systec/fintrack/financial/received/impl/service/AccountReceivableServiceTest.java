@@ -12,6 +12,7 @@ import br.com.systec.fintrack.financial.received.impl.fake.AccountReceivableFake
 import br.com.systec.fintrack.financial.received.impl.repository.AccountReceivableRepository;
 import br.com.systec.fintrack.financial.received.impl.repository.AccountReceivableRepositoryJPA;
 import br.com.systec.fintrack.financial.received.model.AccountReceivable;
+import br.com.systec.fintrack.financial.received.vo.AccountReceivableVO;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -67,13 +68,13 @@ public class AccountReceivableServiceTest {
     void whenSaveAccountReceivableTest() {
         AccountReceivable accountReceivableReturn = AccountReceivableFake.toFake();
 
-        AccountReceivable accountReceivableToSave = AccountReceivableFake.toFake();
+        AccountReceivableVO accountReceivableToSave = AccountReceivableFake.toFakeVO();
         accountReceivableToSave.setId(null);
         accountReceivableToSave.setTenantId(null);
 
         Mockito.when(repository.save(Mockito.any(AccountReceivable.class))).thenReturn(accountReceivableReturn);
 
-        AccountReceivable accountReceivableSave = service.save(accountReceivableToSave);
+        AccountReceivableVO accountReceivableSave = service.save(accountReceivableToSave);
 
         Assertions.assertThat(accountReceivableReturn.getId()).isEqualTo(accountReceivableSave.getId());
         Assertions.assertThat(accountReceivableReturn.getAmount()).isEqualTo(accountReceivableSave.getAmount());
@@ -90,7 +91,7 @@ public class AccountReceivableServiceTest {
         Mockito.doThrow(new RuntimeException()).when(bankAccountService)
                 .updateBankAccountBalance(Mockito.anyDouble(), Mockito.anyLong(), Mockito.any(TransactionType.class));
 
-        Assertions.assertThatThrownBy(() -> service.save(AccountReceivableFake.toFake()))
+        Assertions.assertThatThrownBy(() -> service.save(AccountReceivableFake.toFakeVO()))
                 .isInstanceOf(AccountReceivableException.class);
     }
 
@@ -99,7 +100,7 @@ public class AccountReceivableServiceTest {
         Mockito.doThrow(new BaseException()).when(repository)
                 .save(Mockito.any(AccountReceivable.class));
 
-        Assertions.assertThatThrownBy(() -> service.save(AccountReceivableFake.toFake()))
+        Assertions.assertThatThrownBy(() -> service.save(AccountReceivableFake.toFakeVO()))
                 .isInstanceOf(BaseException.class);
     }
 
@@ -117,7 +118,7 @@ public class AccountReceivableServiceTest {
         Mockito.doReturn(Optional.of(accountReceivableToReturn))
                 .when(repository).findById(Mockito.anyLong());
 
-        AccountReceivable accountReceivableReturn = service.findById(1L);
+        AccountReceivableVO accountReceivableReturn = service.findById(1L);
 
         Assertions.assertThat(accountReceivableReturn).isNotNull();
     }
@@ -127,7 +128,7 @@ public class AccountReceivableServiceTest {
         List<AccountReceivable> listOfAccountReceivable = List.of(AccountReceivableFake.toFake());
         Mockito.when(repository.findAll(1L)).thenReturn(listOfAccountReceivable);
 
-        List<AccountReceivable> listOfAccountReceivableReturn = service.findAll();
+        List<AccountReceivableVO> listOfAccountReceivableReturn = service.findAll();
 
         Assertions.assertThat(listOfAccountReceivableReturn).isNotEmpty();
         Assertions.assertThat(listOfAccountReceivableReturn.size()).isEqualTo(1);
@@ -142,7 +143,7 @@ public class AccountReceivableServiceTest {
         Mockito.doReturn(pageToReturn).when(repositoryJPA)
                 .findAll(Mockito.any(Specification.class), Mockito.any(Pageable.class));
 
-        Page<AccountReceivable> pageReturned = service.findByFilter(new AccountReceivableFilterVO());
+        Page<AccountReceivableVO> pageReturned = service.findByFilter(new AccountReceivableFilterVO());
 
         Assertions.assertThat(pageReturned).isNotNull();
         Assertions.assertThat(pageReturned.getSize()).isEqualTo(pageToReturn.getSize());

@@ -48,6 +48,9 @@ public class RabbitMQConfig {
     Queue queueJobCreditCard() { return new Queue(RabbitMQConstants.CREDIT_CARD_JOB, true, false, true); }
 
     @Bean
+    Queue queueRecurringJob(){ return new Queue(RabbitMQConstants.RECURRING_FINANCIAL_JOB, true, false, true); }
+
+    @Bean
     DirectExchange directExchange(){
         return new DirectExchange(RabbitMQConstants.FINANCIAL_EXCHANGE);
     }

@@ -7,10 +7,16 @@ import br.com.systec.fintrack.commons.model.TransactionType;
 import br.com.systec.fintrack.financial.received.exceptions.AccountReceivableException;
 import br.com.systec.fintrack.financial.received.exceptions.AccountReceivableNotFoundException;
 import br.com.systec.fintrack.financial.received.filter.AccountReceivableFilterVO;
+import br.com.systec.fintrack.financial.received.impl.mapper.AccountReceivableMapper;
 import br.com.systec.fintrack.financial.received.impl.repository.AccountReceivableRepository;
 import br.com.systec.fintrack.financial.received.impl.repository.AccountReceivableRepositoryJPA;
 import br.com.systec.fintrack.financial.received.model.AccountReceivable;
 import br.com.systec.fintrack.financial.received.service.AccountReceivableService;
+import br.com.systec.fintrack.financial.received.vo.AccountReceivableVO;
+import br.com.systec.fintrack.financial.recurringtransaction.model.FrequencyType;
+import br.com.systec.fintrack.financial.recurringtransaction.model.RecurringTransaction;
+import br.com.systec.fintrack.financial.recurringtransaction.service.RecurringTransactionService;
+import br.com.systec.fintrack.financial.recurringtransaction.vo.RecurringTransactionVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -33,16 +39,27 @@ public class AccountReceivableServiceImpl implements AccountReceivableService {
     private RabbitTemplate template;
     @Autowired
     private BankAccountService bankAccountService;
+    @Autowired
+    private RecurringTransactionService recurringTransactionService;
 
+
+    @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public AccountReceivable save(AccountReceivable accountReceivable) throws AccountReceivableException {
+    public AccountReceivableVO save(AccountReceivableVO accountReceivableVO) throws AccountReceivableException {
         try{
+            AccountReceivable accountReceivable = AccountReceivableMapper.toEntity(accountReceivableVO);
             accountReceivable.setTenantId(TenantContext.getTenant());
-            AccountReceivable receivableAfterSave = repository.save(accountReceivable);
 
-            updateBalanceAccountBank(receivableAfterSave);
+            AccountReceivable accountReceivableAfterSave = repository.save(accountReceivable);
+            accountReceivableVO.setId(accountReceivableAfterSave.getId());
 
-            return receivableAfterSave;
+            updateBalanceAccountBank(accountReceivableAfterSave);
+
+            if(accountReceivableVO.isRecurringTransaction()) {
+                createRecurringTransaction(accountReceivableVO);
+            }
+
+            return AccountReceivableMapper.toVO(accountReceivableAfterSave);
         } catch (BaseException e) {
             throw e;
         } catch (Exception e) {
@@ -51,32 +68,47 @@ public class AccountReceivableServiceImpl implements AccountReceivableService {
         }
     }
 
+    @Override
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    public List<AccountReceivable> findAll() {
-        return repository.findAll(TenantContext.getTenant());
+    public List<AccountReceivableVO> findAll() {
+        List<AccountReceivable> listOfAccountReceivable = repository.findAll(TenantContext.getTenant());
+
+        return AccountReceivableMapper.toListVO(listOfAccountReceivable);
     }
 
+    @Override
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    public Page<AccountReceivable> findByFilter(AccountReceivableFilterVO filterVO) {
+    public Page<AccountReceivableVO> findByFilter(AccountReceivableFilterVO filterVO) {
         Page<AccountReceivable> pageOfAccountReceivable = repositoryJPA.findAll(filterVO.getSpecification(), filterVO.getPageable());
 
-        return pageOfAccountReceivable;
+        return AccountReceivableMapper.toPageVO(pageOfAccountReceivable);
     }
 
+    @Override
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    public AccountReceivable findById(Long id) {
-        return repository.findById(id).orElseThrow(AccountReceivableNotFoundException::new);
+    public AccountReceivableVO findById(Long id) {
+        AccountReceivable accountReceivable = repository.findById(id).orElseThrow(AccountReceivableNotFoundException::new);
+
+        return AccountReceivableMapper.toVO(accountReceivable);
     }
 
     private void updateBalanceAccountBank(AccountReceivable accountReceivable) {
-        bankAccountService.updateBankAccountBalance(accountReceivable.getAmount(), accountReceivable.getBankAccount().getId(), TransactionType.INCOMING);
+        if(accountReceivable.isProcessed()) {
+            bankAccountService.updateBankAccountBalance(accountReceivable.getAmount(), accountReceivable.getBankAccount().getId(), TransactionType.INCOMING);
+        }
     }
 
-    //TODO vai ficar aqui ate resolver se vai ser por messageria ou vai ser por transação
-//    private void convertAndSendJms(AccountReceivable accountReceivable) {
-//        BankAccountJms bankAccountJms = new BankAccountJms(accountReceivable.getTenantId(),
-//                accountReceivable.getBankAccount().getId(), accountReceivable.getAmount(), TransactionType.INCOMING);
-//
-//        //template.convertAndSend(RabbitMQConfig.FINANCIAL_EXCHANGE, RabbitMQConfig.ROUTING_KEY_NEW_BALANCE_ACCOUNT, bankAccountJms);
-//    }
+    private void createRecurringTransaction(AccountReceivableVO accountReceivableVO) throws BaseException {
+        log.info("@@ Salvando Transação recorrente");
+
+        RecurringTransactionVO recurringTransaction = new RecurringTransactionVO();
+        recurringTransaction.setTransactionId(accountReceivableVO.getId());
+        recurringTransaction.setTransactionType(TransactionType.INCOMING);
+        recurringTransaction.setTransactionFixed(accountReceivableVO.isRecurringTransactionFixed());
+        recurringTransaction.setTotalInstallments(accountReceivableVO.getTotalInstallments());
+        recurringTransaction.setFrequencyType(FrequencyType.valueOf(accountReceivableVO.getFrequencyType()));
+        recurringTransaction.setCurrentInstallments(0);
+
+        recurringTransactionService.create(recurringTransaction);
+    }
 }
