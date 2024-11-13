@@ -10,8 +10,12 @@ import java.util.List;
 public class DateCreditCardUtils {
 
     public static LocalDate generateDueDate(CreditCard creditCard, int installment) {
-        LocalDate dateClose = LocalDate.now().withDayOfMonth(Integer.parseInt(creditCard.getClosingDate()));
+        LocalDate dateClose = LocalDate.now().withDayOfMonth(Integer.parseInt(creditCard.getClosingDate()));;
         LocalDate dateNow = LocalDate.now();
+
+        if(Integer.parseInt(creditCard.getClosingDate()) < Integer.parseInt(creditCard.getDueDay())){
+            dateClose = LocalDate.now().withDayOfMonth(Integer.parseInt(creditCard.getClosingDate())).plusMonths(1);
+        }
 
         if (installment > 1 || dateNow.isAfter(dateClose)) {
             if (installment == 1) {
@@ -21,6 +25,6 @@ public class DateCreditCardUtils {
             return LocalDate.now().withDayOfMonth(Integer.parseInt(creditCard.getDueDay())).plusMonths(installment);
         }
 
-        return LocalDate.now().withDayOfMonth(Integer.parseInt(creditCard.getDueDay())).plusMonths(installment);
+        return LocalDate.now().withDayOfMonth(Integer.parseInt(creditCard.getDueDay())).plusMonths(1);
     }
 }

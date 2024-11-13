@@ -55,7 +55,7 @@ import java.util.List;
 @SpringBootConfiguration
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class AccountReceivableControllerTest {
-    public static final String RECEIVER = RestPath.V1 + "/receivable";
+    public static final String RECEIVER = RestPath.V1 + "/received";
     @Spy
     private AccountReceivableService service;
     @InjectMocks

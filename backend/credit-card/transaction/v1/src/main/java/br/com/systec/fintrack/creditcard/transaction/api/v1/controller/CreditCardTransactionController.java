@@ -32,7 +32,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping(RestPath.V1+"/credit-cards/transactions")
-@Tag(name = "Credit card Transaction", description = "Transações de cartão de credito")
+@Tag(name = "Credit Card Transaction", description = "Transações de cartão de credito")
 @SecurityRequirement(name = "Authorization")
 public class CreditCardTransactionController extends AbstractController {
     private static final String ENDPOINT = RestPath.V1+"/credit-cards/transactions";

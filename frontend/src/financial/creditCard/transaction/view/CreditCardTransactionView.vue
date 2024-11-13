@@ -28,6 +28,12 @@ const home = ref({
     icon: "pi pi-home",
 });
 
+onMounted(() => {
+    eventBus.on("refresh-transaction-credit-card", async () => {
+        await findByFilter();
+    });
+});
+
 onBeforeMount(async () => {
     await findByFilter();
 });

@@ -1,7 +1,7 @@
 import http from '@/config/axios';
 export default class DashboardService {
     constructor() {
-        this.endpoint = '/api/v1/dashboard';
+        this.endpoint = '/api/v1/dashboards';
     }
 
     findBalanceCurrentAccount() {
@@ -26,5 +26,9 @@ export default class DashboardService {
 
     findPaymentOpen() {
         return http.get(`${this.endpoint}/payment-open`).then((response) => response);
+    }
+
+    findCreditCardInvoiceAmountOpen() {
+        return http.get(`${this.endpoint}/invoice-amount-open`).then((response) => response);
     }
 }

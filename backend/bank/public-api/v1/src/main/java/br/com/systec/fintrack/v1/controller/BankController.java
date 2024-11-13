@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(RestPath.V1 + "/banks")
-@Tag(name = "/banks", description = "Cadastro de bancos")
+@Tag(name = "Banks", description = "Cadastro de bancos")
 @SecurityRequirement(name = "Authorization")
 public class BankController extends AbstractController {
 

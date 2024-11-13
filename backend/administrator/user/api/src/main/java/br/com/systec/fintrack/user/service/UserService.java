@@ -1,11 +1,9 @@
 package br.com.systec.fintrack.user.service;
 
 import br.com.systec.fintrack.commons.exception.BaseException;
-import br.com.systec.fintrack.commons.exception.ObjectNotFoundException;
 import br.com.systec.fintrack.user.model.User;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface UserService {
 

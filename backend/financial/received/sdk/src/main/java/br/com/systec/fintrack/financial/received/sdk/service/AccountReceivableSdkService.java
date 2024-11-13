@@ -43,6 +43,14 @@ public class AccountReceivableSdkService {
         accountReceivableNew.ifPresent(accountReceivableVO -> accountReceivableService.save(accountReceivableVO));
     }
 
+    private Optional<AccountReceivableVO> createNewAccountReceivableYearly(AccountReceivableVO accountReceivableVRecurring) {
+        return null;
+    }
+
+    private Optional<AccountReceivableVO> createNewAccountReceivableWeekly(AccountReceivableVO accountReceivableRecurring) {
+        return null;
+    }
+
     private Optional<AccountReceivableVO> createNewAccountReceivableMouth(AccountReceivableVO accountReceivableRecurring) {
         LocalDate currentDate = LocalDate.now();
         LocalDate accountReceivableDateRegister = accountReceivableRecurring.getDateRegister().toInstant()

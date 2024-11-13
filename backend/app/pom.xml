@@ -347,6 +347,21 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>br.com.systec.clinic</groupId>
+            <artifactId>fintrack-dashboard-api</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>br.com.systec.clinic</groupId>
+            <artifactId>fintrack-dashboard-impl</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>br.com.systec.clinic</groupId>
+            <artifactId>fintrack-dashboard-web-v1</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
             <scope>runtime</scope>

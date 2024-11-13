@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(RestPath.V1+"/login")
-@Tag(name = "/login", description = "Realiza a authenticação do usuario")
+@Tag(name = "Login", description = "Realiza a authenticação do usuario")
 public class LoginController extends AbstractController {
 
     @Autowired

@@ -2,7 +2,7 @@ import http from '@/config/axios';
 
 export default class AccountPaymentService {
     constructor() {
-        this.endpoint = '/api/v1/payment';
+        this.endpoint = '/api/v1/payments';
     }
 
     save(accountPayment) {

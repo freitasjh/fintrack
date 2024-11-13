@@ -35,8 +35,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 
 @RestController
-@RequestMapping(RestPath.V1 + "/receivable")
-@Tag(name = "Account Receivable", description = "Cadastro de Recebidos")
+@RequestMapping(RestPath.V1 + "/received")
+@Tag(name = "Receivable", description = "Cadastro de Recebidos")
 @SecurityRequirement(name = "Authorization")
 public class AccountReceivableController extends AbstractController {
     private static final String ENDPOINT = RestPath.V1+"/receivable";

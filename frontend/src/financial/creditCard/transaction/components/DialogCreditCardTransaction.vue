@@ -39,6 +39,7 @@ const openDialogHandler = async () => {
         store.commit(`${transactionStore.value}/clearInformation`);
         creditCardSelected.value = new CreditCard();
         await findCreditCard();
+
         dialogVisible.value = true;
     } catch (error) {
         handlerError(error);
@@ -48,13 +49,19 @@ const openDialogHandler = async () => {
 };
 
 
-
 const save = async () => {
     try {
+        showLoading()
         store.commit(`${transactionStore.value}/setCreditCard`, creditCardSelected.value.id);
         await store.dispatch(`${transactionStore.value}/save`);
+
+        dialogVisible.value = false;
+
+        eventBus.emit('refresh-transaction-credit-card');
     } catch (error) {
         handlerError(error);
+    } finally {
+        hideLoading();
     }
 };
 </script>

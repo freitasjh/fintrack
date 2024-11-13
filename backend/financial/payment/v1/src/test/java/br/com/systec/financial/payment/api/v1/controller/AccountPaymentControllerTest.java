@@ -37,7 +37,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class AccountPaymentControllerTest {
-    private static final String ENDPOINT = "/v1/payment";
+    private static final String ENDPOINT = "/v1/payments";
     @Spy
     private AccountPaymentService service;
     @InjectMocks

@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
+import org.aspectj.weaver.ast.Not;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.transaction.annotation.Propagation;
@@ -20,6 +21,7 @@ public abstract class AbstractRepository<T, ID> implements CrudRepository<T, ID>
 
     @SuppressWarnings("unchecked")
 	private Class<T> entityClass = (Class<T>) ((ParameterizedType)getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+
 
     @PersistenceContext
     protected EntityManager entityManager;
@@ -102,6 +104,7 @@ public abstract class AbstractRepository<T, ID> implements CrudRepository<T, ID>
         return query.getResultList();
     }
 
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public Optional<T> findByIdAndTenant(Long id) {
         TypedQuery<T> query = entityManager.createQuery("select obj from "+entityClass.getSimpleName()+" obj " +
                 "where obj.tenantId = :tenantId and obj.id = :id",entityClass);

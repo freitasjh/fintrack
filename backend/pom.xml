@@ -29,5 +29,6 @@
         <module>financial</module>
         <module>notification</module>
         <module>quartz</module>
+        <module>dashboard</module>
     </modules>
 </project>

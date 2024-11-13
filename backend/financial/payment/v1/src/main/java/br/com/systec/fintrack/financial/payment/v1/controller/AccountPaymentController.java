@@ -36,7 +36,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.Date;
 
 @RestController
-@RequestMapping(RestPath.V1+"/payment")
+@RequestMapping(RestPath.V1+"/payments")
 @Tag(name = "Payment", description = "Cadastro de contas pagas")
 @SecurityRequirement(name = "Authorization")
 public class AccountPaymentController extends AbstractController {

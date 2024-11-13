@@ -31,7 +31,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping(RestPath.V1+"/users")
-@Tag(name = "/users", description = "Cadastros de usuarios")
+@Tag(name = "Users", description = "Cadastros de usuarios")
 public class UserController extends AbstractController {
     private static final String ENDPOINT = RestPath.V1+"/users";
     @Autowired

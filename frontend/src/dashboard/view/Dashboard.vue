@@ -2,12 +2,15 @@
 import { onMounted, reactive, ref, watch } from 'vue';
 import { ProductService } from '@/service/ProductService';
 import { useLayout } from '@/layout/composables/layout';
-import AccountBalanceComponent from '../dashboard/components/AccountBalanceComponent.vue'
-import AccountExpendBalance from '../dashboard/components/AccountExpendBalanceComponent.vue'
-import AccountPaymentRecent from '../dashboard/components/AccountPaymentRecent.vue';
-import CategoryExpenseComponent from '../dashboard/components/CategoryExpenseComponent.vue';
-import AccountPaymentNotProcessedComponent from '../dashboard/components/AccountPaymentNotProcessedComponent.vue';
-import AccountPaymentRecentOpen from '../dashboard/components/AccountPaymentRecentOpen.vue';
+import AccountBalanceComponent from '@/dashboard/components/AccountBalanceComponent.vue'
+import AccountExpendBalance from '@/dashboard/components/AccountExpendBalanceComponent.vue'
+import AccountPaymentRecent from '@/dashboard/components/AccountPaymentRecent.vue';
+import CategoryExpenseComponent from '@/dashboard/components/CategoryExpenseComponent.vue';
+import AccountPaymentNotProcessedComponent from '@/dashboard/components/AccountPaymentNotProcessedComponent.vue';
+import AccountPaymentRecentOpen from '@/dashboard/components/AccountPaymentRecentOpen.vue';
+import CreditCardInvoiceAmountOpen from '@/dashboard/components/CreditCardInvoiceAmountOpen.vue';
+import CreditCardDashView from '../components/CreditCardDashView.vue';
+import BankAccountDashView from '../components/BankAccountDashView.vue';
 
 const { isDarkTheme } = useLayout();
 </script>
@@ -23,39 +26,15 @@ const { isDarkTheme } = useLayout();
         <div class="col-12 lg:col-6 xl:col-3">
             <AccountPaymentNotProcessedComponent />
         </div>
-        <!-- <div class="col-12 lg:col-6 xl:col-3">
-            <div class="card mb-0">
-                <div class="flex justify-content-between mb-3">
-                    <div>
-                        <span class="block text-500 font-medium mb-3">Customers</span>
-                        <div class="text-900 font-medium text-xl">28441</div>
-                    </div>
-                    <div class="flex align-items-center justify-content-center bg-cyan-100 border-round"
-                        style="width: 2.5rem; height: 2.5rem">
-                        <i class="pi pi-inbox text-cyan-500 text-xl"></i>
-                    </div>
-                </div>
-                <span class="text-green-500 font-medium">520 </span>
-                <span class="text-500">newly registered</span>
-            </div>
-        </div> -->
-        <!-- <div class="col-12 lg:col-6 xl:col-3">
-            <div class="card mb-0">
-                <div class="flex justify-content-between mb-3">
-                    <div>
-                        <span class="block text-500 font-medium mb-3">Comments</span>
-                        <div class="text-900 font-medium text-xl">152 Unread</div>
-                    </div>
-                    <div class="flex align-items-center justify-content-center bg-purple-100 border-round"
-                        style="width: 2.5rem; height: 2.5rem">
-                        <i class="pi pi-comment text-purple-500 text-xl"></i>
-                    </div>
-                </div>
-                <span class="text-green-500 font-medium">85 </span>
-                <span class="text-500">responded</span>
-            </div>
-        </div> -->
-
+        <div class="col-12 lg:col-6 xl:col-3">
+            <CreditCardInvoiceAmountOpen />
+        </div>
+        <div class="col-12 lg:col-6 xl:col-6">
+            <BankAccountDashView />
+        </div>
+        <div class="col-12 lg:col-6 xl:col-6">
+            <CreditCardDashView />
+        </div>
         <div class="col-12 xl:col-12">
             <div class="dashboard">
                 <div class="col" :class="{ 'full-width': true }">
@@ -68,9 +47,10 @@ const { isDarkTheme } = useLayout();
         </div>
         <div class="col-12 xl:col-12">
             <div class="dashboard">
-                <div class="col" :class="{ 'full-width': true }">
+                <div class="col" :class="{ 'full-width': false }">
                     <AccountPaymentRecentOpen />
                 </div>
+
             </div>
         </div>
         <div class="col-12 xl:col-6">

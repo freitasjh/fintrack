@@ -1,6 +1,6 @@
-package br.com.systec.fintrack.dashboard.api.v1.mapper;
+package br.com.systec.clinic.dashboard.api.v1.mapper;
 
-import br.com.systec.fintrack.dashboard.api.v1.dto.CategoryExpenseDTO;
+import br.com.systec.clinic.dashboard.api.v1.dto.CategoryExpenseDTO;
 import br.com.systec.fintrack.financial.transaction.vo.CategoryExpenseVO;
 
 import java.util.List;
