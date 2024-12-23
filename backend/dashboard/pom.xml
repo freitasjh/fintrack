@@ -10,7 +10,6 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>br.com.systec.clinic</groupId>
     <artifactId>fintrack-dashboard</artifactId>
     <name>FinTrack Dashboard</name>
     <packaging>pom</packaging>

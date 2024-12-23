@@ -1,11 +1,11 @@
-package br.com.systec.clinic.dashboard.api.v1.controller;
+package br.com.systec.fintrack.dashboard.api.v1.controller;
 
-import br.com.systec.clinic.dashboard.api.v1.dto.AccountPaymentDashboardDTO;
-import br.com.systec.clinic.dashboard.api.v1.dto.CategoryExpenseDTO;
-import br.com.systec.clinic.dashboard.api.v1.dto.CreditCardInvoiceAmountOpenDTO;
-import br.com.systec.clinic.dashboard.api.v1.mapper.AccountPaymentDashboardMapper;
-import br.com.systec.clinic.dashboard.api.v1.mapper.CategoryExpenseMapper;
-import br.com.systec.clinic.dashboard.service.DashboardService;
+import br.com.systec.fintrack.dashboard.api.v1.dto.AccountPaymentDashboardDTO;
+import br.com.systec.fintrack.dashboard.api.v1.dto.CategoryExpenseDTO;
+import br.com.systec.fintrack.dashboard.api.v1.dto.CreditCardInvoiceAmountOpenDTO;
+import br.com.systec.fintrack.dashboard.api.v1.mapper.AccountPaymentDashboardMapper;
+import br.com.systec.fintrack.dashboard.api.v1.mapper.CategoryExpenseMapper;
+import br.com.systec.fintrack.dashboard.service.DashboardService;
 import br.com.systec.fintrack.commons.AbstractController;
 import br.com.systec.fintrack.commons.RestPath;
 import br.com.systec.fintrack.financial.payment.model.AccountPayment;

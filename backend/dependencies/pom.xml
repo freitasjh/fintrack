@@ -482,19 +482,19 @@
                 <scope>provided</scope>
             </dependency>
             <dependency>
-                <groupId>br.com.systec.clinic</groupId>
+                <groupId>br.com.systec.fintrack</groupId>
                 <artifactId>fintrack-dashboard-api</artifactId>
                 <version>${revision}</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
-                <groupId>br.com.systec.clinic</groupId>
+                <groupId>br.com.systec.fintrack</groupId>
                 <artifactId>fintrack-dashboard-impl</artifactId>
                 <version>${revision}</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
-                <groupId>br.com.systec.clinic</groupId>
+                <groupId>br.com.systec.fintrack</groupId>
                 <artifactId>fintrack-dashboard-web-v1</artifactId>
                 <version>${revision}</version>
                 <scope>provided</scope>

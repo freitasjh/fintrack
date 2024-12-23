@@ -1,4 +1,4 @@
-package br.com.systec.clinic.dashboard.api.v1.controller;
+package br.com.systec.fintrack.dashboard.api.v1.controller;
 
 import br.com.systec.fintrack.commons.AbstractController;
 import br.com.systec.fintrack.commons.RestPath;

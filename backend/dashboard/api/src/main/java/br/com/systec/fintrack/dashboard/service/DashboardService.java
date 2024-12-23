@@ -1,4 +1,4 @@
-package br.com.systec.clinic.dashboard.service;
+package br.com.systec.fintrack.dashboard.service;
 
 import br.com.systec.fintrack.commons.exception.BaseException;
 import br.com.systec.fintrack.financial.payment.model.AccountPayment;

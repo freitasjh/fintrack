@@ -1,4 +1,4 @@
-package br.com.systec.clinic.dashboard.api.v1.dto;
+package br.com.systec.fintrack.dashboard.api.v1.dto;
 
 public class CategoryExpenseDTO {
     private String description;

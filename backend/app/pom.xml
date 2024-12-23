@@ -347,17 +347,17 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>br.com.systec.clinic</groupId>
+            <groupId>br.com.systec.fintrack</groupId>
             <artifactId>fintrack-dashboard-api</artifactId>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>br.com.systec.clinic</groupId>
+            <groupId>br.com.systec.fintrack</groupId>
             <artifactId>fintrack-dashboard-impl</artifactId>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>br.com.systec.clinic</groupId>
+            <groupId>br.com.systec.fintrack</groupId>
             <artifactId>fintrack-dashboard-web-v1</artifactId>
             <scope>compile</scope>
         </dependency>
