@@ -4,36 +4,46 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>br.com.systec.fintrack</groupId>
-        <artifactId>fintrack-credit-card-invoice</artifactId>
+        <groupId>br.com.systec.clinic</groupId>
+        <artifactId>fintrack-dashboard-public-api</artifactId>
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>fintrack-credit-card-invoice-v1</artifactId>
-    <name>FinTrack Cartão de Credito Fatura - V1</name>
+    <artifactId>fintrack-dashboard-web-v1</artifactId>
+    <name>FinTrack Dashboard Web V1</name>
     <packaging>jar</packaging>
 
     <dependencies>
-        <dependency>
-            <groupId>br.com.systec.fintrack</groupId>
-            <artifactId>fintrack-commons</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
+            <groupId>br.com.systec.fintrack</groupId>
+            <artifactId>fintrack-commons</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>br.com.systec.clinic</groupId>
+            <artifactId>fintrack-dashboard-api</artifactId>
         </dependency>
         <dependency>
             <groupId>br.com.systec.fintrack</groupId>
-            <artifactId>fintrack-credit-card-invoice-api</artifactId>
+            <artifactId>fintrack-financial-transaction-api</artifactId>
         </dependency>
         <dependency>
             <groupId>br.com.systec.fintrack</groupId>
-            <artifactId>fintrack-credit-card-customer-api</artifactId>
+            <artifactId>fintrack-financial-payment-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>br.com.systec.fintrack</groupId>
+            <artifactId>fintrack-category-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -41,7 +51,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
@@ -86,7 +95,7 @@
                         <exclude>**/core/**/*</exclude>
                         <exclude>**/filter/**/*</exclude>
                     </excludes>
-                    <destFile>target/jacoco.exec</destFile>
+                    <destFile>${project.build.directory}/jacoco.exec</destFile>
                     <fileSets>
                         <fileSet>
                             <directory>${project.basedir}fintrack/target</directory>
@@ -119,5 +128,4 @@
             </build>
         </profile>
     </profiles>
-
 </project>

@@ -4,20 +4,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>br.com.systec.fintrack</groupId>
-        <artifactId>fintrack</artifactId>
+        <groupId>br.com.systec.clinic</groupId>
+        <artifactId>fintrack-dashboard</artifactId>
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>br.com.systec.clinic</groupId>
-    <artifactId>fintrack-dashboard</artifactId>
-    <name>FinTrack Dashboard</name>
+    <artifactId>fintrack-dashboard-public-api</artifactId>
+    <name>Fintrack Dashboard Public Api</name>
     <packaging>pom</packaging>
-
     <modules>
-        <module>api</module>
-        <module>impl</module>
-        <module>public-api</module>
+        <module>v1</module>
     </modules>
 </project>

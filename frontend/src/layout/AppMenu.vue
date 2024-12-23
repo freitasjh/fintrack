@@ -37,6 +37,7 @@ const model = ref([
                     {
                         label: 'Fatura',
                         icon: 'pi pi-fw pi-file',
+                        to: '/creditCard/invoice'
 
                     }
                 ]

@@ -56,7 +56,8 @@ export const message_pt_BR = {
     transaction: 'Transação',
     selectCreditCard: 'Selecione o Cartão de Credito',
     installments: 'Qtd Parcelas',
-    date: 'Data'
+    date: 'Data',
+    invoice: 'Fatura'
 };
 
 export const message_en = {
@@ -116,5 +117,6 @@ export const message_en = {
     transaction: 'Transação',
     selectCreditCard: 'Selecione o Cartão de Credito',
     installments: 'Qtd Parcelas',
-    date: 'Data'
+    date: 'Data',
+    invoice: 'Fatura'
 };

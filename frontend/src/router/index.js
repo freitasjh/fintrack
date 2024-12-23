@@ -47,6 +47,11 @@ const router = createRouter({
                     path: '/creditCard/transactions',
                     name: 'creditCardTransaction',
                     component: () => import('@/financial/creditCard/transaction/view/CreditCardTransactionView.vue')
+                },
+                {
+                    path: '/creditCard/invoice',
+                    name: 'creditCardInvoice',
+                    component: () => import('@/financial/creditCard/invoice/view/CreditCardInvoceView.vue')
                 }
             ]
         },

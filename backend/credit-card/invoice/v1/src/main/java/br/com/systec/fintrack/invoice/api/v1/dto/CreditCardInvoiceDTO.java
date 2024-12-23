@@ -2,10 +2,14 @@ package br.com.systec.fintrack.invoice.api.v1.dto;
 
 import br.com.systec.fintrack.invoice.model.InvoiceStatusType;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class CreditCardInvoiceDTO {
+public class CreditCardInvoiceDTO implements Serializable {
 
+    @Serial
+    private static final long serialVersionUID = 5840496973086789675L;
     private Long id;
     private String creditCardName;
     private LocalDate dateClose;
