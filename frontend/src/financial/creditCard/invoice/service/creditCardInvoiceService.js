@@ -5,7 +5,15 @@ export default class CreditCardInvoiceService {
         this.endpoint = '/api/v1/credit-card/invoices';
     }
 
-    findByFilter(filter) {
-        return http.get(`${this.endpoint}`).then((response) => response);
+    async findByFilter(filter) {
+        return await http.get(`${this.endpoint}`);
+    }
+
+    async registerPayment(creditCardInvoiceRegister) {
+        return await http.put(`${this.endpoint}/register-payment`, creditCardInvoiceRegister);
+    }
+
+    async findInstallmentByInvoiceId(invoiceId) {
+        return await http.get(`${this.endpoint}/installment/${invoiceId}`);
     }
 }

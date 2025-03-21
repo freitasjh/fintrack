@@ -9,6 +9,7 @@ import br.com.systec.fintrack.financial.received.exceptions.AccountReceivableExc
 import br.com.systec.fintrack.financial.received.exceptions.AccountReceivableNotFoundException;
 import br.com.systec.fintrack.financial.received.filter.AccountReceivableFilterVO;
 import br.com.systec.fintrack.financial.received.impl.fake.AccountReceivableFake;
+import br.com.systec.fintrack.financial.received.impl.metrics.AccountReceivedMetrics;
 import br.com.systec.fintrack.financial.received.impl.repository.AccountReceivableRepository;
 import br.com.systec.fintrack.financial.received.impl.repository.AccountReceivableRepositoryJPA;
 import br.com.systec.fintrack.financial.received.model.AccountReceivable;
@@ -16,14 +17,17 @@ import br.com.systec.fintrack.financial.received.vo.AccountReceivableVO;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -31,12 +35,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.ActiveProfiles;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
 @SpringBootConfiguration
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+//@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class AccountReceivableServiceTest {
 
     @Mock
@@ -47,12 +52,15 @@ public class AccountReceivableServiceTest {
     private RabbitTemplate template;
     @Mock
     private BankAccountService bankAccountService;
-    @InjectMocks
-    private AccountReceivableServiceImpl service = Mockito.spy(new AccountReceivableServiceImpl());
+    @Mock
+    private AccountReceivedMetrics accountReceivedMetrics;
     @Mock
     private ResourceBundleMessageSource messageSource; // Mock do messageSource
     @InjectMocks
     private I18nTranslate i18nTranslate;
+
+    @InjectMocks
+    private AccountReceivableServiceImpl service;
 
     @BeforeAll
     public static void init() {
@@ -115,12 +123,13 @@ public class AccountReceivableServiceTest {
     void whenFindById() {
         AccountReceivable accountReceivableToReturn = AccountReceivableFake.toFake();
 
-        Mockito.doReturn(Optional.of(accountReceivableToReturn))
-                .when(repository).findById(Mockito.anyLong());
+        Mockito.when(repository.findById(Mockito.anyLong())).thenReturn(Optional.of(accountReceivableToReturn));
 
-        AccountReceivableVO accountReceivableReturn = service.findById(1L);
+        AccountReceivableVO accountReceivableReturn = service.findById(Mockito.anyLong());
 
         Assertions.assertThat(accountReceivableReturn).isNotNull();
+
+        Mockito.verify(repository).findById(Mockito.anyLong());
     }
 
     @Test

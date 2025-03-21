@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -63,8 +64,11 @@ public class AccountReceivableController extends AbstractController {
     public ResponseEntity<Page<AccountReceivableDTO>> filterByFilter(@RequestParam(value = "search", required = false) String search,
                                                                      @RequestParam(value = "page", required = false, defaultValue = "0") int page,
                                                                      @RequestParam(value = "limit", required = false, defaultValue = "30") int limit,
-                                                                     @RequestParam(value = "accountId", required = false) Long accountId) {
+                                                                     @RequestParam(value = "accountId", required = false) Long accountId,
+                                                                     @RequestParam(value = "dateProcessed", required = false) LocalDate dateProcessed) {
+
         AccountReceivableFilterVO filterVO = new AccountReceivableFilterVO(limit, page, search);
+        filterVO.setDateProcessed(dateProcessed);
         filterVO.setAccountId(accountId);
 
         Page<AccountReceivableVO> pageOfAccountReceivable = service.findByFilter(filterVO);

@@ -3,24 +3,24 @@ package br.com.systec.fintrack.financial.payment.impl.service;
 import br.com.systec.fintrack.bankAccount.service.BankAccountService;
 import br.com.systec.fintrack.commons.TenantContext;
 import br.com.systec.fintrack.commons.exception.ValidatorException;
-import br.com.systec.fintrack.financial.payment.imp.repository.AccountPaymentRepository;
-import br.com.systec.fintrack.financial.payment.imp.repository.AccountPaymentRepositoryJpa;
-import br.com.systec.fintrack.financial.payment.imp.service.AccountPaymentServiceImpl;
+import br.com.systec.fintrack.financial.payment.impl.repository.AccountPaymentRepository;
+import br.com.systec.fintrack.financial.payment.impl.repository.AccountPaymentRepositoryJpa;
 import br.com.systec.fintrack.financial.payment.impl.fake.AccountPaymentFake;
 import br.com.systec.fintrack.financial.payment.model.AccountPayment;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
-@ExtendWith(SpringExtension.class)
+@SpringBootTest
+@SpringBootConfiguration
 public class AccountPaymentServiceTest {
 
     @Mock

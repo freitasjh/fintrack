@@ -5,7 +5,7 @@ import br.com.systec.fintrack.commons.RestPath;
 import br.com.systec.fintrack.commons.exception.StandardError;
 import br.com.systec.fintrack.commons.exception.ValidationError;
 import br.com.systec.fintrack.notification.api.v1.converter.NotificationMapper;
-import br.com.systec.fintrack.notification.api.v1.dto.NotificationDTO;
+import br.com.systec.fintrack.notification.api.v1.dto.NotificationResponseDTO;
 import br.com.systec.fintrack.notification.api.v1.dto.NotificationInputDTO;
 import br.com.systec.fintrack.notification.model.Notification;
 import br.com.systec.fintrack.notification.service.NotificationService;
@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 
 @RestController
@@ -49,14 +51,14 @@ public class NotificationController extends AbstractController {
                     @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = StandardError.class))
             })
     })
-    public ResponseEntity<NotificationDTO> save(@RequestBody @Valid NotificationInputDTO inputDTO) {
+    public ResponseEntity<NotificationResponseDTO> save(@RequestBody @Valid NotificationInputDTO inputDTO) {
         Notification notification = NotificationMapper.toEntity(inputDTO);
 
         Notification notificationSaved = service.save(notification);
-        return buildSuccessResponse(NotificationMapper.toDTO(notificationSaved));
+        return buildSuccessResponse(NotificationMapper.toResponseDTO(notificationSaved));
     }
 
-    @GetMapping(value = "/{userId}")
+    @GetMapping(value = "/count/{userId}")
     @Operation(description = "Retorna o total de notificações não visualizada")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK", content = {
@@ -71,9 +73,20 @@ public class NotificationController extends AbstractController {
 
         return buildSuccessResponse(total);
     }
-//
-//    @PostMapping("/notification/{message}")
-//    public void sendNotification(@PathVariable("message") String message) {
-//        messageTemplate.convertAndSend("/user/ajoaohf2@gmail.com/queue/notification", message);
-//    }
+
+    @GetMapping(value = "/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(description = "Retorna a lista de notificações não visualizadas")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK", content = {
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = NotificationResponseDTO.class))
+            }),
+            @ApiResponse(responseCode = "500", description = "Erro generico", content = {
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = StandardError.class))
+            })
+    })
+    public ResponseEntity<List<NotificationResponseDTO>> findNotificationNotVisualized(@PathVariable("userId") Long userId) {
+        List<Notification> notifications = service.findByTenantAndUserIdAndNotVisualized(userId);
+
+        return buildSuccessResponse(NotificationMapper.toListResponseDTO(notifications));
+    }
 }

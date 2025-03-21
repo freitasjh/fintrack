@@ -13,6 +13,7 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 
+import java.io.Serial;
 import java.time.LocalDate;
 
 
@@ -20,6 +21,8 @@ import java.time.LocalDate;
 @Entity
 public class CreditCard extends BaseModel {
 
+    @Serial
+    private static final long serialVersionUID = 678434691774358394L;
     @Column(name = "name")
     private String name;
     @Column(name = "number")

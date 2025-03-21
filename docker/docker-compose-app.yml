@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0.28
+    container_name: mysql_financeiro
+    ports:
+      - "3306:3306"
+    volumes:
+      - /opt/volumes/mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: financeiro
+    networks:
+      - fintrack
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 30s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
+  app-fintrack:
+    image: fintrack-app:latest
+    container_name: app-fintrack
+    environment:
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      DB_URL: mysql
+      RABBITMQ_URL: rabbitmq
+    ports:
+      - 8080:8080
+    networks:
+      - fintrack
+    depends_on:
+      mysql:
+        condition: service_healthy
+      # rabbitmq:
+      #   condition: service_healthy
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: "rabbitmq"
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - fintrack
+
+  app-fintrack-web:
+    image: fintrack-frontend:latest
+    container_name: app_fintrack_web
+    environment:
+      BACKEND_IP: app-fintrack
+    ports:
+      - 80:80
+    networks:
+      - fintrack
+    depends_on:
+      - mysql
+      - app-fintrack
+networks:
+  fintrack:
+    driver: bridge

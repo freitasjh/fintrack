@@ -8,13 +8,13 @@ import br.com.systec.fintrack.financial.received.exceptions.AccountReceivableExc
 import br.com.systec.fintrack.financial.received.exceptions.AccountReceivableNotFoundException;
 import br.com.systec.fintrack.financial.received.filter.AccountReceivableFilterVO;
 import br.com.systec.fintrack.financial.received.impl.mapper.AccountReceivableMapper;
+import br.com.systec.fintrack.financial.received.impl.metrics.AccountReceivedMetrics;
 import br.com.systec.fintrack.financial.received.impl.repository.AccountReceivableRepository;
 import br.com.systec.fintrack.financial.received.impl.repository.AccountReceivableRepositoryJPA;
 import br.com.systec.fintrack.financial.received.model.AccountReceivable;
 import br.com.systec.fintrack.financial.received.service.AccountReceivableService;
 import br.com.systec.fintrack.financial.received.vo.AccountReceivableVO;
 import br.com.systec.fintrack.financial.recurringtransaction.model.FrequencyType;
-import br.com.systec.fintrack.financial.recurringtransaction.model.RecurringTransaction;
 import br.com.systec.fintrack.financial.recurringtransaction.service.RecurringTransactionService;
 import br.com.systec.fintrack.financial.recurringtransaction.vo.RecurringTransactionVO;
 import org.slf4j.Logger;
@@ -31,17 +31,30 @@ import java.util.List;
 @Service
 public class AccountReceivableServiceImpl implements AccountReceivableService {
     private static final Logger log = LoggerFactory.getLogger(AccountReceivableServiceImpl.class);
-    @Autowired
-    private AccountReceivableRepository repository;
-    @Autowired
-    private AccountReceivableRepositoryJPA repositoryJPA;
-    @Autowired
-    private RabbitTemplate template;
-    @Autowired
-    private BankAccountService bankAccountService;
-    @Autowired
-    private RecurringTransactionService recurringTransactionService;
 
+    private final AccountReceivedMetrics accountReceivedMetrics;
+    private final AccountReceivableRepository repository;
+    private final AccountReceivableRepositoryJPA repositoryJPA;
+    private final RabbitTemplate template;
+    private final BankAccountService bankAccountService;
+    private final RecurringTransactionService recurringTransactionService;
+
+    @Autowired
+    public AccountReceivableServiceImpl(
+            AccountReceivedMetrics accountReceivedMetrics,
+            AccountReceivableRepository repository,
+            AccountReceivableRepositoryJPA repositoryJPA,
+            RabbitTemplate template,
+            BankAccountService bankAccountService,
+            RecurringTransactionService recurringTransactionService
+    ) {
+        this.accountReceivedMetrics = accountReceivedMetrics;
+        this.repository = repository;
+        this.repositoryJPA = repositoryJPA;
+        this.template = template;
+        this.bankAccountService = bankAccountService;
+        this.recurringTransactionService = recurringTransactionService;
+    }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
@@ -49,6 +62,10 @@ public class AccountReceivableServiceImpl implements AccountReceivableService {
         try{
             AccountReceivable accountReceivable = AccountReceivableMapper.toEntity(accountReceivableVO);
             accountReceivable.setTenantId(TenantContext.getTenant());
+
+            if(accountReceivable.getDateProcessed() != null) {
+                accountReceivable.setProcessed(true);
+            }
 
             AccountReceivable accountReceivableAfterSave = repository.save(accountReceivable);
             accountReceivableVO.setId(accountReceivableAfterSave.getId());
@@ -59,6 +76,7 @@ public class AccountReceivableServiceImpl implements AccountReceivableService {
                 createRecurringTransaction(accountReceivableVO);
             }
 
+            accountReceivedMetrics.incrementAccountReceivable();
             return AccountReceivableMapper.toVO(accountReceivableAfterSave);
         } catch (BaseException e) {
             throw e;

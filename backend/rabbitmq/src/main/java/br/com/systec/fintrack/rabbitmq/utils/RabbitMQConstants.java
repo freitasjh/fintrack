@@ -9,9 +9,12 @@ public class RabbitMQConstants {
     public static final String CREDIT_CARD_JOB = "credit-card-job";
     public static final String JOB_NEW_ACCOUNT = "job-new-account";
     public static final String ACCOUNT_PAYMENT = "account-payment";
+    public static final String CREDIT_CARD_NEW_INVOICE = "credit-card-new-invoice";
     public static final String ROUTING_KEY_NEW_ACCOUNT = "rt-newaccount";
     public static final String ROUTING_KEY_NEW_BANK_ACCOUNT = "rt-new-bank-account";
     public static final String ROUTING_KEY_NEW_BALANCE_ACCOUNT = "rt-newbalance-account";
     public static final String FINANCIAL_EXCHANGE = "fx-financial";
     public static final String RECURRING_FINANCIAL_JOB = "recurring-financial-job-queue";
+    public static final String CREDIT_CARD_INVOICE_PENDING = "credit-card-invoice-pending";
+    public static final String NOTIFICATION = "notification";
 }

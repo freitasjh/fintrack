@@ -1,11 +1,15 @@
 package br.com.systec.fintrack.creditcard.jms;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 public class CreditCardJobJmsVO implements Serializable {
 
+    @Serial
+    private static final long serialVersionUID = -2398221834544225188L;
     private Long tenantId;
     private String closeDay;
+    private String dueDay;
     private Long creditCardId;
     private String creditCardJobType;
 
@@ -42,5 +46,13 @@ public class CreditCardJobJmsVO implements Serializable {
 
     public void setCreditCardJobType(String creditCardJobType) {
         this.creditCardJobType = creditCardJobType;
+    }
+
+    public void setDueDay(String dueDay) {
+        this.dueDay = dueDay;
+    }
+
+    public String getDueDay() {
+        return dueDay;
     }
 }

@@ -17,5 +17,6 @@
         <module>api</module>
         <module>impl</module>
         <module>v1</module>
+        <module>jms</module>
     </modules>
 </project>

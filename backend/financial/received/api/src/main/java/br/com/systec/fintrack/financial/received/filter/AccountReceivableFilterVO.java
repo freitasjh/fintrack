@@ -4,10 +4,11 @@ import br.com.systec.fintrack.commons.filter.PageParamSearchVO;
 import br.com.systec.fintrack.financial.received.model.AccountReceivable;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.time.LocalDate;
+
 public class AccountReceivableFilterVO extends PageParamSearchVO<AccountReceivable> {
     private Long accountId;
-    private Long dateRegister;
-    private Long dateReceiver;
+    private LocalDate dateProcessed;
 
     public AccountReceivableFilterVO() {
         super(30,0, null);
@@ -19,7 +20,7 @@ public class AccountReceivableFilterVO extends PageParamSearchVO<AccountReceivab
 
     @Override
     public Specification<AccountReceivable> getSpecification() {
-        return AccountReceivableSpecification.findByKeywordAndTenant(accountId);
+        return AccountReceivableSpecification.filter(this);
     }
 
     public Long getAccountId() {
@@ -30,19 +31,11 @@ public class AccountReceivableFilterVO extends PageParamSearchVO<AccountReceivab
         this.accountId = accountId;
     }
 
-    public Long getDateRegister() {
-        return dateRegister;
+    public LocalDate getDateProcessed() {
+        return dateProcessed;
     }
 
-    public void setDateRegister(Long dateRegister) {
-        this.dateRegister = dateRegister;
-    }
-
-    public Long getDateReceiver() {
-        return dateReceiver;
-    }
-
-    public void setDateReceiver(Long dateReceiver) {
-        this.dateReceiver = dateReceiver;
+    public void setDateProcessed(LocalDate dateProcessed) {
+        this.dateProcessed = dateProcessed;
     }
 }

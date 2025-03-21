@@ -11,6 +11,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+import java.io.Serial;
 import java.time.LocalDate;
 
 
@@ -18,6 +19,8 @@ import java.time.LocalDate;
 @Table(name = "credit_card_invoice")
 public class CreditCardInvoice extends BaseModel {
 
+    @Serial
+    private static final long serialVersionUID = -1937698833612070583L;
     @ManyToOne(cascade = CascadeType.REFRESH, targetEntity = CreditCard.class)
     @JoinColumn(name = "credit_card_id")
     private CreditCard creditCard;
@@ -30,6 +33,8 @@ public class CreditCardInvoice extends BaseModel {
     private LocalDate dueDate;
     @Column(name = "tenant_id")
     private Long tenantId;
+    @Column(name = "date_paid")
+    private LocalDate datePaid;
 
 
     public Long getTenantId() {
@@ -70,5 +75,13 @@ public class CreditCardInvoice extends BaseModel {
 
     public void setDueDate(LocalDate dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public LocalDate getDatePaid() {
+        return datePaid;
+    }
+
+    public void setDatePaid(LocalDate datePaid) {
+        this.datePaid = datePaid;
     }
 }

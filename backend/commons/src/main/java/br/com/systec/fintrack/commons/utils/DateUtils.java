@@ -2,7 +2,9 @@ package br.com.systec.fintrack.commons.utils;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class DateUtils {
@@ -24,5 +26,9 @@ public class DateUtils {
         }
 
         return remainingDates;
+    }
+
+    public static Date converterLocalDateToDate(LocalDate localDate) {
+        return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
     }
 }

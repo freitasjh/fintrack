@@ -4,6 +4,7 @@ export default class AccountsReceivableService {
     constructor() {
         this.endpoint = '/api/v1/received';
     }
+
     findById(accountReceivableId) {
         return http.get(`${this.endpoint}/${accountReceivableId}`).then((response) => response);
     }

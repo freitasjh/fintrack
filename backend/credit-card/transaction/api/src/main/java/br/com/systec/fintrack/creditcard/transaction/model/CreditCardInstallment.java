@@ -4,6 +4,7 @@ package br.com.systec.fintrack.creditcard.transaction.model;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -12,12 +13,16 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "credit_card_installment")
-public class CreditCardInstallment {
+public class CreditCardInstallment implements Serializable {
 
+    @Serial
+    private static final long serialVersionUID = -987178004044792203L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,11 +36,13 @@ public class CreditCardInstallment {
     private LocalDate dateCreate;
     @Column(name = "installment")
     private int installment;
-    @ManyToOne(cascade = CascadeType.REFRESH)
+    @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinColumn(name = "transaction_id")
     private CreditCardTransaction transaction;
     @Column(name = "credit_card_invoice_id")
     private Long creditCardInvoiceId;
+    @Column(name = "date_paid")
+    private LocalDate datePaid;
 
     @PrePersist
     void prePersist(){
@@ -106,6 +113,14 @@ public class CreditCardInstallment {
         this.creditCardInvoiceId = creditCardInvoiceId;
     }
 
+    public LocalDate getDatePaid() {
+        return datePaid;
+    }
+
+    public void setDatePaid(LocalDate datePaid) {
+        this.datePaid = datePaid;
+    }
+
     @Override
     public String toString() {
         return "CreditCardInstallment{" +
@@ -117,6 +132,7 @@ public class CreditCardInstallment {
                 ", installment=" + installment +
                 ", transaction=" + transaction +
                 ", creditCardInvoiceId=" + creditCardInvoiceId +
+                ", dayPaid=" + datePaid +
                 '}';
     }
 }

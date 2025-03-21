@@ -5,6 +5,7 @@ import br.com.systec.fintrack.creditcard.jms.CreditCardJobJmsVO;
 import br.com.systec.fintrack.quartz.service.JobService;
 import br.com.systec.fintrack.quartz.vo.JobVO;
 import br.com.systec.fintrack.quarz.impl.job.CreditCardInvoiceJob;
+import br.com.systec.fintrack.quarz.impl.job.CreditCardInvoicePendingJob;
 import br.com.systec.fintrack.rabbitmq.utils.RabbitMQConstants;
 import org.quartz.JobDataMap;
 import org.slf4j.Logger;
@@ -16,6 +17,8 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigInteger;
 
 @Component
 public class CreditCardJobJms {
@@ -60,16 +63,39 @@ public class CreditCardJobJms {
         return jobVO;
     }
 
+    private JobVO createJobPendingInvoiceJob(CreditCardJobJmsVO creditCardJobJms) {
+        JobVO jobVO = new JobVO();
+
+        Integer dueDate = Integer.parseInt(creditCardJobJms.getDueDay());
+
+        jobVO.setCron("0 0 0 "+(++dueDate)+" * ? *");
+        jobVO.setName("job_credit_card_pending_"+creditCardJobJms.getCreditCardId()+"_tt_"+creditCardJobJms.getTenantId());
+        jobVO.setGroup("credit_card");
+        jobVO.setClassName(CreditCardInvoicePendingJob.class.getName());
+
+        JobDataMap jobDataMap = new JobDataMap();
+        jobDataMap.put("credit_card_id", creditCardJobJms.getCreditCardId());
+        jobDataMap.put("tenant_id", creditCardJobJms.getTenantId());
+
+        jobVO.setJobDataMap(jobDataMap);
+
+        return jobVO;
+    }
+
     private void insertJob( CreditCardJobJmsVO creditCardJobJmsVO) throws Exception {
         JobVO jobVO = createJob(creditCardJobJmsVO);
+        JobVO jobPending = createJobPendingInvoiceJob(creditCardJobJmsVO);
 
         service.save(jobVO);
+        service.save(jobPending);
     }
 
     private void updateJob(CreditCardJobJmsVO creditCardJobJmsVO) throws Exception {
         JobVO jobVO = createJob(creditCardJobJmsVO);
+        JobVO jobPending = createJobPendingInvoiceJob(creditCardJobJmsVO);
 
         service.deleteJob(jobVO.getName(), jobVO.getGroup());
+        service.deleteJob(jobPending.getName(), jobPending.getGroup());
 
         insertJob(creditCardJobJmsVO);
     }

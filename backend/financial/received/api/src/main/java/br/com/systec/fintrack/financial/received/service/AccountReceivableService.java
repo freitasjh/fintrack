@@ -13,8 +13,11 @@ import java.util.List;
 public interface AccountReceivableService {
 
     AccountReceivableVO save(AccountReceivableVO accountReceivable) throws AccountReceivableException;
+
     List<AccountReceivableVO> findAll() throws BaseException;
+
     Page<AccountReceivableVO> findByFilter(AccountReceivableFilterVO filterVO) throws BaseException;
+
     AccountReceivableVO findById(Long id) throws BaseException;
 
 }

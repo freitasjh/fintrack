@@ -20,4 +20,12 @@ public class AccountPaymentJmsVO {
     public void setJmsType(AccountPaymentJmsType jmsType) {
         this.jmsType = jmsType;
     }
+
+    @Override
+    public String toString() {
+        return "AccountPaymentJmsVO{" +
+                "tenantId=" + tenantId +
+                ", jmsType=" + jmsType +
+                '}';
+    }
 }

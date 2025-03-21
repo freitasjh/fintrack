@@ -4,7 +4,9 @@ import org.junit.jupiter.api.Test;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class DateUtils {
@@ -28,11 +30,6 @@ public class DateUtils {
         return datasRestantes;
     }
 
-    @Test
-    void teste(){
-        List<LocalDate> datas = obterDatasRestantesDaSemana();
 
-        System.out.println("Datas restantes da semana a partir de hoje:");
-        datas.forEach(System.out::println);
-    }
+
 }

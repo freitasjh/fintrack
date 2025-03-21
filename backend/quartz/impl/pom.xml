@@ -30,27 +30,22 @@
         <dependency>
             <groupId>br.com.systec.fintrack</groupId>
             <artifactId>fintrack-commons</artifactId>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>br.com.systec.fintrack</groupId>
             <artifactId>fintrack-quartz-api</artifactId>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>br.com.systec.fintrack</groupId>
             <artifactId>fintrack-rabbitmq</artifactId>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>br.com.systec.fintrack</groupId>
             <artifactId>fintrack-credit-card-customer-jms</artifactId>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>br.com.systec.fintrack</groupId>
             <artifactId>fintrack-financial-payment-jms</artifactId>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>br.com.systec.fintrack</groupId>
@@ -59,6 +54,18 @@
         <dependency>
             <groupId>br.com.systec.fintrack</groupId>
             <artifactId>fintrack-financial-received-sdk</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>br.com.systec.fintrack</groupId>
+            <artifactId>fintrack-credit-card-invoice-jms</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>br.com.systec.fintrack</groupId>
+            <artifactId>fintrack-notification-jms</artifactId>
         </dependency>
     </dependencies>
 

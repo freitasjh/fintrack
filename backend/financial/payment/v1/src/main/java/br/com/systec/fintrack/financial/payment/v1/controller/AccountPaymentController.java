@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @RestController
@@ -78,11 +79,16 @@ public class AccountPaymentController extends AbstractController {
                                                                 @RequestParam(value = "page", required = false, defaultValue = "0") int page,
                                                                 @RequestParam(value = "limit", required = false, defaultValue = "30") int limit,
                                                                 @RequestParam(value = "accountId", required = false) Long accountId,
-                                                                @RequestParam(value = "paymentFilterType", required = false, defaultValue = "2") String paymentFilterType){
+                                                                @RequestParam(value = "paymentFilterType", required = false, defaultValue = "2") String paymentFilterType,
+                                                                @RequestParam(value = "dateProcessedInitial", required = false) LocalDate dateProcessedInitial,
+                                                                @RequestParam(value = "dateProcessedFinal", required = false) LocalDate dateProcessedFinal) {
+
         AccountPaymentPageParam pageParam = new AccountPaymentPageParam(limit, page, search);
         pageParam.getFilterVO().setKeywordSearch(search);
         pageParam.getFilterVO().setBankAccountId(accountId);
         pageParam.getFilterVO().setFilterType(AccountPaymentFilterType.valueOfCode(paymentFilterType));
+        pageParam.getFilterVO().setDateProcessedInitial(dateProcessedInitial);
+        pageParam.getFilterVO().setDateProcessedFinal(dateProcessedFinal);
 
         Page<AccountPayment> pageAccountPayment = service.findPaymentByFilter(pageParam);
         Page<AccountPaymentDTO> pageAccountPaymentDTO = AccountPaymentMapper.toPageDTO(pageAccountPayment);

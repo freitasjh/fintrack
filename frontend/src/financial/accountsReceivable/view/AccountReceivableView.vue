@@ -9,6 +9,8 @@ import { useI18n } from "vue-i18n";
 import { onMounted } from "vue";
 import AccountReceivable from '../model/AccountReceivable';
 import FilterCategory from "../../../administrator/category/model/FilterCategory";
+import { XIcon } from "lucide-vue-next";
+import FilterTags from "../../../components/FilterTags.vue";
 
 
 const listPageAccountReceivable = ref(new Pageable());
@@ -17,15 +19,30 @@ const accountReceivableFilter = ref(new AccountReceivableFilter());
 const listPageBankAccount = ref(new Pageable());
 const bankAccountSelected = ref({});
 const bankAccountFilter = ref(new BankAccountFilter());
+const filterBankAccountSelected = ref({});
 const { t } = useI18n();
 const accountReceivableDialog = ref(false);
 const listOfCategory = ref([]);
 const categorySelected = ref({});
+const listOfFilters = ref([]);
+const filterDate = ref(null);
+const filterInformation = ref({
+    keyword: '',
+    filterType: '',
+    filterName: ''
+});
+
+const filterTypeSelected = ref({});
+const filterTypes = ref([
+    { code: 'dateProcess', title: 'Filtro por data Recebido' },
+    { code: 'accountBank', title: 'Filtro por Conta' }
+]);
 
 const breadCrumbItem = ref([
     { label: t('financial') },
     { label: t('accountReceivable') },
 ]);
+
 const home = ref({
     icon: 'pi pi-home'
 });
@@ -44,16 +61,19 @@ const store = useStore();
 onMounted(() => { });
 onBeforeMount(async () => {
     await findAccountReceivable();
+    await findBankAccount();
 });
 
 const formatCurrency = (value) => {
     return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 };
+
 const formatDate = (value) => {
     const formatter = new Intl.DateTimeFormat('pt-BR', { dateStyle: 'short' });
     let date = new Date(value);
     return formatter.format(date);
 }
+
 const findAccountReceivable = async () => {
     try {
         showLoading();
@@ -116,6 +136,7 @@ const editAccountReceivable = async (accountReceivableId) => {
         hideLoading();
     }
 };
+
 const save = async () => {
     try {
         showLoading();
@@ -127,6 +148,7 @@ const save = async () => {
         accountReceivableDialog.value = false;
         accountReceivable.value = {};
         bankAccountSelected.value = {};
+
         await findAccountReceivable();
     } catch (error) {
         handlerError(error);
@@ -146,6 +168,56 @@ const findCategory = async () => {
         handlerError(error);
     }
 };
+
+const addFilterType = async () => {
+    try {
+        if (listOfFilters.value.length > 0) {
+            listOfFilters.value.filter((item) => {
+                if (item.filterType === filterTypeSelected.value.code) {
+                    throw new Error("Tipo de filtro já foi adicionado");
+                }
+            });
+        }
+
+        filterInformation.value.filterType = filterTypeSelected.value.code;
+        filterInformation.value.filterName = filterTypeSelected.value.title;
+
+        if (filterTypeSelected.value.code === 'dateProcess') {
+            filterInformation.value.keyword = formatDate(filterDate.value);
+            accountReceivableFilter.value.dateProcessed = formatDate(filterDate.value);
+        } else if (filterTypeSelected.value.code === 'accountBank') {
+            filterInformation.value.keyword = filterBankAccountSelected.value.bankDescription;
+            accountReceivableFilter.value.accountId = filterBankAccountSelected.value.id;
+            filterBankAccountSelected.value = {};
+        }
+
+
+        await findAccountReceivable();
+
+        listOfFilters.value.push({ ...filterInformation.value });
+        filterTypeSelected.value = {};
+        filterDate.value = null;
+
+    } catch (error) {
+        handlerError(error);
+    }
+};
+
+const removeFilter = async (index) => {
+    const filterInformationRemove = listOfFilters.value[index];
+    if (filterInformationRemove.filterType === 'dateProcess') {
+        accountReceivableFilter.value.dateProcessed = null;
+    }
+
+    if (filterInformationRemove.filterType === 'accountBank') {
+        accountReceivableFilter.value.accountId = null;
+    }
+
+    listOfFilters.value.splice(index, 1);
+
+    await findAccountReceivable();
+};
+
 </script>
 <template>
     <div class="grid">
@@ -160,6 +232,44 @@ const findCategory = async () => {
                             <Button :label="$t('new')" icon="pi pi-plus" class="mr-2" severity="success"
                                 @click="newAccountReceivable()" />
                         </div>
+                    </template>
+                    <template v-slot:center>
+                        <div class="my-2 mr-2">
+                            <Dropdown v-model="filterTypeSelected" :options="filterTypes" optionLabel="title"
+                                placeholder="Selecione o tipo de filtro" />
+                        </div>
+                        <div class="my-2" v-if="filterTypeSelected.code == 'dateProcess'">
+                            <Calendar v-model="filterDate" showIcon iconDisplay="input" />
+                        </div>
+                        <div class="my-2" v-if="filterTypeSelected.code === 'accountBank'">
+                            <Dropdown v-model="filterBankAccountSelected" :options="listPageBankAccount.content"
+                                optionLabel="description" :placeholder="$t('selectBankAccount')" class="w-full">
+                                <template #value="slotProps">
+                                    <div v-if="slotProps.value.description !== undefined"
+                                        class="flex align-items-center">
+                                        <div>{{ slotProps.value.bankDescription +
+                                            " - " + slotProps.value.description }}</div>
+                                    </div>
+                                    <span v-else>
+                                        {{ slotProps.placeholder }}
+                                    </span>
+                                </template>
+                                <template #option="slotProps">
+                                    <div class="flex align-items-center">
+                                        <div>{{ slotProps.option.bankDescription +
+                                            " - " + slotProps.option.description }}</div>
+                                    </div>
+                                </template>
+                            </Dropdown>
+                        </div>
+                        <div class="ml-2 my-2" v-if="filterTypeSelected.code">
+                            <Button icon="pi pi-plus" class="mr-2" severity="warning" rounded @click="addFilterType" />
+                        </div>
+                    </template>
+                </Toolbar>
+                <Toolbar class="mb-4" v-if="listOfFilters.length">
+                    <template v-slot:start>
+                        <FilterTags :filters="listOfFilters" @remove="removeFilter" />
                     </template>
                 </Toolbar>
                 <DataTable ref="ref" :value="listPageAccountReceivable.content" dataKey="id" stripedRows showGridlines

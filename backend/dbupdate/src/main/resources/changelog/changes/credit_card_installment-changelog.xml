@@ -25,4 +25,9 @@
             <column name="credit_card_invoice_id" type="int8" />
         </createIndex>
     </changeSet>
+    <changeSet id="credit_card_installment_28122024J1" author="Joao">
+        <addColumn tableName="credit_card_installment">
+            <column name="date_paid"  type="date" />
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

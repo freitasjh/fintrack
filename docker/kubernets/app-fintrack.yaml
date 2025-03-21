@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-fintrack
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-fintrack
+  template:
+    metadata:
+      labels:
+        app: app-fintrack
+    spec:
+      containers:
+        - name: app-fintrack
+          image: fintrack-app:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: app-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-fintrack
+spec:
+  ports:
+    - port: 8080
+  selector:
+    app: app-fintrack

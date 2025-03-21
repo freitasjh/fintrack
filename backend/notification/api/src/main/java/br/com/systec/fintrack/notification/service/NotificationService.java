@@ -8,8 +8,10 @@ import java.util.List;
 
 public interface NotificationService {
     Notification save(Notification notification) throws BaseException;
+
     void delete(Long id) throws BaseException;
+
     List<Notification> findByTenantAndUserIdAndNotVisualized(Long userId) throws BaseException;
+
     Long findTotalNotificationByUserId(Long userId) throws BaseException;
-    void sendWebSocketNotificationToUserEmail(User user, Long userId) throws BaseException;
 }

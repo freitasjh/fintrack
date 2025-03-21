@@ -1,0 +1,15 @@
+services:
+  app-fintrack:
+    image: fintrack-app:latest
+    container_name: app-fintrack
+    environment:
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      DB_URL: mysql
+    ports:
+      - 8080:8080
+    networks:
+      - fintrack
+networks:
+  fintrack:
+    driver: bridge

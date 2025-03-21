@@ -57,7 +57,10 @@ export const message_pt_BR = {
     selectCreditCard: 'Selecione o Cartão de Credito',
     installments: 'Qtd Parcelas',
     date: 'Data',
-    invoice: 'Fatura'
+    invoice: 'Fatura',
+    pending: 'Vencida',
+    open: 'Aberta',
+    paid: 'Pago'
 };
 
 export const message_en = {
@@ -118,5 +121,8 @@ export const message_en = {
     selectCreditCard: 'Selecione o Cartão de Credito',
     installments: 'Qtd Parcelas',
     date: 'Data',
-    invoice: 'Fatura'
+    invoice: 'Fatura',
+    pending: 'Vencida',
+    open: 'Aberta',
+    paid: 'Pago'
 };

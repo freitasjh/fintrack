@@ -3,7 +3,10 @@ package br.com.systec.fintrack.notification.model;
 import br.com.systec.fintrack.commons.exception.BaseException;
 
 public enum NotificationType {
-    NOTIFICATION_RECEIVE(1), NOTIFICATION_PAYMENT(2), NOTIFICATION_TRANSFER(3);
+    NOTIFICATION_RECEIVE(1),
+    NOTIFICATION_PAYMENT(2),
+    NOTIFICATION_TRANSFER(3),
+    NOTIFICATION_PENDING(4);
 
     int code;
 

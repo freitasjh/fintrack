@@ -29,6 +29,7 @@
         <jacoco.version>0.8.8</jacoco.version>
         <spring.boot.version>3.3.2</spring.boot.version>
         <revision>${revision}</revision>
+        <logstash.version>7.4</logstash.version>
     </properties>
 
     <dependencyManagement>
@@ -135,6 +136,13 @@
                 <version>${mysql.version}</version>
                 <scope>provided</scope>
             </dependency>
+            <dependency>
+                <groupId>net.logstash.logback</groupId>
+                <artifactId>logstash-logback-encoder</artifactId>
+                <version>${logstash.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
             <dependency>
                 <groupId>com.h2database</groupId>
                 <artifactId>h2</artifactId>
@@ -351,6 +359,12 @@
             </dependency>
             <dependency>
                 <groupId>br.com.systec.fintrack</groupId>
+                <artifactId>fintrack-credit-card-invoice-jms</artifactId>
+                <version>${revision}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>br.com.systec.fintrack</groupId>
                 <artifactId>fintrack-financial-transaction-api</artifactId>
                 <version>${revision}</version>
                 <scope>provided</scope>
@@ -496,6 +510,12 @@
             <dependency>
                 <groupId>br.com.systec.fintrack</groupId>
                 <artifactId>fintrack-dashboard-web-v1</artifactId>
+                <version>${revision}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>br.com.systec.fintrack</groupId>
+                <artifactId>fintrack-notification-jms</artifactId>
                 <version>${revision}</version>
                 <scope>provided</scope>
             </dependency>

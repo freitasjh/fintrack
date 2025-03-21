@@ -81,7 +81,7 @@ const findCategory = async () => {
 </script>
 
 <template>
-    <Dialog v-model:visible="dialogVisible" :style="{ width: '40%' }" :header="$t('accountPayment')" :modal="true">
+    <Dialog v-model:visible="dialogVisible" :style="{ width: '40%' }" :header="$t('accountPayment')">
         <div class="p-fluid formgrid grid">
             <div class="field col-12 md:col-12">
                 <label for="accountPayment-description">{{ $t("description") }}</label>

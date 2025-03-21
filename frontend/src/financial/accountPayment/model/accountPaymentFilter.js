@@ -5,6 +5,7 @@ export default class AccountPaymentFilter {
         this.filter = '';
         this.accountId = null;
         this.paymentFilterType = 2;
+        this.dateProcessedInitial = null;
     }
 
     toString() {
@@ -12,6 +13,10 @@ export default class AccountPaymentFilter {
 
         if (this.accountId !== null) {
             filter = filter + `&accountId=${this.accountId}`;
+        }
+
+        if (this.dateProcessedInitial) {
+            filter = filter + `&dateProcessedInitial=${this.dateProcessedInitial}`;
         }
 
         return filter;

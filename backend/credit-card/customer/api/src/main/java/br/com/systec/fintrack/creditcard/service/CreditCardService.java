@@ -10,9 +10,14 @@ import java.util.List;
 
 public interface CreditCardService {
     CreditCard save(CreditCard creditCard) throws BaseException;
+
     CreditCard update(CreditCard creditCard, Long id) throws BaseException;
+
     List<CreditCard> findAll() throws BaseException;
+
     Page<CreditCard> findByFilter(CreditCardFilterVO filterVO) throws BaseException;
+
     CreditCard findById(Long id) throws BaseException;
+
     void updateAvailableLimitCreditCard(double amount, Long id, CreditCardTransactionType transactionType) throws BaseException;
 }

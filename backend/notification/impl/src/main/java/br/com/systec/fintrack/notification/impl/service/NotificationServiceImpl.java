@@ -20,6 +20,7 @@ import java.util.List;
 @Service
 public class NotificationServiceImpl implements NotificationService {
     private static final Logger log = LoggerFactory.getLogger(NotificationServiceImpl.class);
+
     @Autowired
     private NotificationRepository repository;
     @Autowired
@@ -29,12 +30,13 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     public Notification save(Notification notification) throws BaseException {
-        try{
+        try {
             if (notification.getTenantId() == null) {
                 notification.setTenantId(TenantContext.getTenant());
             }
 
-            User user = userService.findById(notification.getUserId());
+            User user = userService.findByIdOrGetPrincipal(notification.getUserId());
+            notification.setUserId(user.getId());
             notification.setUserEmail(user.getEmail());
 
             Notification notificationSaved = repository.save(notification);
@@ -51,7 +53,7 @@ public class NotificationServiceImpl implements NotificationService {
     public void delete(Long id) throws BaseException {
         try {
             repository.deleteById(id);
-        }catch (Exception e) {
+        } catch (Exception e) {
             log.error("Ocorreu um erro ao tentar deletar a notificacao", e);
             throw new BaseException("Ocorreu um erro ao tentar deletar a notificação", e);
         }
@@ -60,11 +62,10 @@ public class NotificationServiceImpl implements NotificationService {
     @Transactional(propagation = Propagation.SUPPORTS)
     public List<Notification> findByTenantAndUserIdAndNotVisualized(Long userId) throws BaseException {
         try {
-             List<Notification> listOfNotification = repository.findByTenantIdAndUserIdAndNotVisualized(userId);
-             return listOfNotification;
+            return repository.findByTenantIdAndUserIdAndNotVisualized(userId);
         } catch (Exception e) {
-           log.error("Erro ao tentar pesquisar as notificacoes", e);
-           throw new BaseException("Erro ao tentar pesquisar as notificacoes", e);
+            log.error("Erro ao tentar pesquisar as notificacoes", e);
+            throw new BaseException("Erro ao tentar pesquisar as notificacoes", e);
         }
     }
 
@@ -78,16 +79,7 @@ public class NotificationServiceImpl implements NotificationService {
         }
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void sendWebSocketNotificationToUserEmail(User user, Long userId) throws BaseException {
-        if(user == null){
-            user = userService.findById(userId);
-        }
-        messageTemplate.convertAndSend("/user/"+user.getEmail()+"/queue/notification", "notificacao");
-    }
-
-    @Transactional(propagation = Propagation.SUPPORTS)
-    public void sendEmailNotification() throws BaseException {
-        //TODO vai ser feita a logica para enviar e-mail
+    private void sendWebSocketNotificationToUserEmail(User user, Long userId) throws BaseException {
+        messageTemplate.convertAndSend("/user/" + user.getEmail() + "/queue/notification", "notificacao");
     }
 }

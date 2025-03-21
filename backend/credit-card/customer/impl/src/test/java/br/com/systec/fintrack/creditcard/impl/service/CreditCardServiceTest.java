@@ -3,6 +3,7 @@ package br.com.systec.fintrack.creditcard.impl.service;
 import br.com.systec.fintrack.commons.TenantContext;
 import br.com.systec.fintrack.commons.exception.BaseException;
 import br.com.systec.fintrack.commons.exception.ObjectNotFoundException;
+import br.com.systec.fintrack.creditcard.commons.CreditCardTransactionType;
 import br.com.systec.fintrack.creditcard.filter.CreditCardFilterVO;
 import br.com.systec.fintrack.creditcard.impl.fake.CreditCardFake;
 import br.com.systec.fintrack.creditcard.impl.repository.CreditCardRepository;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -62,6 +64,22 @@ public class CreditCardServiceTest {
         Mockito.verify(repository).save(Mockito.any(CreditCard.class));
     }
 
+    @Test
+    void whenUpdateCreditCard() {
+        CreditCard creditCardToReturn = CreditCardFake.toFake();
+
+        Mockito.doReturn(Optional.of(creditCardToReturn)).when(repository).findById(Mockito.anyLong());
+        Mockito.doReturn(creditCardToReturn).when(repository).update(Mockito.any(CreditCard.class));
+
+        CreditCard creditCardUpdated = service.update(CreditCardFake.toFake(), 1L);
+
+        Assertions.assertThat(creditCardUpdated).isNotNull();
+        Assertions.assertThat(creditCardUpdated.getId()).isEqualTo(creditCardToReturn.getId());
+
+        Mockito.verify(repository).findById(Mockito.anyLong());
+        Mockito.verify(repository).update(Mockito.any(CreditCard.class));
+
+    }
     @Test
     void whenUpdateCreditCardObjectNotFoundException() {
         Mockito.doReturn(Optional.empty()).when(repository).findById(Mockito.anyLong());
@@ -139,5 +157,37 @@ public class CreditCardServiceTest {
                 .isInstanceOf(BaseException.class);
 
         Mockito.verify(repository).findById(Mockito.anyLong());
+    }
+
+    @Test
+    void whenUpdateLimitCreditCardExpense() {
+        CreditCard creditCard = CreditCardFake.toFake();
+        creditCard.setAvailableLimit(1000.0);
+
+        Mockito.doReturn(Optional.of(creditCard)).when(repository).findById(Mockito.anyLong());
+
+        service.updateAvailableLimitCreditCard(100.0, 1L, CreditCardTransactionType.EXPENSE);
+
+        ArgumentCaptor<Double> captor = ArgumentCaptor.forClass(Double.class);
+        Mockito.verify(repository).updateCreditCardAvailableLimit(captor.capture(), Mockito.anyLong());
+        Double newLimitAvailableCreditCard = captor.getValue();
+
+        Assertions.assertThat(newLimitAvailableCreditCard).isEqualTo(900.0);
+    }
+
+    @Test
+    void whenUpdateLimitCreditCardPayment() {
+        CreditCard creditCard = CreditCardFake.toFake();
+        creditCard.setAvailableLimit(1000.0);
+
+        Mockito.doReturn(Optional.of(creditCard)).when(repository).findById(Mockito.anyLong());
+
+        service.updateAvailableLimitCreditCard(100.0, 1L, CreditCardTransactionType.PAYMENT);
+
+        ArgumentCaptor<Double> captor = ArgumentCaptor.forClass(Double.class);
+        Mockito.verify(repository).updateCreditCardAvailableLimit(captor.capture(), Mockito.anyLong());
+        Double newLimitAvailableCreditCard = captor.getValue();
+
+        Assertions.assertThat(newLimitAvailableCreditCard).isEqualTo(1100.0);
     }
 }

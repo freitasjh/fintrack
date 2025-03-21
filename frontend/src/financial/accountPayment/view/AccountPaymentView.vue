@@ -8,6 +8,7 @@ import AccountPaymentFilter from "../model/accountPaymentFilter";
 import { useHandlerMessage, useLoader } from "../../../composables/commons";
 import { eventBus } from "@/config/eventBus";
 import DialogPayment from "./DialogPaymentCad.vue";
+import FilterTags from "../../../components/FilterTags.vue";
 
 const { t } = useI18n();
 const { showLoading, hideLoading } = useLoader();
@@ -30,6 +31,22 @@ const filterPaymentOpen = ref([
 ]);
 
 const filterPaymentOpenSelected = ref({ code: 2, label: "Todos" });
+
+const listOfFilters = ref([])
+const filterTypeSelected = ref({});
+const filterTypes = ref([
+    { code: 'dateProcess', title: 'Filtro por data Recebido' },
+    { code: 'accountBank', title: 'Filtro por Conta' },
+    { code: 'category', title: 'Filtro por categoria' }
+]);
+const filterDateInitial = ref(null);
+const filterDateFinal = ref(null);
+const filterInformation = ref({
+    keyword: '',
+    filterType: '',
+    filterName: '',
+    rangeDate: false
+});
 
 
 onMounted(() => {
@@ -93,6 +110,57 @@ const registerPayment = async (id) => {
         hideLoading();
     }
 };
+
+const addFilter = async () => {
+    try {
+        if (listOfFilters.value.length > 0) {
+            listOfFilters.value.filter((item) => {
+                if (item.filterType === filterTypeSelected.value.code) {
+                    throw new Error("Tipo de filtro já foi adicionado");
+                }
+            });
+        }
+
+        filterInformation.value.filterType = filterTypeSelected.value.code;
+        filterInformation.value.filterName = filterTypeSelected.value.title;
+
+        if (filterTypeSelected.value.code === 'dateProcess') {
+            if (filterDateInitial.value === null) {
+                throw new Error("Informe a data inicial");
+            }
+
+            filterInformation.value.keyword = formatDate(filterDateInitial.value);
+
+            if (filterDateFinal.value) {
+                filterInformation.value.keyword = filterInformation.value.keyword + " até " + formatDate(filterDateFinal.value);
+            }
+
+            accountPaymentFilter.value.dateProcessedInitial = formatDate(filterDateInitial.value);
+        }
+
+        await findAccountPayment();
+
+        listOfFilters.value.push({ ...filterInformation.value });
+        filterTypeSelected.value = {};
+        filterDateInitial.value = null;
+        filterDateFinal.value = null;
+
+    } catch (error) {
+        handlerError(error);
+    }
+};
+
+const removeFilter = async (index) => {
+    const filterInformationRemove = listOfFilters.value[index];
+    if (filterInformationRemove.filterType === 'dateProcess') {
+        accountPaymentFilter.value.dateProcessedInitial = null;
+    }
+
+    listOfFilters.value.splice(index, 1);
+
+    await findAccountPayment();
+};
+
 </script>
 <template>
     <div class="grid">
@@ -107,6 +175,30 @@ const registerPayment = async (id) => {
                             <Button :label="$t('new')" icon="pi pi-plus" class="mr-2" severity="success"
                                 @click="openDialogPayment()" />
                         </div>
+                    </template>
+                    <template v-slot:center>
+                        <div class="my-2 mr-2">
+                            <Dropdown v-model="filterTypeSelected" :options="filterTypes" optionLabel="title"
+                                placeholder="Selecione o tipo de filtro" />
+                        </div>
+                        <div class="flex items-center gap-2 my-2" v-if="filterTypeSelected.code == 'dateProcess'">
+                            <FloatLabel>
+                                <Calendar v-model="filterDateInitial" showIcon iconDisplay="input" aria-label="Date" />
+                                <label>Data inicio</label>
+                            </FloatLabel>
+                            <FloatLabel>
+                                <Calendar v-model="filterDateFinal" showIcon iconDisplay="input" aria-label="Date" />
+                                <label>Data Fim</label>
+                            </FloatLabel>
+                        </div>
+                        <div class="ml-2 my-2" v-if="filterTypeSelected.code">
+                            <Button icon="pi pi-plus" class="mr-2" severity="warning" rounded @click="addFilter" />
+                        </div>
+                    </template>
+                </Toolbar>
+                <Toolbar class="mb-4" v-if="listOfFilters.length">
+                    <template v-slot:start>
+                        <FilterTags :filters="listOfFilters" @remove="removeFilter" />
                     </template>
                 </Toolbar>
                 <DataTable ref="ref" :value="listPageAccountPayment.content" dataKey="id" stripedRows showGridlines

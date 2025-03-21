@@ -1,7 +1,7 @@
 package br.com.systec.fintrack.notification.v1.converter;
 
 import br.com.systec.fintrack.notification.api.v1.converter.NotificationMapper;
-import br.com.systec.fintrack.notification.api.v1.dto.NotificationDTO;
+import br.com.systec.fintrack.notification.api.v1.dto.NotificationResponseDTO;
 import br.com.systec.fintrack.notification.api.v1.dto.NotificationInputDTO;
 import br.com.systec.fintrack.notification.model.Notification;
 import br.com.systec.fintrack.notification.v1.fake.NotificationFake;
@@ -27,7 +27,7 @@ public class NotificationMapperTest {
     void whenConvertedNotificationToNotificationDTO() {
         Notification notification = NotificationFake.toFake();
 
-        NotificationDTO notificationConverted = NotificationMapper.toDTO(notification);
+        NotificationResponseDTO notificationConverted = NotificationMapper.toResponseDTO(notification);
 
         Assertions.assertThat(notificationConverted).isNotNull();
         Assertions.assertThat(notificationConverted.getId()).isEqualTo(notification.getId());

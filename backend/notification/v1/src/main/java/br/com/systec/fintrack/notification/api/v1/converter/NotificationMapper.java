@@ -1,11 +1,12 @@
 package br.com.systec.fintrack.notification.api.v1.converter;
 
-import br.com.systec.fintrack.notification.api.v1.dto.NotificationDTO;
+import br.com.systec.fintrack.notification.api.v1.dto.NotificationResponseDTO;
 import br.com.systec.fintrack.notification.api.v1.dto.NotificationInputDTO;
 import br.com.systec.fintrack.notification.model.Notification;
 import br.com.systec.fintrack.notification.model.NotificationType;
 
 import java.util.Date;
+import java.util.List;
 
 public class NotificationMapper {
 
@@ -20,8 +21,8 @@ public class NotificationMapper {
         return notification;
     }
 
-    public static NotificationDTO toDTO(Notification notification) {
-        NotificationDTO notificationDTO = new NotificationDTO();
+    public static NotificationResponseDTO toResponseDTO(Notification notification) {
+        NotificationResponseDTO notificationDTO = new NotificationResponseDTO();
         notificationDTO.setId(notification.getId());
         notificationDTO.setMessage(notification.getMessage());
         notificationDTO.setVisualized(notification.isVisualized());
@@ -31,5 +32,8 @@ public class NotificationMapper {
         return notificationDTO;
     }
 
+    public static List<NotificationResponseDTO> toListResponseDTO(List<Notification> notifications) {
+        return notifications.stream().map(NotificationMapper::toResponseDTO).toList();
+    }
 
 }

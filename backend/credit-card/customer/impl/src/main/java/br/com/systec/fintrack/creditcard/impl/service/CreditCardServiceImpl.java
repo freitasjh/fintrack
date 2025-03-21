@@ -26,6 +26,7 @@ import java.util.stream.StreamSupport;
 @Service
 public class CreditCardServiceImpl implements CreditCardService {
     private static final Logger log = LoggerFactory.getLogger(CreditCardServiceImpl.class);
+
     @Autowired
     private CreditCardRepository repository;
     @Autowired
@@ -35,8 +36,8 @@ public class CreditCardServiceImpl implements CreditCardService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public CreditCard save(CreditCard creditCard) throws  BaseException {
-        try{
+    public CreditCard save(CreditCard creditCard) throws BaseException {
+        try {
             if (creditCard.getTenantId() == null) {
                 creditCard.setTenantId(TenantContext.getTenant());
             }
@@ -55,16 +56,17 @@ public class CreditCardServiceImpl implements CreditCardService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public CreditCard update(CreditCard creditCard, Long id) throws BaseException {
-        try{
+        try {
             CreditCard creditCardBeforeUpdate = findCreditCardById(id);
             creditCard.setDateCreated(creditCardBeforeUpdate.getDateCreated());
 
             return repository.update(creditCard);
-        } catch (BaseException e){
+        } catch (BaseException e) {
+            log.error("Erro na atualização do cartão de crédito", e);
             throw e;
         } catch (Exception e) {
-           log.error("Ocorreu um erro ao tentar salvar os dados do Cartão de credito", e);
-           throw new BaseException(e.getMessage(), e);
+            log.error("Ocorreu um erro ao tentar salvar os dados do Cartão de crédito", e);
+            throw new BaseException(e);
         }
     }
 
@@ -78,10 +80,8 @@ public class CreditCardServiceImpl implements CreditCardService {
     @Transactional(propagation = Propagation.SUPPORTS)
     public Page<CreditCard> findByFilter(CreditCardFilterVO filterVO) throws BaseException {
         try {
-            Page<CreditCard> pageOfCreditCard = repositoryJPA.findAll(filterVO.getSpecification(), filterVO.getPageable());
-
-            return pageOfCreditCard;
-        }catch (Exception e) {
+            return repositoryJPA.findAll(filterVO.getSpecification(), filterVO.getPageable());
+        } catch (Exception e) {
             log.error("Erro ao tentar pesquisar os Cartões de Credito", e);
             throw new BaseException("Erro ao tentar pesquiar os Cartoes de credito", e);
         }
@@ -94,7 +94,8 @@ public class CreditCardServiceImpl implements CreditCardService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public void updateAvailableLimitCreditCard(double amount, Long id, CreditCardTransactionType transactionType) throws BaseException {
+    public void updateAvailableLimitCreditCard(double amount, Long id, CreditCardTransactionType transactionType) throws
+            BaseException {
         try {
             CreditCard creditCard = findCreditCardById(id);
 
@@ -108,19 +109,20 @@ public class CreditCardServiceImpl implements CreditCardService {
 
             repository.updateCreditCardAvailableLimit(newLimitAvailable, creditCard.getId());
         } catch (BaseException e) {
+            log.error("Ocorreu um erro ao tentar atualizar o limite disponivel do cartão", e);
             throw e;
         } catch (Exception e) {
-           log.error("Ocorreu um erro ao tentar atualizar o limite disponivel do cartão", e);
-           throw new BaseException(e.getMessage(), e);
+            log.error("Ocorreu um erro ao tentar atualizar o limite disponivel do cartão", e);
+            throw new BaseException(e.getMessage(), e);
         }
     }
 
     private CreditCard findCreditCardById(Long id) throws BaseException {
         try {
-          return repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Cartão de credito não foi encontrado"));
+            return repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Cartão de credito não foi encontrado"));
         } catch (BaseException e) {
             throw e;
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new BaseException(e.getMessage(), e);
         }
     }
@@ -130,6 +132,7 @@ public class CreditCardServiceImpl implements CreditCardService {
         creditCardJobJms.setCreditCardId(creditCard.getId());
         creditCardJobJms.setTenantId(creditCard.getTenantId());
         creditCardJobJms.setCloseDay(creditCard.getClosingDate());
+        creditCardJobJms.setDueDay(creditCard.getDueDay());
         creditCardJobJms.setCreditCardJobType("INSERT");
 
         rabbitTemplate.convertAndSend(RabbitMQConstants.CREDIT_CARD_JOB, creditCardJobJms);
