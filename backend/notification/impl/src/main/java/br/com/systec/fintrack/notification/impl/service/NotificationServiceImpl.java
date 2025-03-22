@@ -79,6 +79,12 @@ public class NotificationServiceImpl implements NotificationService {
         }
     }
 
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void updateAllVisualized(Long userId) throws BaseException {
+        repository.updateAllVisualized(userId);
+    }
+
     private void sendWebSocketNotificationToUserEmail(User user, Long userId) throws BaseException {
         messageTemplate.convertAndSend("/user/" + user.getEmail() + "/queue/notification", "notificacao");
     }

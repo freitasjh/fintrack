@@ -14,4 +14,6 @@ public interface NotificationService {
     List<Notification> findByTenantAndUserIdAndNotVisualized(Long userId) throws BaseException;
 
     Long findTotalNotificationByUserId(Long userId) throws BaseException;
+
+    void updateAllVisualized(Long userId) throws BaseException;
 }

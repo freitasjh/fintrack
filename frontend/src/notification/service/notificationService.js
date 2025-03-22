@@ -6,6 +6,14 @@ export default class NotificationService {
     }
 
     findTotalNotificationNotVisualized(userId) {
+        return http.get(`${this.endpoint}/count/${userId}`).then((response) => response);
+    }
+
+    findNotificationByUser(userId) {
         return http.get(`${this.endpoint}/${userId}`).then((response) => response);
+    }
+
+    updateAllVisualized(userId) {
+        return http.put(`${this.endpoint}/visualized/${userId}`).then((response) => response);
     }
 }

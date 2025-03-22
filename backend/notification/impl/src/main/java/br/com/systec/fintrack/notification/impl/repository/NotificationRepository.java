@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -40,5 +41,19 @@ public class NotificationRepository extends AbstractRepository<Notification, Lon
         query.setParameter("isVisualized", false);
 
         return query.getSingleResult();
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void updateAllVisualized(Long userId) {
+        String sql = " update Notification obj set obj.visualized = :visualized, obj.dateVisualized = :dateVisualized " +
+                " where obj.tenantId = :tenantId and obj.visualized = :isVisualized and obj.userId = :userId ";
+
+        entityManager.createQuery(sql)
+                .setParameter("tenantId", TenantContext.getTenant())
+                .setParameter("dateVisualized", new Date())
+                .setParameter("userId", userId)
+                .setParameter("visualized", true)
+                .setParameter("isVisualized", false)
+                .executeUpdate();
     }
 }

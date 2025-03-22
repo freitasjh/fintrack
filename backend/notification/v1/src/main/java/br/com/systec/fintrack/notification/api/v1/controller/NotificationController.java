@@ -23,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -88,5 +89,19 @@ public class NotificationController extends AbstractController {
         List<Notification> notifications = service.findByTenantAndUserIdAndNotVisualized(userId);
 
         return buildSuccessResponse(NotificationMapper.toListResponseDTO(notifications));
+    }
+
+    @PutMapping("/visualized/{userId}")
+    @Operation(description = "Atualiza todas as notificações para visualizadas")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "Erro generico", content = {
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = StandardError.class))
+            })
+    })
+    public ResponseEntity<Void> updateAllVisualized(@PathVariable("userId") Long userId) {
+        service.updateAllVisualized(userId);
+
+        return buildSuccessResponseNoContent();
     }
 }
