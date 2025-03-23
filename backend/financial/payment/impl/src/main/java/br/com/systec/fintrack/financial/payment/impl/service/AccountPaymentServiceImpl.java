@@ -60,28 +60,27 @@ public class AccountPaymentServiceImpl implements AccountPaymentService {
     }
 
 
-    @Transactional(propagation = Propagation.SUPPORTS)
-    public List<AccountPayment> listAllPayment() throws BaseException {
-        return repository.findAllByTenant();
-    }
-
     @Transactional(propagation = Propagation.REQUIRED)
     public void delete(Long id) {
-        repository.deleteById(id);
+        try{
+            repository.deleteById(id);
+        } catch (Exception e) {
+            log.error("Ocorreu um erro ao tentar deletar a conta", e);
+            throw new BaseException(e);
+        }
     }
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public Page<AccountPayment> findPaymentByFilter(AccountPaymentPageParam pageParam) throws BaseException {
         try {
-            Page<AccountPayment> pageOfAccountPayment = repositoryJpa.findAll(pageParam.getSpecification(),
-                    pageParam.getPageable());
-
-            return pageOfAccountPayment;
+            return repositoryJpa.findAll(
+                    pageParam.getSpecification(),
+                    pageParam.getPageable()
+            );
         } catch (Exception e) {
             log.error("Erro ao tentar filtar os pagamento", e);
             throw new BaseException("Erro ao tentar filtar os pagamentos", e);
         }
-
     }
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED)

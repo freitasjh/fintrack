@@ -80,19 +80,6 @@ public class AccountPaymentRepository extends AbstractRepository<AccountPayment,
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
-    public BigDecimal findTotalOpenAccountPayable() {
-        StringBuilder sql = new StringBuilder();
-        sql.append("select SUM(obj.amount) from AccountPayment obj where obj.tenantId = :tenantId");
-        sql.append("and obj.processed :processed");
-
-        TypedQuery<BigDecimal> query = entityManager.createQuery(sql.toString(), BigDecimal.class);
-        query.setParameter("tenantId", TenantContext.getTenant());
-        query.setParameter("processed", false);
-
-        return query.getSingleResult();
-    }
-
-    @Transactional(propagation = Propagation.SUPPORTS)
     public List<AccountPayment> findAccountPaymentOpen() {
         StringBuilder sql = new StringBuilder();
         sql.append("Select obj from AccountPayment obj where obj.tenantId = :tenantId ");

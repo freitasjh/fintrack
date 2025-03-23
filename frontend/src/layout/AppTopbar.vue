@@ -241,7 +241,7 @@ const updateAllNotification = async () => {
                         <div class="m-2 font-semibold">
                             <span>Notificação</span>
                         </div>
-                        <div class="font-semibold mb-1">
+                        <div class="font-semibold mb-1" v-if="listNotification.length > 0">
                             <Button label="Marcar como lido" icon="pi pi-check" raised rounded
                                 @click="updateAllNotification" />
                         </div>
@@ -273,6 +273,11 @@ const updateAllNotification = async () => {
                                     </div>
                                 </div>
                             </ScrollPanel>
+                        </template>
+                        <template #empty>
+                            <div class="p-4 text-center">
+                                <span>Nenhuma notificação</span>
+                            </div>
                         </template>
                     </DataView>
                 </div>

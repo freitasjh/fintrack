@@ -11,7 +11,6 @@ import java.util.List;
 public interface AccountPaymentService {
     AccountPayment save(AccountPayment accountPayment) throws BaseException;
 
-    List<AccountPayment> listAllPayment() throws BaseException;
 
     void delete(Long id) throws BaseException;
 
