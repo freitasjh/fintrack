@@ -21,6 +21,7 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(BaseException.class)
     public ResponseEntity<StandardError> baseException(BaseException e, HttpServletRequest request) {
         StandardError err = new StandardError(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage(), System.currentTimeMillis());
+        err.setDetailMessage(e.getDetailMessage());
         HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
 
         if(e.getHttpStatus() != null){
@@ -55,10 +56,5 @@ public class ControllerExceptionHandler {
         StandardError err = new StandardError(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage(), System.currentTimeMillis());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(err);
     }
-//    @ExceptionHandler(SecurityTokenExpiredException.class)
-//    public ResponseEntity<StandardError> securityTokenExpiredException(RuntimeException e, HttpServletRequest request) {
-//        StandardError err = new StandardError(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage(), System.currentTimeMillis());
-//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(err);
-//    }
 
 }

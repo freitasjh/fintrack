@@ -39,4 +39,12 @@ public class BaseException extends RuntimeException {
     public HttpStatus getHttpStatus() {
         return httpStatus;
     }
+
+    public String getDetailMessage() {
+        if(getMessage().equals("Erro generico")) {
+            return getCause().getMessage();
+        }
+
+        return "";
+    }
 }
