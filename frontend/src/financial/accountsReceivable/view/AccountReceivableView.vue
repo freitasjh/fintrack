@@ -9,7 +9,6 @@ import { useI18n } from "vue-i18n";
 import { onMounted } from "vue";
 import AccountReceivable from '../model/AccountReceivable';
 import FilterCategory from "../../../administrator/category/model/FilterCategory";
-import { XIcon } from "lucide-vue-next";
 import FilterTags from "../../../components/FilterTags.vue";
 
 
@@ -21,9 +20,11 @@ const bankAccountSelected = ref({});
 const bankAccountFilter = ref(new BankAccountFilter());
 const filterBankAccountSelected = ref({});
 const { t } = useI18n();
+
 const accountReceivableDialog = ref(false);
 const listOfCategory = ref([]);
 const categorySelected = ref({});
+
 const listOfFilters = ref([]);
 const filterDate = ref(null);
 const filterInformation = ref({
@@ -205,6 +206,7 @@ const addFilterType = async () => {
 
 const removeFilter = async (index) => {
     const filterInformationRemove = listOfFilters.value[index];
+
     if (filterInformationRemove.filterType === 'dateProcess') {
         accountReceivableFilter.value.dateProcessed = null;
     }

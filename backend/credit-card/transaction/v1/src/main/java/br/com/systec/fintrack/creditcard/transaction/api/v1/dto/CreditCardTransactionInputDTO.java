@@ -2,6 +2,8 @@ package br.com.systec.fintrack.creditcard.transaction.api.v1.dto;
 
 import jakarta.validation.constraints.NotNull;
 
+import java.time.LocalDate;
+
 public class CreditCardTransactionInputDTO {
 
     private Long id;
@@ -11,6 +13,7 @@ public class CreditCardTransactionInputDTO {
     private int installments;
     @NotNull(message = "Infome o cartão que foi realizado a compra")
     private Long creditCardId;
+    private LocalDate dateTransaction;
 
     public Long getId() {
         return id;
@@ -52,6 +55,14 @@ public class CreditCardTransactionInputDTO {
         this.creditCardId = creditCardId;
     }
 
+    public LocalDate getDateTransaction() {
+        return dateTransaction;
+    }
+
+    public void setDateTransaction(LocalDate dateTransaction) {
+        this.dateTransaction = dateTransaction;
+    }
+
     @Override
     public String toString() {
         return "CreditCardTransactionInputDTO{" +
@@ -60,6 +71,7 @@ public class CreditCardTransactionInputDTO {
                 ", amount=" + amount +
                 ", installments=" + installments +
                 ", creditCardId=" + creditCardId +
+                ", dateTransaction=" + dateTransaction +
                 '}';
     }
 }

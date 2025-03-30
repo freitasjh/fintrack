@@ -2,6 +2,7 @@ package br.com.systec.fintrack.creditcard.transaction.impl.service;
 
 import br.com.systec.fintrack.commons.TenantContext;
 import br.com.systec.fintrack.commons.exception.BaseException;
+import br.com.systec.fintrack.commons.query.PaginatedList;
 import br.com.systec.fintrack.creditcard.commons.CreditCardTransactionType;
 import br.com.systec.fintrack.creditcard.commons.DateCreditCardUtils;
 import br.com.systec.fintrack.creditcard.exceptions.CreditCardLimitException;
@@ -23,11 +24,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 
-//TODO como fazer a atualização do limite disponivel do cartão e também a validação do limite...
 @Service
 public class CreditCardTransactionServiceImpl implements CreditCardTransactionService {
-    private static final Logger log = LoggerFactory.getLogger(CreditCardTransaction.class);
+    private static final Logger log = LoggerFactory.getLogger(CreditCardTransactionServiceImpl.class);
+
     @Autowired
     private CreditCardTransactionRepository repository;
     @Autowired
@@ -41,24 +43,33 @@ public class CreditCardTransactionServiceImpl implements CreditCardTransactionSe
     public CreditCardTransaction save(CreditCardTransaction creditCardTransaction) throws BaseException {
         try {
             CreditCard creditCard = creditCardService.findById(creditCardTransaction.getCreditCard().getId());
+
             if (creditCard.getAvailableLimit() < creditCardTransaction.getAmount()) {
                 throw new CreditCardLimitException();
             }
 
             creditCardTransaction.setCreditCard(creditCard);
 
-            if(creditCardTransaction.getTenantId() == null) {
+            if (creditCardTransaction.getTenantId() == null) {
                 creditCardTransaction.setTenantId(TenantContext.getTenant());
             }
 
-            CreditCardInvoice creditCardInvoice = creditCardInvoiceService.findByDateIfNotExistCreate(creditCard);
+            if (creditCardTransaction.getDateTransaction() == null) {
+                creditCardTransaction.setDateTransaction(LocalDate.now());
+            }
 
-            generateInstallments(creditCardTransaction, creditCardInvoice);
+            generateInstallments(creditCardTransaction);
 
             CreditCardTransaction creditCardTransactionSaved = repository.save(creditCardTransaction);
 
+            bindInstallmentsToCreditCardInvoice(creditCardTransaction);
+
+            //Recalcula o valor total para atualizar corretamente o valor do limite.
+            double totalAmount = creditCardTransaction.getListOfInstallment().stream().filter(item -> item.getDatePaid() == null)
+                    .mapToDouble(CreditCardInstallment::getAmount).sum();
+
             //Atualiza o limite do cartão de credito
-            creditCardService.updateAvailableLimitCreditCard(creditCardTransactionSaved.getAmount(), creditCard.getId(),
+            creditCardService.updateAvailableLimitCreditCard(totalAmount, creditCard.getId(),
                     CreditCardTransactionType.EXPENSE);
 
             return creditCardTransactionSaved;
@@ -70,8 +81,29 @@ public class CreditCardTransactionServiceImpl implements CreditCardTransactionSe
         }
     }
 
-    private void generateInstallments(CreditCardTransaction transaction, CreditCardInvoice creditCardInvoice) {
+    private void bindInstallmentsToCreditCardInvoice(CreditCardTransaction creditCardTransaction) {
+        LocalDate dateToValidateInvoice = creditCardTransaction.getDateTransaction();
+        for (CreditCardInstallment installment : creditCardTransaction.getListOfInstallment()) {
+            LocalDate dateClose = DateCreditCardUtils.generateDateCloseWithDateTransaction(creditCardTransaction.getCreditCard(), dateToValidateInvoice);
+            boolean hasInsertInvoice = false;
+
+            if (dateClose.isBefore(LocalDate.now()) || dateClose.isEqual(LocalDate.now())) {
+                hasInsertInvoice = true;
+            }
+
+            if (hasInsertInvoice) {
+                creditCardInvoiceService.findByDateTransactionIfNotExistCreate(
+                        dateToValidateInvoice, creditCardTransaction.getCreditCard()
+                );
+            }
+
+            dateToValidateInvoice = dateToValidateInvoice.plusMonths(1);
+        }
+    }
+
+    private void generateInstallments(CreditCardTransaction transaction) {
         double installmentAmount = transaction.getAmount();
+
         if (transaction.getInstallments() > 1) {
             installmentAmount = (transaction.getAmount() / transaction.getInstallments());
         }
@@ -80,19 +112,25 @@ public class CreditCardTransactionServiceImpl implements CreditCardTransactionSe
             CreditCardInstallment installments = new CreditCardInstallment();
             installments.setAmount(installmentAmount);
             installments.setDescription(String.format("%s, %d/%d", transaction.getDescription(), transaction.getInstallments(), index));
-            installments.setDueDate(DateCreditCardUtils.generateDueDate(transaction.getCreditCard(), index));
+            installments.setDueDate(DateCreditCardUtils.generateDueDateWithDateTransaction(transaction.getCreditCard(), index, transaction.getDateTransaction()));
             installments.setInstallment(index);
             installments.setTransaction(transaction);
-            if (index == 1) {
-                installments.setCreditCardInvoiceId(creditCardInvoice.getId());
+
+            if (installments.getDueDate().isBefore(LocalDate.now())) {
+                installments.setDatePaid(installments.getDueDate());
             }
 
             transaction.getListOfInstallment().add(installments);
         }
     }
 
-    @Transactional(propagation = Propagation.SUPPORTS)
-    public Page<CreditCardTransaction> findByFilter(CreditCardTransactionPageParam pageParam) throws BaseException {
-        return repositoryJPA.findAll(pageParam.getSpecification(), pageParam.getPageable());
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public PaginatedList<CreditCardTransaction> findByFilter(CreditCardTransactionPageParam pageParam) throws BaseException {
+        try {
+            return repository.findByFilter(pageParam);
+        } catch (Exception e) {
+            log.error("Erro ao tentar buscar os dados", e);
+            throw new BaseException(e);
+        }
     }
 }

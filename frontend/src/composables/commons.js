@@ -15,7 +15,6 @@ export function useLoader() {
 
     const hideLoading = () => {
         if (isLoading) {
-            console.log('Hide loading');
             loader.hide();
             isLoading = false;
         }
@@ -40,7 +39,6 @@ export function useHandlerMessage() {
     };
 
     const handlerError = (error) => {
-        console.log(error);
         let message = '';
         if (error.response !== undefined && error.response.data !== null && error.response.data.msg !== undefined) {
             if (error.response.data.errors !== undefined && error.response.data.erros !== null) {

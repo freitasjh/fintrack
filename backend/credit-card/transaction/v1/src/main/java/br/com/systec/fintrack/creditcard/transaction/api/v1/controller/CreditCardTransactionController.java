@@ -4,9 +4,11 @@ import br.com.systec.fintrack.commons.AbstractController;
 import br.com.systec.fintrack.commons.RestPath;
 import br.com.systec.fintrack.commons.exception.StandardError;
 import br.com.systec.fintrack.commons.exception.ValidationError;
+import br.com.systec.fintrack.commons.query.PaginatedList;
 import br.com.systec.fintrack.creditcard.transaction.api.v1.dto.CreditCardTransactionDTO;
 import br.com.systec.fintrack.creditcard.transaction.api.v1.dto.CreditCardTransactionInputDTO;
 import br.com.systec.fintrack.creditcard.transaction.api.v1.mapper.CreditCardTransactionMapper;
+import br.com.systec.fintrack.creditcard.transaction.filter.CreditCardTransactionFilterVO;
 import br.com.systec.fintrack.creditcard.transaction.filter.CreditCardTransactionPageParam;
 import br.com.systec.fintrack.creditcard.transaction.model.CreditCardTransaction;
 import br.com.systec.fintrack.creditcard.transaction.service.CreditCardTransactionService;
@@ -65,18 +67,21 @@ public class CreditCardTransactionController extends AbstractController {
     @Operation(description = "Faz a pesquisa com filtros")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK", content = {
-                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = Page.class))
+                    @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = PaginatedList.class))
             }),
             @ApiResponse(responseCode = "500", description = "Erro generico", content = {
                     @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = StandardError.class))
             })
     })
-    public ResponseEntity<Page<CreditCardTransactionDTO>> findByFilter(@RequestParam(value = "search", required = false) String search,
-                                                                       @RequestParam(value = "page", required = false, defaultValue = "0") int page,
-                                                                       @RequestParam(value = "limit", required = false, defaultValue = "30") int limit) {
+    public ResponseEntity<PaginatedList<CreditCardTransactionDTO>> findByFilter(@RequestParam(value = "search", required = false) String search,
+                                                                                @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+                                                                                @RequestParam(value = "limit", required = false, defaultValue = "30") int limit) {
 
-        CreditCardTransactionPageParam pageParam = new CreditCardTransactionPageParam(limit, page, search);
-        Page<CreditCardTransaction> pageOfCreditCardTransaction = service.findByFilter(pageParam);
+        CreditCardTransactionPageParam pageParam = new CreditCardTransactionPageParam(limit, page);
+        pageParam.setFilterVO(new CreditCardTransactionFilterVO());
+        pageParam.getFilterVO().setKeyword(search);
+
+        PaginatedList<CreditCardTransaction> pageOfCreditCardTransaction = service.findByFilter(pageParam);
 
         return buildSuccessResponse(CreditCardTransactionMapper.toPageDTO(pageOfCreditCardTransaction));
     }

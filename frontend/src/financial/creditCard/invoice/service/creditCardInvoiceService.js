@@ -6,7 +6,7 @@ export default class CreditCardInvoiceService {
     }
 
     async findByFilter(filter) {
-        return await http.get(`${this.endpoint}`);
+        return await http.get(`${this.endpoint}${filter.toString()}`);
     }
 
     async registerPayment(creditCardInvoiceRegister) {

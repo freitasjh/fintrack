@@ -1,10 +1,11 @@
 package br.com.systec.fintrack.commons;
 
+import br.com.systec.fintrack.commons.filter.FilterPageParam;
+import br.com.systec.fintrack.commons.query.PaginatedList;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
-import org.aspectj.weaver.ast.Not;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.transaction.annotation.Propagation;
@@ -91,7 +92,7 @@ public abstract class AbstractRepository<T, ID> implements CrudRepository<T, ID>
     }
 
     @Override
-    @Transactional(propagation = Propagation.SUPPORTS)
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public Iterable<T> findAll() {
         return entityManager.createQuery("SELECT o FROM "+entityClass.getSimpleName()+" o", entityClass).getResultList();
     }
@@ -201,40 +202,65 @@ public abstract class AbstractRepository<T, ID> implements CrudRepository<T, ID>
         entityManager.createNativeQuery(nativeQuery).executeUpdate();
     }
 
+    /*
+        TODO acredito que para querys simples essa logica vai funcionar, mais o problema pode ser o count, validar com querys mais complexas,
+        TODO verificar para melhorar a logica principalmente do count.
+     */
     @SuppressWarnings({ "rawtypes", "unchecked" })
-//	protected PaginatedList<T> executePaginatedQuery(Query query, Map<String, Object> setParams, int page, int pageSize){
-//
-//        setParametersOnQuery(query, setParams);
-//
-//        int start = (page - 1) * pageSize;
-//        if(start < 0){
-//            start = 0;
-//        }
-//        query.setFirstResult(start);
-//        query.setMaxResults(pageSize + 1);
-//        List list = query.getResultList();
-//        PaginatedList<T> result = new PaginatedList<>();
-//        if(list.size() > pageSize){
-//            result.setHasNext(true);
-//            list.remove(list.size() - 1);
-//        }
-//        result.addAll(list);
-//
-//        return result;
-//    }
+	protected PaginatedList<T> executePaginatedQuery(Query query, FilterPageParam filterPageParam) {
+        setParametersOnQuery(query, filterPageParam.getParams());
 
-    protected Query setParametersOnQuery(Query query, Map<String, Object> setParams){
+        int start = (filterPageParam.getPage() - 1) * filterPageParam.getPageSize();
+        if(start < 0){
+            start = 0;
+        }
+
+        query.setFirstResult(start);
+        query.setMaxResults(filterPageParam.getPageSize() + 1);
+        List list = query.getResultList();
+        PaginatedList<T> result = new PaginatedList<>();
+
+        if(list.size() > filterPageParam.getPageSize()){
+            result.setHasNext(true);
+            list.remove(list.size() - 1);
+        }
+
+        result.addAll(list);
+        result.setPageSizeResult(list.size());
+
+        result.setTotalResults(executeCountQuery(filterPageParam.getParams()));
+
+        return result;
+    }
+
+    private int executeCountQuery(Map<String, Object> params) {
+        StringBuilder sql = new StringBuilder("SELECT COUNT(obj) FROM "+entityClass.getSimpleName()+" obj ");
+        for(String key : params.keySet()){
+            if(sql.indexOf("WHERE") == -1){
+                sql.append(" WHERE ");
+            } else {
+                sql.append(" AND ");
+            }
+
+            sql.append("obj.").append(key).append(" = :").append(key);
+        }
+        TypedQuery<Long> countQuery = entityManager.createQuery(sql.toString(), Long.class);
+
+        setParametersOnQuery(countQuery, params);
+
+        return countQuery.getSingleResult().intValue();
+    }
+
+    protected void setParametersOnQuery(Query query, Map<String, Object> setParams){
         if((setParams != null) && !setParams.isEmpty()){
             for(String key : setParams.keySet()){
                 Object object = setParams.get(key);
                 query.setParameter(key, object);
             }
         }
-
-        return query;
     }
 
-    protected void appedOrderBy(StringBuilder sb, List<String> fields, Map<String, String> validFields){
+    protected void appendOrderBy(StringBuilder sb, List<String> fields, Map<String, String> validFields){
         if(fields != null && !fields.isEmpty() && validFields != null && !validFields.isEmpty()){
             boolean firstOrder = true;
 

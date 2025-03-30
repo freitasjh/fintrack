@@ -7,6 +7,13 @@ import { useHandlerMessage, useLoader } from "../../../../composables/commons";
 import CreditCardInvoiceService from "../service/creditCardInvoiceService";
 import CreditCardInvoicePayment from '../model/creditCardInvoicePayment'
 import BankAccountFilter from "../../../../administrator/bankAccount/model/BankAccountFilter";
+import { XIcon } from "lucide-vue-next";
+import FilterTags from "../../../../components/FilterTags.vue";
+import CreditCardTransactionFilter from "../../transaction/model/creditCardTransactionFilter";
+import { computed } from "vue";
+import CreditCardFilter from "../../../../administrator/creditCard/model/creditCardFilter";
+import CreditCard from "../../../../administrator/creditCard/model/creditCard";
+import CreditCardInvoiceFilter from "../model/creditCardInvoiceFilter";
 
 const { t } = useI18n();
 const { showLoading, hideLoading } = useLoader();
@@ -16,32 +23,66 @@ const registerPaymentVisible = ref(false);
 
 const listPageCreditCardInvoice = ref([]);
 const breadCrumbItem = ref([{ label: t("creditCard") }, { label: t("invoice") }]);
+const home = ref({
+    icon: "pi pi-home",
+});
+
+const rowLimit = ref(30);
 
 const listPageBankAccount = ref([]);
 const bankAccountSelected = ref({});
 const creditCardInvoiceSelected = ref({});
 const expandInstallmentRow = ref({});
+const creditCardInvoiceFilter = ref(new CreditCardInvoiceFilter())
 
 const service = new CreditCardInvoiceService();
 const creditCardInvoicePayment = ref(new CreditCardInvoicePayment());
 const bankAccountFilter = ref(new BankAccountFilter());
 
-const home = ref({
-    icon: "pi pi-home",
+const listPageCreditCard = computed(() => store.state.creditCardStore.listPageCreditCard);
+const creditCardFilter = ref(new CreditCardFilter());
+const creditCardSelected = ref(new CreditCard());
+const responseFindInvoice = ref({});
+
+const listOfFilters = ref([]);
+const filterInformation = ref({
+    keyword: '',
+    filterType: '',
+    filterName: ''
 });
+
+
+const filterTypeSelected = ref({});
+const filterTypes = ref([
+    { code: 'creditCard', title: 'Filtro por Cartão de credito' },
+    { code: 'dateFilter', title: 'Filtro por data' },
+    { code: 'paymentStatus', title: 'Filtro por status' }
+]);
+
+const statusType = ref([
+    { code: 'OPEN', title: 'Aberto' },
+    { code: 'PENDING', title: 'Pendente' },
+    { code: 'PAID', title: 'Pago' }
+]);
+const statusTypeSelected = ref({});
 
 onBeforeMount(async () => {
     await findByFilter();
+    await findCreditCard();
 });
 
 const findByFilter = async () => {
     try {
-        const response = await service.findByFilter(null);
+        showLoading();
+        const response = await service.findByFilter(creditCardInvoiceFilter.value);
+        responseFindInvoice.value = response.data;
+        console.log(responseFindInvoice.value.totalResults);
 
-        listPageCreditCardInvoice.value = response.data;
-        console.log(listPageCreditCardInvoice)
+        listPageCreditCardInvoice.value = response.data.resultList;
     } catch (error) {
-        console.log(error);
+        handlerError(error);
+    } finally {
+        hideLoading();
     }
 }
 
@@ -113,6 +154,80 @@ const findInstallmentOfInvoice = async (event) => {
     }
 }
 
+const findCreditCard = async () => {
+    await store.dispatch("creditCardStore/findByFilter", creditCardFilter.value);
+}
+
+const addFilterType = async () => {
+    try {
+        showLoading();
+        if (listOfFilters.value.length > 0) {
+            listOfFilters.value.filter((item) => {
+                if (item.filterType === filterTypeSelected.value.code) {
+                    throw new Error("Tipo de filtro já foi adicionado");
+                }
+            });
+        }
+
+        filterInformation.value.filterType = filterTypeSelected.value.code;
+        filterInformation.value.filterName = filterTypeSelected.value.title;
+
+        if (filterTypeSelected.value.code === 'creditCard') {
+            filterInformation.value.keyword = creditCardSelected.value.name;
+            creditCardInvoiceFilter.value.creditCardId = creditCardSelected.value.id;
+            creditCardSelected.value = new CreditCard();
+        } else if (filterTypeSelected.value.code === 'paymentStatus') {
+            filterInformation.value.keyword = statusTypeSelected.value.title;
+            creditCardInvoiceFilter.value.statusType = statusTypeSelected.value.code;
+            statusTypeSelected.value = {};
+        }
+
+        listOfFilters.value.push({ ...filterInformation.value });
+        filterTypeSelected.value = {};
+
+        await findByFilter();
+
+    } catch (error) {
+        handlerError(error);
+    } finally {
+        hideLoading();
+    }
+}
+
+const removeFilter = async (index) => {
+    const filterInformationRemove = listOfFilters.value[index];
+
+    if (filterInformationRemove.filterType === 'creditCard') {
+        creditCardInvoiceFilter.value.creditCardId = null;
+    } else if (filterInformationRemove.filterType === 'paymentStatus') {
+        creditCardInvoiceFilter.value.statusType = null;
+    }
+
+    listOfFilters.value.splice(index, 1);
+
+    await findByFilter();
+};
+
+const pageEvent = async (event) => {
+    console.log(event);
+    rowLimit.value = event.rows;
+    creditCardInvoiceFilter.value.limit = rowLimit.value;
+    creditCardInvoiceFilter.value.page = ++event.page;
+    await findByFilter();
+};
+
+const sortEvent = async (event) => {
+    console.log(event);
+    creditCardInvoiceFilter.value.sortField = event.sortField;
+    if (event.sortOrder === -1) {
+        creditCardInvoiceFilter.value.sortOrder = 'asc';
+    } else {
+        creditCardInvoiceFilter.value.sortOrder = 'desc';
+    }
+
+    await findByFilter();
+};
+
 </script>
 <template>
     <div class="grid">
@@ -127,27 +242,70 @@ const findInstallmentOfInvoice = async (event) => {
                             <Button :label="$t('new')" icon="pi pi-plus" class="mr-2" severity="success" />
                         </div>
                     </template>
+                    <template v-slot:center>
+                        <div class="my-2 mr-2">
+                            <Dropdown v-model="filterTypeSelected" :options="filterTypes" optionLabel="title"
+                                placeholder="Selecione o tipo de filtro" />
+                        </div>
+                        <div class="my-2" v-if="filterTypeSelected.code === 'creditCard'">
+                            <Dropdown v-model="creditCardSelected" :options="listPageCreditCard.content"
+                                optionLabel="name" :placeholder="$t('selectCreditCard')" class="w-full">
+                                <template #value="slotProps">
+                                    <div v-if="slotProps.value.name !== null" class="flex align-items-center">
+                                        <div>
+                                            {{
+                                                slotProps.value.name +
+                                                " - " +
+                                                slotProps.value.bankAccountName
+                                            }}
+                                        </div>
+                                    </div>
+                                    <span v-else>{{ slotProps.placeholder }}</span>
+                                </template>
+                                <template #option="slotProps">
+                                    <div class="flex align-items-center">
+                                        <div>
+                                            {{
+                                                slotProps.option.name +
+                                                " - " +
+                                                slotProps.option.bankAccountName
+                                            }}
+                                        </div>
+                                    </div>
+                                </template>
+                            </Dropdown>
+                        </div>
+                        <div class="my-2" v-if="filterTypeSelected.code === 'paymentStatus'">
+                            <Dropdown v-model="statusTypeSelected" :options="statusType" optionLabel="title"
+                                class="w-full" placeholder="Selecione o Status" />
+                        </div>
+                        <div class="ml-2 my-2" v-if="filterTypeSelected.code">
+                            <Button icon="pi pi-plus" class="mr-2" severity="warning" rounded @click="addFilterType" />
+                        </div>
+                    </template>
                 </Toolbar>
+                <Toolbar class="mb-4" v-if="listOfFilters.length">
+                    <template v-slot:start>
+                        <FilterTags :filters="listOfFilters" @remove="removeFilter" />
+                    </template>
+                </Toolbar>
+                <Paginator :rows="rowLimit" :totalRecords="responseFindInvoice.totalResults"
+                    :rowsPerPageOptions="[10, 20, 30]" @page="pageEvent">
+                </Paginator>
                 <DataTable v-model:expandedRows="expandInstallmentRow" ref="ref" :value="listPageCreditCardInvoice"
-                    dataKey="id" stripedRows showGridlines :paginator="true" :rows="30"
-                    @rowExpand="findInstallmentOfInvoice">
+                    dataKey="id" stripedRows showGridlines :rows="rowLimit" @rowExpand="findInstallmentOfInvoice"
+                    :lazy="true" @sort="sortEvent">
                     <Column expander style="width: 5rem" />
-                    <Column :header="$t('code')" headerStyle="5%">
-                        <template #body="slotProps">
-                            {{ slotProps.data.id }}
-                        </template>
-                    </Column>
-                    <Column :header="$t('dueDate')" headerStyle="5%">
-                        <template #body="slotProps">
-                            {{ slotProps.data.dueDate }}
-                        </template>
+                    <Column field="id" :header="$t('code')" headerStyle="5%" sortable />
+                    <Column field="dueDate" :header="$t('dueDate')" headerStyle="5%" sortable>
+
                     </Column>
                     <Column :header="$t('description')" headerStyle="5%">
                         <template #body="slotProps">
                             {{ slotProps.data.creditCardDescription }}
                         </template>
                     </Column>
-                    <Column :header="$t('amount')" headerStyle="5%">
+                    <Column field="amount" :header="$t('amount')" headerStyle="5%" sortable>
                         <template #body="slotProps">
                             {{ formatCurrency(slotProps.data.amount) }}
                         </template>

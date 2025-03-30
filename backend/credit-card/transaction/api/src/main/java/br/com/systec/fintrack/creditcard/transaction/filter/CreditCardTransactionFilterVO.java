@@ -1,19 +1,16 @@
 package br.com.systec.fintrack.creditcard.transaction.filter;
 
+import br.com.systec.fintrack.commons.filter.FilterParamVO;
+
+import java.io.Serial;
 import java.time.LocalDate;
 
-public class CreditCardTransactionFilterVO {
-    private String keyword;
+public class CreditCardTransactionFilterVO extends FilterParamVO {
+    @Serial
+    private static final long serialVersionUID = 5272080917537826078L;
+
     private Long creditCardId;
     private LocalDate dateFilter;
-
-    public String getKeyword() {
-        return keyword;
-    }
-
-    public void setKeyword(String keyword) {
-        this.keyword = keyword;
-    }
 
     public Long getCreditCardId() {
         return creditCardId;

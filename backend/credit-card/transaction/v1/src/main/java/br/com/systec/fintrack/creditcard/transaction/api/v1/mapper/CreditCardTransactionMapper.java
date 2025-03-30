@@ -1,5 +1,6 @@
 package br.com.systec.fintrack.creditcard.transaction.api.v1.mapper;
 
+import br.com.systec.fintrack.commons.query.PaginatedList;
 import br.com.systec.fintrack.creditcard.model.CreditCard;
 import br.com.systec.fintrack.creditcard.transaction.api.v1.dto.CreditCardTransactionDTO;
 import br.com.systec.fintrack.creditcard.transaction.api.v1.dto.CreditCardTransactionInputDTO;
@@ -15,6 +16,7 @@ public class CreditCardTransactionMapper {
         transaction.setInstallments(inputDTO.getInstallments());
         transaction.setAmount(inputDTO.getAmount());
         transaction.setDescription(inputDTO.getDescription());
+        transaction.setDateTransaction(inputDTO.getDateTransaction());
 
         return transaction;
     }
@@ -42,7 +44,17 @@ public class CreditCardTransactionMapper {
         return dto;
     }
 
-    public static Page<CreditCardTransactionDTO> toPageDTO(Page<CreditCardTransaction> pageOfCreditCardTransaction) {
-        return pageOfCreditCardTransaction.map(CreditCardTransactionMapper::toDTO);
+    public static PaginatedList<CreditCardTransactionDTO> toPageDTO(PaginatedList<CreditCardTransaction> pageOfCreditCardTransaction) {
+        PaginatedList<CreditCardTransactionDTO> paginatedList = new PaginatedList<>();
+        paginatedList.setHasNext(pageOfCreditCardTransaction.isHasNext());
+        paginatedList.setTotalResults(pageOfCreditCardTransaction.getTotalResults());
+        paginatedList.setPageSizeResult(pageOfCreditCardTransaction.getPageSizeResult());
+        paginatedList.addAll(
+                pageOfCreditCardTransaction.getResultList().
+                stream().map(CreditCardTransactionMapper::toDTO)
+                .toList()
+        );
+
+        return paginatedList;
     }
 }

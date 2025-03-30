@@ -1,4 +1,5 @@
-import Pageable from '../../../../commons/model/Pageable';
+// import Pageable from '../../../../commons/model/Pageable';
+import PageResult from '../../../../commons/model/pageResult';
 import CreditCardTransaction from '../model/creditCardTransaction';
 import CreditCardTransactionService from '../service/creditCardTransactionService';
 
@@ -6,7 +7,7 @@ export const creditCardTransactionStore = {
     namespaced: true,
     state: {
         creditCardTransaction: new CreditCardTransaction(),
-        listOfPageTransaction: new Pageable()
+        listOfPageTransaction: new PageResult()
     },
     mutations: {
         clearInformation(state) {

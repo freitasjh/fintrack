@@ -8,6 +8,7 @@ import br.com.systec.fintrack.creditcard.model.BrandType;
 import br.com.systec.fintrack.creditcard.model.CreditCard;
 import br.com.systec.fintrack.creditcard.model.CreditCardStatusType;
 
+
 public class CreditCardFake {
 
     public static CreditCard toFake() {
@@ -41,7 +42,4 @@ public class CreditCardFake {
 
         return bankAccount;
     }
-
-
-
 }

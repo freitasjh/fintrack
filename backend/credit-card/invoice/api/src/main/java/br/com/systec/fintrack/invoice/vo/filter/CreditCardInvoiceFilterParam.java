@@ -1,15 +1,23 @@
 package br.com.systec.fintrack.invoice.vo.filter;
 
+import br.com.systec.fintrack.commons.filter.FilterPageParam;
 import br.com.systec.fintrack.invoice.model.InvoiceStatusType;
 
 import java.time.LocalDate;
 
-public class CreditCardInvoiceFilterVO {
+public class CreditCardInvoiceFilterParam extends FilterPageParam {
 
     private Long creditCardId;
     private LocalDate filterDateInitial;
     private LocalDate filterDateFinal;
     private InvoiceStatusType statusType;
+
+
+    public CreditCardInvoiceFilterParam() {}
+
+    public CreditCardInvoiceFilterParam(int pageSize, int page) {
+        super(pageSize, page);
+    }
 
     public Long getCreditCardId() {
         return creditCardId;
@@ -41,5 +49,23 @@ public class CreditCardInvoiceFilterVO {
 
     public void setStatusType(InvoiceStatusType statusType) {
         this.statusType = statusType;
+    }
+
+
+    //TODO: ver a melhor pratica para definir campos default de ordenação, gambiarra temporaria.
+    @Override
+    public String getSortField() {
+        if(super.getSortField() == null) {
+            return "dueDate";
+        }
+        return super.getSortField();
+    }
+
+    @Override
+    public String getSortOrder() {
+        if(super.getSortOrder() == null) {
+            return "desc";
+        }
+        return super.getSortOrder();
     }
 }

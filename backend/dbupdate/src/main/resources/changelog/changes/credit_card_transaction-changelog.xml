@@ -24,4 +24,10 @@
             <column name="tenant_id" type="int8"/>
         </createIndex>
     </changeSet>
+
+    <changeSet id="credit-card-transaction-23032025J-1" author="Joao">
+        <addColumn tableName="credit_card_transaction">
+            <column name="date_transaction" type="date" />
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

@@ -32,7 +32,7 @@ public class CreditCardInstallmentRepository extends AbstractRepository<CreditCa
                 " join credit_card_transaction on credit_card_transaction.id = credit_card_installment.transaction_id " +
                 " set credit_card_installment.credit_card_invoice_id = :invoiceId " +
                 " where credit_card_transaction.credit_card_id = :creditCardId and credit_card_installment.due_date = :dueDate " +
-                " and credit_card_transaction.tenant_id = :tenantId";
+                " and credit_card_transaction.tenant_id = :tenantId and credit_card_installment.credit_card_invoice_id is null ";
 
         Query query = entityManager.createNativeQuery(sql);
         query.setParameter("invoiceId", creditCardInvoiceId);

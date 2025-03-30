@@ -112,6 +112,11 @@ const save = async () => {
                     showButtons :min="0" :max="100" id="creditCardTransaction-installments" />
 
             </div>
+            <div class="field col-12 md:col-12">
+                <label for="creditCardTransaction-installmentsDateTransaction">Data da transação</label>
+                <Calendar v-model.lazy="creditCardTransaction.dateTransaction" showIcon iconDisplay="input"
+                    dateFormat="dd/mm/yy" />
+            </div>
         </div>
         <template #footer>
             <Button :label="$t('save')" text icon="pi pi-check" @click="save()" />

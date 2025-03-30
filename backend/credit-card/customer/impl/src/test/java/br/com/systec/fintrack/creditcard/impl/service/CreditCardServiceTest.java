@@ -3,6 +3,7 @@ package br.com.systec.fintrack.creditcard.impl.service;
 import br.com.systec.fintrack.commons.TenantContext;
 import br.com.systec.fintrack.commons.exception.BaseException;
 import br.com.systec.fintrack.commons.exception.ObjectNotFoundException;
+
 import br.com.systec.fintrack.creditcard.commons.CreditCardTransactionType;
 import br.com.systec.fintrack.creditcard.filter.CreditCardFilterVO;
 import br.com.systec.fintrack.creditcard.impl.fake.CreditCardFake;
@@ -25,8 +26,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+
+import static br.com.systec.fintrack.creditcard.commons.DateCreditCardUtils.generateDateCloseWithDateTransaction;
+import static br.com.systec.fintrack.creditcard.commons.DateCreditCardUtils.generateDueDateWithDateTransaction;
 
 @ExtendWith(SpringExtension.class)
 public class CreditCardServiceTest {
@@ -190,4 +195,20 @@ public class CreditCardServiceTest {
 
         Assertions.assertThat(newLimitAvailableCreditCard).isEqualTo(1100.0);
     }
+
+    @Test
+    void withDateCloseGenerate() {
+        CreditCard creditCard = new CreditCard();
+        creditCard.setClosingDate("05");
+        creditCard.setDueDay("10");
+
+        LocalDate dateTransaction = LocalDate.of(2025, 3, 28);
+
+        LocalDate dateClose = generateDateCloseWithDateTransaction(creditCard, dateTransaction);
+        System.out.println("Close Date: " + dateClose);
+
+        LocalDate dueDate = generateDueDateWithDateTransaction(creditCard, 1, dateTransaction);
+        System.out.println("Due Date: " + dueDate);
+    }
+
 }

@@ -1,6 +1,7 @@
 package br.com.systec.fintrack.transaction.service;
 
 import br.com.systec.fintrack.commons.TenantContext;
+import br.com.systec.fintrack.commons.query.PaginatedList;
 import br.com.systec.fintrack.creditcard.commons.CreditCardTransactionType;
 import br.com.systec.fintrack.creditcard.model.CreditCard;
 import br.com.systec.fintrack.creditcard.service.CreditCardService;
@@ -22,13 +23,10 @@ import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.Arrays;
+import java.time.LocalDate;
+import java.util.List;
 
 @ExtendWith(SpringExtension.class)
 public class CreditCardTransactionServiceTest {
@@ -49,11 +47,13 @@ public class CreditCardTransactionServiceTest {
     void whenGenerateInstalmentOnSaveTransaction() {
         TenantContext.add(1L);
         CreditCardTransaction creditCardTransactionToSave = CreditCardTransactionFake.toFake();
+        creditCardTransactionToSave.setInstallments(3);
+        creditCardTransactionToSave.setDateTransaction(LocalDate.of(2025,1,1));
         CreditCardInvoice creditCardInvoiceToReturn = CreditCardInvoiceFake.toFake();
         CreditCard creditCardToReturn = CreditCardTransactionFake.toFakeCreditCard();
 
         Mockito.doReturn(creditCardToReturn).when(creditCardService).findById(Mockito.anyLong());
-        Mockito.doReturn(creditCardInvoiceToReturn).when(invoiceService).findByDateIfNotExistCreate(Mockito.any(CreditCard.class));
+        Mockito.doReturn(creditCardInvoiceToReturn).when(invoiceService).findByDateTransactionIfNotExistCreate(Mockito.any(LocalDate.class), Mockito.any(CreditCard.class));
         Mockito.doNothing().when(creditCardService).updateAvailableLimitCreditCard(Mockito.anyDouble(), Mockito.anyLong(),
                 Mockito.any(CreditCardTransactionType.class));
 
@@ -69,30 +69,29 @@ public class CreditCardTransactionServiceTest {
         Assertions.assertThat(creditCardSaved).isNotNull();
         Assertions.assertThat(creditCardSaved.getListOfInstallment()).isNotNull();
         Assertions.assertThat(creditCardSaved.getListOfInstallment()).isNotEmpty();
+
         Assertions.assertThat(creditCardSaved.getListOfInstallment().size()).isEqualTo(creditCardTransactionToSave.getInstallments());
-
-        Assertions.assertThat(creditCardSaved.getListOfInstallment().get(0).getCreditCardInvoiceId()).isEqualTo(creditCardInvoiceToReturn.getId());
-
-        log.info("Lista de parcelas {}", creditCardSaved.getListOfInstallment().get(0).toString());
+        log.info("Lista de parcelas {}", creditCardSaved.getListOfInstallment());
 
         Mockito.verify(creditCardService).findById(Mockito.anyLong());
-        Mockito.verify(invoiceService).findByDateIfNotExistCreate(Mockito.any(CreditCard.class));
+        Mockito.verify(invoiceService, Mockito.times(3)).findByDateTransactionIfNotExistCreate(Mockito.any(LocalDate.class),Mockito.any(CreditCard.class));
         Mockito.verify(creditCardService).updateAvailableLimitCreditCard(Mockito.anyDouble(), Mockito.anyLong(), Mockito.any(CreditCardTransactionType.class));
     }
 
     @Test
     void whenFilterByFilter() {
-        Page<CreditCardTransaction> pageOfCreditTransaction = new PageImpl<>(Arrays.asList(CreditCardTransactionFake.toFake()));
-        CreditCardTransactionPageParam pageParam = new CreditCardTransactionPageParam(30,0, null);
+        PaginatedList<CreditCardTransaction> pageOfCreditTransaction = new PaginatedList<>();
+        pageOfCreditTransaction.addAll(List.of(CreditCardTransactionFake.toFake()));
 
-        Mockito.doReturn(pageOfCreditTransaction).when(repositoryJPA).findAll(Mockito.any(Specification.class), Mockito.any(Pageable.class));
+        CreditCardTransactionPageParam pageParam = new CreditCardTransactionPageParam(30,0);
 
-        Page<CreditCardTransaction> pageReturn = service.findByFilter(pageParam);
+        Mockito.doReturn(pageOfCreditTransaction).when(repository).findByFilter(Mockito.any(CreditCardTransactionPageParam.class));
+
+        PaginatedList<CreditCardTransaction> pageReturn = service.findByFilter(pageParam);
 
         Assertions.assertThat(pageReturn).isNotNull();
-        Assertions.assertThat(pageReturn.getSize()).isEqualTo(pageOfCreditTransaction.getSize());
-        Assertions.assertThat(pageReturn.getTotalPages()).isEqualTo(pageOfCreditTransaction.getTotalPages());
+        Assertions.assertThat(pageReturn.getTotalResults()).isEqualTo(pageOfCreditTransaction.getTotalResults());
 
-        Mockito.verify(repositoryJPA).findAll(Mockito.any(Specification.class), Mockito.any(Pageable.class));
+        Mockito.verify(repository).findByFilter(Mockito.any(CreditCardTransactionPageParam.class));
     }
 }

@@ -3,16 +3,17 @@ package br.com.systec.fintrack.invoice.api.v1.controller;
 import br.com.systec.fintrack.commons.AbstractController;
 import br.com.systec.fintrack.commons.RestPath;
 import br.com.systec.fintrack.commons.exception.StandardError;
-import br.com.systec.fintrack.invoice.api.v1.dto.CreditCardInvoiceInputDTO;
+import br.com.systec.fintrack.commons.query.PaginatedList;
 import br.com.systec.fintrack.invoice.api.v1.dto.CreditCardInvoiceInstalmentResponseDTO;
 import br.com.systec.fintrack.invoice.api.v1.dto.CreditCardInvoicePaymentDTO;
 import br.com.systec.fintrack.invoice.api.v1.mapper.CreditCardInvoiceMapper;
+import br.com.systec.fintrack.invoice.model.InvoiceStatusType;
 import br.com.systec.fintrack.invoice.service.CreditCardInvoiceService;
 import br.com.systec.fintrack.invoice.vo.CreditCardFutureInvoiceVO;
 import br.com.systec.fintrack.invoice.vo.CreditCardInstallmentVO;
 import br.com.systec.fintrack.invoice.vo.CreditCardInvoicePaymentVO;
 import br.com.systec.fintrack.invoice.vo.CreditCardInvoiceResultVO;
-import br.com.systec.fintrack.invoice.vo.filter.CreditCardInvoiceFilterVO;
+import br.com.systec.fintrack.invoice.vo.filter.CreditCardInvoiceFilterParam;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -35,7 +36,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(RestPath.V1+"/credit-card/invoices")
+@RequestMapping(RestPath.V1 + "/credit-card/invoices")
 @Tag(name = "Credit Card Invoices", description = "Faturas dos Cartão de Credito")
 @SecurityRequirement(name = "Authorization")
 public class CreditCardInvoiceController extends AbstractController {
@@ -52,9 +53,21 @@ public class CreditCardInvoiceController extends AbstractController {
                     @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = StandardError.class))
             })
     })
-    public ResponseEntity<List<CreditCardInvoiceResultVO>> findAllInvoice(@RequestParam(value = "creditCardId", required = false) Long creditCardId) {
-        CreditCardInvoiceFilterVO filterVO = new CreditCardInvoiceFilterVO();
+    public ResponseEntity<PaginatedList<CreditCardInvoiceResultVO>> findByFilter(@RequestParam(value = "search", required = false) String search,
+                                                                                 @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+                                                                                 @RequestParam(value = "pageSize", required = false, defaultValue = "30") int pageSize,
+                                                                                 @RequestParam(value = "creditCardId", required = false) Long creditCardId,
+                                                                                 @RequestParam(value = "statusType", required = false) String statusType,
+                                                                                 @RequestParam(value = "sortField", required = false) String sortField,
+                                                                                 @RequestParam(value = "sortOrder", required = false) String sortOrder) {
+        CreditCardInvoiceFilterParam filterVO = new CreditCardInvoiceFilterParam(pageSize, page);
         filterVO.setCreditCardId(creditCardId);
+        filterVO.setSortOrder(sortOrder);
+        filterVO.setSortField(sortField);
+
+        if (statusType != null) {
+            filterVO.setStatusType(InvoiceStatusType.valueOf(statusType));
+        }
 
         return buildSuccessResponse(service.findByFilter(filterVO));
     }

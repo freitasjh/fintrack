@@ -1,26 +1,17 @@
 package br.com.systec.fintrack.creditcard.transaction.filter;
 
-import br.com.systec.fintrack.commons.filter.PageParamSearchVO;
-import br.com.systec.fintrack.creditcard.transaction.model.CreditCardTransaction;
-import org.springframework.data.jpa.domain.Specification;
+import br.com.systec.fintrack.commons.filter.FilterPageParam;
 
-public class CreditCardTransactionPageParam extends PageParamSearchVO<CreditCardTransaction> {
+
+public class CreditCardTransactionPageParam extends FilterPageParam {
 
     private CreditCardTransactionFilterVO filterVO;
 
-    public CreditCardTransactionPageParam(int limit, int page, String filter) {
-        super(limit, page, filter);
-    }
-
-    @Override
-    public Specification<CreditCardTransaction> getSpecification() {
-        return CreditCardTransactionSpecification.filter(getFilterVO());
+    public CreditCardTransactionPageParam(int pageSize, int page) {
+        super(pageSize, page);
     }
 
     public CreditCardTransactionFilterVO getFilterVO() {
-        if(filterVO == null) {
-            filterVO = new CreditCardTransactionFilterVO();
-        }
         return filterVO;
     }
 

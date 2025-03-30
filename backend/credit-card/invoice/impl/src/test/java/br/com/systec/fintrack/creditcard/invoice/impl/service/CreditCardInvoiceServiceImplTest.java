@@ -2,7 +2,6 @@ package br.com.systec.fintrack.creditcard.invoice.impl.service;
 
 import br.com.systec.fintrack.creditcard.invoice.impl.fake.CreditCardInvoiceFake;
 import br.com.systec.fintrack.creditcard.invoice.impl.repository.CreditCardInvoiceRepository;
-import br.com.systec.fintrack.creditcard.invoice.impl.service.CreditCardInvoiceServiceImpl;
 import br.com.systec.fintrack.creditcard.model.CreditCard;
 import br.com.systec.fintrack.invoice.model.CreditCardInvoice;
 import br.com.systec.fintrack.invoice.service.CreditCardInvoiceService;
@@ -31,7 +30,7 @@ public class CreditCardInvoiceServiceImplTest {
         CreditCard creditCardFake = new CreditCard();
         creditCardFake.setId(1L);
 
-        Mockito.doReturn(Optional.of(creditCardInvoice)).when(repository).findByDateClose(Mockito.any(LocalDate.class), Mockito.anyLong());
+        Mockito.doReturn(Optional.of(creditCardInvoice)).when(repository).findByDateClose(Mockito.any(LocalDate.class), Mockito.anyLong(), Mockito.any(LocalDate.class));
 
         service.findByDateIfNotExistCreate(creditCardFake);
     }

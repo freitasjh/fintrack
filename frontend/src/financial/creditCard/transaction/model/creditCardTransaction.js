@@ -5,5 +5,6 @@ export default class CreditCardTransaction {
         this.amount = 0.0;
         this.installments = 1;
         this.creditCardId = null;
+        this.dateTransaction = null;
     }
 }

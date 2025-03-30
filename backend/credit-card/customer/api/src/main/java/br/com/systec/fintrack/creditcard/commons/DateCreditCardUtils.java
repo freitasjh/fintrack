@@ -9,22 +9,30 @@ import java.util.List;
 
 public class DateCreditCardUtils {
 
-    public static LocalDate generateDueDate(CreditCard creditCard, int installment) {
-        LocalDate dateClose = LocalDate.now().withDayOfMonth(Integer.parseInt(creditCard.getClosingDate()));;
-        LocalDate dateNow = LocalDate.now();
+    public static LocalDate generateDateCloseWithDateTransaction(CreditCard creditCard, LocalDate dateTransaction) {
+        int closingDay = Integer.parseInt(creditCard.getClosingDate());
 
-        if(Integer.parseInt(creditCard.getClosingDate()) < Integer.parseInt(creditCard.getDueDay())){
-            dateClose = LocalDate.now().withDayOfMonth(Integer.parseInt(creditCard.getClosingDate())).plusMonths(1);
+        LocalDate dateClose = dateTransaction.withDayOfMonth(closingDay);
+
+        // Se a transação for após o fechamento, a fatura fecha no mês seguinte
+        if (dateTransaction.isAfter(dateClose)) {
+            dateClose = dateClose.plusMonths(1);
         }
 
-        if (installment > 1 || dateNow.isAfter(dateClose)) {
-            if (installment == 1) {
-                ++installment;
+        return dateClose;
+    }
+
+    public static LocalDate generateDueDateWithDateTransaction(CreditCard creditCard, int installment, LocalDate dateTransaction) {
+        LocalDate dateClose = generateDateCloseWithDateTransaction(creditCard, dateTransaction);
+        LocalDate dueDate = dateClose.withDayOfMonth(Integer.parseInt(creditCard.getDueDay()))
+                .plusMonths(installment - 1);
+
+        if (dateTransaction.isBefore(dateClose) || dateTransaction.isEqual(dateClose)) {
+            if (Integer.parseInt(creditCard.getDueDay()) < Integer.parseInt(creditCard.getClosingDate())) {
+                return dueDate.plusMonths(1);
             }
-
-            return LocalDate.now().withDayOfMonth(Integer.parseInt(creditCard.getDueDay())).plusMonths(installment);
         }
 
-        return LocalDate.now().withDayOfMonth(Integer.parseInt(creditCard.getDueDay())).plusMonths(1);
+        return dueDate;
     }
 }

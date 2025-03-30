@@ -7,11 +7,18 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.JoinColumnOrFormula;
+import org.hibernate.annotations.JoinFormula;
+import org.springframework.data.jpa.repository.EntityGraph;
 
+import java.io.Serial;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +27,8 @@ import java.util.List;
 @Table(name = "credit_card_transaction")
 public class CreditCardTransaction extends BaseModel {
 
+    @Serial
+    private static final long serialVersionUID = -2332397896312546096L;
     @Column(name = "description")
     private String description;
     @Column(name = "amount")
@@ -31,15 +40,10 @@ public class CreditCardTransaction extends BaseModel {
     private CreditCard creditCard;
     @Column(name = "tenant_id")
     private Long tenantId;
-    @OneToMany(targetEntity = CreditCardInstallment.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "transaction_id")
+    @OneToMany(mappedBy = "transaction", cascade = CascadeType.ALL)
     private List<CreditCardInstallment> listOfInstallment;
-
-    @PrePersist
-    void prePersist() {
-        this.dateCreated = LocalDate.now();
-        this.dateUpdated = LocalDate.now();
-    }
+    @Column(name = "date_transaction")
+    private LocalDate dateTransaction;
 
     public String getDescription() {
         return description;
@@ -90,5 +94,13 @@ public class CreditCardTransaction extends BaseModel {
 
     public void setListOfInstallment(List<CreditCardInstallment> listOfInstallment) {
         this.listOfInstallment = listOfInstallment;
+    }
+
+    public LocalDate getDateTransaction() {
+        return dateTransaction;
+    }
+
+    public void setDateTransaction(LocalDate dateTransaction) {
+        this.dateTransaction = dateTransaction;
     }
 }
