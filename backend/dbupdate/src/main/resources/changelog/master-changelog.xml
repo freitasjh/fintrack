@@ -19,5 +19,6 @@
     <include file="changelog/changes/credit_card_installment-changelog.xml" />
     <include file="changelog/changes/quartz-changelog.xml" />
     <include file="changelog/changes/recurring_transaction-changelog.xml" />
+    <include file="changelog/changes/budget-planning-changelog.xml" />
 
 </databaseChangeLog>

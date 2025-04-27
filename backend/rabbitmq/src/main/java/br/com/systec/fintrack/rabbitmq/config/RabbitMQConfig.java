@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
 
+    //TODO: implementar DLQ na logica de mensageria
     private final CachingConnectionFactory connectionFactory;
 
     public RabbitMQConfig(CachingConnectionFactory connectionFactory) {
@@ -26,21 +27,10 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    Queue createBankAccountNewAccountQueue() {
-        return new Queue(RabbitMQConstants.NEW_ACCOUNT_BANK_ACCOUNT_QUEUE, true, false, true);
-    }
-    @Bean
-    Queue queueBankAccountBalanceUpdate() {
-        return new Queue(RabbitMQConstants.BANK_ACCOUNT_BALANCE_UPDATE, true, false, true);
-    }
-    @Bean
-    Queue queueBankAccountNew() {
-        return new Queue(RabbitMQConstants.BANK_ACCOUNT_NEW, true, false, true);
-    }
-    @Bean
     Queue queueAccountPayment() {
         return new Queue(RabbitMQConstants.ACCOUNT_PAYMENT, true, false, true);
     }
+
     @Bean
     Queue queueJobNewAccount() { return new Queue(RabbitMQConstants.JOB_NEW_ACCOUNT, true, false, true); }
 
@@ -71,28 +61,11 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    Binding bindingNewAccountReceive() {
-        return BindingBuilder.bind(createBankAccountNewAccountQueue())
-                .to(directExchange()).with(RabbitMQConstants.ROUTING_KEY_NEW_ACCOUNT);
-    }
-
-    @Bean
-    Binding bindingBankAccountBalanceUpdate() {
-        return BindingBuilder.bind(queueBankAccountBalanceUpdate())
-                .to(directExchange()).with(RabbitMQConstants.ROUTING_KEY_NEW_BALANCE_ACCOUNT);
-    }
-
-    @Bean
-    Binding bindingBankAccountNew() {
-        return BindingBuilder.bind(queueBankAccountNew())
-                .to(directExchange()).with(RabbitMQConstants.ROUTING_KEY_NEW_BANK_ACCOUNT);
-    }
-
-    @Bean
     Binding bindingJobNewAccount() {
         return BindingBuilder.bind(queueJobNewAccount())
                 .to(directExchange()).with(RabbitMQConstants.ROUTING_KEY_NEW_ACCOUNT);
     }
+
     @Bean
     Jackson2JsonMessageConverter converter() {
         return new Jackson2JsonMessageConverter();

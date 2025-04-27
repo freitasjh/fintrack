@@ -42,6 +42,17 @@ const model = ref([
                     }
                 ]
             },
+            {
+                label: 'Orçamento',
+                icon: 'pi pi-fw pi-list',
+                items: [
+                    {
+                        label: 'Planejamento',
+                        icon: 'pi pi-fw pi-list',
+                        to: '/budgetPlanning'
+                    },
+                ]
+            }
         ]
     },
 

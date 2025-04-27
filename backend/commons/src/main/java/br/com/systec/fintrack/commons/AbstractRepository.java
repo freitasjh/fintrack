@@ -233,7 +233,7 @@ public abstract class AbstractRepository<T, ID> implements CrudRepository<T, ID>
         return result;
     }
 
-    private int executeCountQuery(Map<String, Object> params) {
+    protected int executeCountQuery(Map<String, Object> params) {
         StringBuilder sql = new StringBuilder("SELECT COUNT(obj) FROM "+entityClass.getSimpleName()+" obj ");
         for(String key : params.keySet()){
             if(sql.indexOf("WHERE") == -1){

@@ -519,6 +519,24 @@
                 <version>${revision}</version>
                 <scope>provided</scope>
             </dependency>
+            <dependency>
+                <groupId>br.com.systec.fintrack</groupId>
+                <artifactId>fintrack-budget-planning-api</artifactId>
+                <version>${revision}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>br.com.systec.fintrack</groupId>
+                <artifactId>fintrack-budget-planning-impl</artifactId>
+                <version>${revision}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>br.com.systec.fintrack</groupId>
+                <artifactId>fintrack-budget-planning-public-api-v1</artifactId>
+                <version>${revision}</version>
+                <scope>provided</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 </project>
