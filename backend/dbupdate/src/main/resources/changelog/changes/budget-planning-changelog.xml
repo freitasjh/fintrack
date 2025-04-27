@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+
+    <changeSet id="budget-planning-20042024-J-1" author="Joao">
+        <createTable tableName="budget_planning">
+            <column name="id" type="int8" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="description" type="varchar(255)"/>
+            <column name="date_created" type="timestamp" />
+            <column name="date_updated" type="timestamp"  />
+            <column name="month_and_year_planing" type="varchar(255)"/>
+            <column name="expected_value_expense" type="float" defaultValue="0"/>
+            <column name="tenant_id" type="int8" >
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="budget-planning-20042024J-2" author="Joao">
+        <createTable tableName="budget_planning_category">
+            <column name="id" type="int8" autoIncrement="true">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="expected_value_expense" type="float" defaultValue="0"/>
+            <column name="date_created" type="timestamp" />
+            <column name="date_updated" type="timestamp"  />
+            <column name="category_id" type="int8" />
+            <column name="category_description" type="varchar(255)"/>
+            <column name="budget_planning_id" type="int8" >
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

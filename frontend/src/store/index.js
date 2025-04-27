@@ -9,6 +9,7 @@ import accountPaymentStore from '../financial/accountPayment/store/accountPaymen
 import accountTransferStore from '../financial/accountTransfer/store/accountTransferStore';
 import { creditCardStore } from '../administrator/creditCard/store/credtiCardStore';
 import creditCardTransactionStore from '../financial/creditCard/transaction/store/creditCardTransactionStore';
+import { budgetPlanningStore } from '../financial/budgetPlanning/store/budgetPlanningStore';
 export default new Vuex.Store({
     modules: {
         userModuleStore,
@@ -19,7 +20,8 @@ export default new Vuex.Store({
         accountPaymentStore,
         accountTransferStore,
         creditCardStore,
-        creditCardTransactionStore
+        creditCardTransactionStore,
+        budgetPlanningStore
     },
     state: {
         token: '',
