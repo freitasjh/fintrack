@@ -1,4 +1,4 @@
-export default class PageResult {
+export default class PaginatedResult {
     constructor() {
         this.resultList = [];
         this.hasNext = false;

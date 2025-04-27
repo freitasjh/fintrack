@@ -52,6 +52,11 @@ const router = createRouter({
                     path: '/creditCard/invoice',
                     name: 'creditCardInvoice',
                     component: () => import('@/financial/creditCard/invoice/view/CreditCardInvoceView.vue')
+                },
+                {
+                    path: '/budgetPlanning',
+                    name: 'budgetPlanning',
+                    component: () => import('@/financial/budgetPlanning/view/BudgetPlanningView.vue')
                 }
             ]
         },

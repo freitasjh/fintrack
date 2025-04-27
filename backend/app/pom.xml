@@ -371,6 +371,22 @@
             <artifactId>fintrack-notification-jms</artifactId>
             <scope>compile</scope>
         </dependency>
+
+        <dependency>
+            <groupId>br.com.systec.fintrack</groupId>
+            <artifactId>fintrack-budget-planning-api</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>br.com.systec.fintrack</groupId>
+            <artifactId>fintrack-budget-planning-impl</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>br.com.systec.fintrack</groupId>
+            <artifactId>fintrack-budget-planning-public-api-v1</artifactId>
+            <scope>compile</scope>
+        </dependency>
 <!--        <dependency>-->
 <!--            <groupId>net.logstash.logback</groupId>-->
 <!--            <artifactId>logstash-logback-encoder</artifactId>-->

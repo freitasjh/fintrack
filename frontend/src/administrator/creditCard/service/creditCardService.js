@@ -4,6 +4,7 @@ export default class CreditCardService {
     constructor() {
         this.endpoint = '/api/v1/credit-cards';
     }
+
     save(creditCard) {
         if (creditCard.id === null) {
             return http.post(this.endpoint, creditCard).then((response) => response);
