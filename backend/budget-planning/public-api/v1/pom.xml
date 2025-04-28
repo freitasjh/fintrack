@@ -35,5 +35,10 @@
             <groupId>br.com.systec.fintrack</groupId>
             <artifactId>fintrack-commons</artifactId>
         </dependency>
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>
