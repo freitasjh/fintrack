@@ -34,6 +34,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Tag(name = "Users", description = "Cadastros de usuarios")
 public class UserController extends AbstractController {
     private static final String ENDPOINT = RestPath.V1+"/users";
+
     @Autowired
     private UserService userService;
 

@@ -1,9 +1,7 @@
 package br.com.systec.fintrack.user.v1.controller;
 
 import br.com.systec.fintrack.commons.RestPath;
-import br.com.systec.fintrack.commons.exception.ObjectNotFoundException;
 import br.com.systec.fintrack.config.I18nTranslate;
-import br.com.systec.fintrack.user.exception.LoginEmailValidationException;
 import br.com.systec.fintrack.user.model.User;
 import br.com.systec.fintrack.user.service.UserService;
 import br.com.systec.fintrack.user.v1.JsonUtil;
@@ -16,7 +14,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -26,7 +23,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 @ExtendWith(MockitoExtension.class)
-public class UserControllerTest {
+class UserControllerTest {
     private static final String ENDPOINT = RestPath.V1 + "/users";
     @Mock
     private UserService service;
@@ -39,7 +36,7 @@ public class UserControllerTest {
     private MockMvc mockMvc;
 
     @BeforeEach
-    public void init() {
+    void init() {
         mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
     }
 

@@ -27,6 +27,10 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+        </dependency>
+        <dependency>
             <groupId>br.com.systec.fintrack</groupId>
             <artifactId>fintrack-i18n</artifactId>
             <scope>compile</scope>
