@@ -1,7 +1,7 @@
 package br.com.systec.fintrack.dashboard.impl.service;
 
 import br.com.systec.fintrack.dashboard.service.DashboardService;
-import br.com.systec.fintrack.bankAccount.service.BankAccountService;
+import br.com.systec.fintrack.bankaccount.service.BankAccountService;
 import br.com.systec.fintrack.commons.exception.BaseException;
 import br.com.systec.fintrack.financial.payment.model.AccountPayment;
 import br.com.systec.fintrack.financial.payment.service.AccountPaymentService;

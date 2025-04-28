@@ -1,7 +1,7 @@
 package br.com.systec.fintrack.bankaccount.impl.repository;
 
-import br.com.systec.fintrack.bankAccount.model.AccountType;
-import br.com.systec.fintrack.bankAccount.model.BankAccount;
+import br.com.systec.fintrack.bankaccount.model.AccountType;
+import br.com.systec.fintrack.bankaccount.model.BankAccount;
 import br.com.systec.fintrack.commons.AbstractRepository;
 import br.com.systec.fintrack.commons.TenantContext;
 import jakarta.persistence.Query;

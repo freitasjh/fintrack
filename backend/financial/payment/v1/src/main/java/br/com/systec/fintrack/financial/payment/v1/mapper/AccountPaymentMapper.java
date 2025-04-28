@@ -1,6 +1,6 @@
 package br.com.systec.fintrack.financial.payment.v1.mapper;
 
-import br.com.systec.fintrack.bankAccount.model.BankAccount;
+import br.com.systec.fintrack.bankaccount.model.BankAccount;
 import br.com.systec.fintrack.category.model.Category;
 import br.com.systec.fintrack.commons.TenantContext;
 import br.com.systec.fintrack.commons.model.TransactionType;
@@ -84,7 +84,7 @@ public class AccountPaymentMapper {
     }
 
     public static List<AccountPaymentDTO> toListDTO(List<AccountPayment> listOfPayment) {
-        return listOfPayment.stream().map(AccountPaymentMapper::toDTO).collect(Collectors.toList());
+        return listOfPayment.stream().map(AccountPaymentMapper::toDTO).toList();
     }
 
     public static Page<AccountPaymentDTO> toPageDTO(Page<AccountPayment> pageOfPayment) {

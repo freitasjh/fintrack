@@ -1,11 +1,14 @@
 package br.com.systec.fintrack.financial.payment.impl.service;
 
-import br.com.systec.fintrack.bankAccount.model.BankAccount;
-import br.com.systec.fintrack.bankAccount.service.BankAccountService;
+import br.com.systec.fintrack.bankaccount.model.BankAccount;
+import br.com.systec.fintrack.bankaccount.service.BankAccountService;
+import br.com.systec.fintrack.commons.TenantContext;
 import br.com.systec.fintrack.commons.exception.BaseException;
 import br.com.systec.fintrack.commons.exception.ObjectNotFoundException;
 import br.com.systec.fintrack.commons.exception.ValidatorException;
 import br.com.systec.fintrack.commons.model.TransactionType;
+import br.com.systec.fintrack.financial.payment.exceptions.InsufficientBalanceToPaymentException;
+import br.com.systec.fintrack.financial.payment.exceptions.PaymentRegisterException;
 import br.com.systec.fintrack.financial.payment.filter.AccountPaymentPageParam;
 import br.com.systec.fintrack.financial.payment.impl.repository.AccountPaymentRepository;
 import br.com.systec.fintrack.financial.payment.impl.repository.AccountPaymentRepositoryJpa;
@@ -25,7 +28,7 @@ import java.util.List;
 
 @Service
 public class AccountPaymentServiceImpl implements AccountPaymentService {
-    private static final Logger log = LoggerFactory.getLogger(AccountPayment.class);
+    private static final Logger log = LoggerFactory.getLogger(AccountPaymentServiceImpl.class);
 
     @Autowired
     private AccountPaymentRepository repository;
@@ -51,14 +54,12 @@ public class AccountPaymentServiceImpl implements AccountPaymentService {
 
             return accountPaymentSaved;
         } catch (BaseException e) {
-            log.error("Ocorreu um erro ao tentar salvar o pagamento", e);
             throw e;
         } catch (Exception e) {
-            log.error("Ocorreu um erro ao tentar slavar o pagamento", e);
-            throw new BaseException("Ocorreu um erro ao tentar salvar o pagamento", e);
+            log.error("Ocorreu um erro ao tentar salvar o pagamento Tenant {}", TenantContext.getTenant(),  e);
+            throw new BaseException("Erro ao tentar salvar o pagamento");
         }
     }
-
 
     @Transactional(propagation = Propagation.REQUIRED)
     public void delete(Long id) {
@@ -66,7 +67,7 @@ public class AccountPaymentServiceImpl implements AccountPaymentService {
             repository.deleteById(id);
         } catch (Exception e) {
             log.error("Ocorreu um erro ao tentar deletar a conta", e);
-            throw new BaseException(e);
+            throw new BaseException("Erro ao tentar deletar a conta");
         }
     }
 
@@ -79,7 +80,7 @@ public class AccountPaymentServiceImpl implements AccountPaymentService {
             );
         } catch (Exception e) {
             log.error("Erro ao tentar filtar os pagamento", e);
-            throw new BaseException("Erro ao tentar filtar os pagamentos", e);
+            throw new BaseException("Erro ao tentar filtar os pagamentos");
         }
     }
 
@@ -89,7 +90,7 @@ public class AccountPaymentServiceImpl implements AccountPaymentService {
             return repository.findMonthlyExpenses();
         } catch (Exception e) {
             log.error("Ocorreu um erro ao tentar pesquisar as despesas mensais", e);
-            throw new BaseException("Ocorreu um erro ao tentar pesquisar as despesas mensais", e);
+            throw new BaseException("Ocorreu um erro ao tentar pesquisar as despesas mensais");
         }
     }
 
@@ -99,7 +100,7 @@ public class AccountPaymentServiceImpl implements AccountPaymentService {
             return repository.findLastTenPayment();
         } catch (Exception e) {
             log.error("Ocorreu um erro ao tentar pesquisar os ultimos pagamentos", e);
-            throw new BaseException("Ocorreu um erro ao tentar pesquisar os ultimos pagamentos", e);
+            throw new BaseException("Ocorreu um erro ao tentar pesquisar os ultimos pagamentos");
         }
     }
 
@@ -108,7 +109,7 @@ public class AccountPaymentServiceImpl implements AccountPaymentService {
         try {
             return repository.findTotalPaymentNotProcessed();
         } catch (Exception e) {
-            log.error("Ocorreu um erro ao tentar pesquiar os pagamanetos não processados", e);
+            log.error("Ocorreu um erro ao tentar pesquiar os pagamanetos não processados");
             throw new BaseException(e);
         }
     }
@@ -119,7 +120,7 @@ public class AccountPaymentServiceImpl implements AccountPaymentService {
             return repository.findAccountPaymentOpen();
         } catch (Exception e) {
             log.error("Ocorreu um erro ao tentar pesquisar os pagamentos em aberto", e);
-            throw new BaseException("Ocorreu um erro ao tentar pesquisar os pagamentos em aberto", e);
+            throw new BaseException("Ocorreu um erro ao tentar pesquisar os pagamentos em aberto");
         }
     }
 
@@ -130,13 +131,13 @@ public class AccountPaymentServiceImpl implements AccountPaymentService {
                     .orElseThrow(() -> new ObjectNotFoundException("Conta não encontrada"));
 
             if (accountPayment.isProcessed()) {
-                throw new BaseException("Pagamento já foi registrado");
+                throw new PaymentRegisterException();
             }
 
             BankAccount bankAccount = bankAccountService.findById(accountPayment.getBankAccount().getId());
 
             if (bankAccount.getBalance() < accountPayment.getAmount()) {
-                throw new BaseException("Saldo insuficiente para realizar o pagamento");
+                throw new InsufficientBalanceToPaymentException();
             }
 
             accountPayment.setDateProcessed(dateRegister);
@@ -148,8 +149,8 @@ public class AccountPaymentServiceImpl implements AccountPaymentService {
         } catch (BaseException e) {
             throw e;
         } catch (Exception e) {
-            log.error("Ocorreu um erro ao tentar processar o pagamento", e);
-            throw new BaseException("Ocorreu um erro ao tentar processar o pagamento", e);
+            log.error("Ocorreu um erro ao tentar registrar o pagamento", e);
+            throw new BaseException("Ocorreu um erro ao tentar processar o pagamento");
         }
     }
 
@@ -159,10 +160,9 @@ public class AccountPaymentServiceImpl implements AccountPaymentService {
             return repository.findAccountPaymentPending();
         } catch (Exception e) {
             log.error("Ocorreu um erro ao tentar pesquisar os pagamentos pendentes", e);
-            throw new BaseException("Ocorreu um erro ao tentar pesquisar os pagamentos pendentes", e);
+            throw new BaseException("Ocorreu um erro ao tentar pesquisar os pagamentos pendentes");
         }
     }
-
 
     private void updateBalanceAccountBank(AccountPayment accountPayment) throws BaseException {
         bankAccountService.updateBankAccountBalance(accountPayment.getAmount(), accountPayment.getBankAccount().getId(), TransactionType.EXPENSE);

@@ -1,9 +1,8 @@
 package br.com.systec.fintrack.financial.received.impl.jms;
 
-import br.com.systec.fintrack.bankAccount.model.BankAccount;
+import br.com.systec.fintrack.bankaccount.model.BankAccount;
 import br.com.systec.fintrack.commons.TenantContext;
 import br.com.systec.fintrack.config.I18nTranslate;
-import br.com.systec.fintrack.financial.received.model.AccountReceivable;
 import br.com.systec.fintrack.financial.received.service.AccountReceivableService;
 import br.com.systec.fintrack.financial.received.vo.AccountReceivableVO;
 import br.com.systec.fintrack.financial.transaction.model.CategoryTransactionType;

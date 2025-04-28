@@ -1,4 +1,4 @@
-package br.com.systec.fintrack.bankAccount.model;
+package br.com.systec.fintrack.bankaccount.model;
 
 import br.com.systec.fintrack.bank.model.Bank;
 import jakarta.persistence.CascadeType;
@@ -14,9 +14,15 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 @Entity
 @Table(name = "bank_account")
-public class BankAccount {
+public class BankAccount implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,11 +62,11 @@ public class BankAccount {
     }
 
     public Bank getBank() {
-        return bank;
+        return bank == null ? null : new Bank(bank.getId());
     }
 
     public void setBank(Bank bank) {
-        this.bank = bank;
+        this.bank = null == bank ? null : new Bank(bank.getId());
     }
 
     public String getDescription() {

@@ -2,8 +2,8 @@ package br.com.systec.fintrack.creditcard.impl.fake;
 
 
 import br.com.systec.fintrack.bank.model.Bank;
-import br.com.systec.fintrack.bankAccount.model.AccountType;
-import br.com.systec.fintrack.bankAccount.model.BankAccount;
+import br.com.systec.fintrack.bankaccount.model.AccountType;
+import br.com.systec.fintrack.bankaccount.model.BankAccount;
 import br.com.systec.fintrack.creditcard.model.BrandType;
 import br.com.systec.fintrack.creditcard.model.CreditCard;
 import br.com.systec.fintrack.creditcard.model.CreditCardStatusType;

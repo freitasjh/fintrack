@@ -9,7 +9,7 @@ import java.util.List;
 public class ValidationError extends StandardError {
     @Serial
     private static final long serialVersionUID = -1L;
-    private List<FieldMessage> list = new ArrayList<>();
+    private List<FieldMessage> list;
 
     public ValidationError(Integer status, String msg, Long timeStamp) {
         super(status, I18nTranslate.toLocale(msg), timeStamp);
@@ -17,14 +17,13 @@ public class ValidationError extends StandardError {
     }
 
     public List<FieldMessage> getErrors() {
-        return list;
+        return List.copyOf(list);
     }
 
-
     public void addError(String fieldName, String messagem) {
-        try{
-            list.add(new FieldMessage(fieldName, messagem));
-        }catch (Exception ignore){}
-
+        if(list == null) {
+            list = new ArrayList<>();
+        }
+        list.add(new FieldMessage(fieldName, messagem));
     }
 }

@@ -1,8 +1,8 @@
 package br.com.systec.fintrack.bankaccount.impl.fake;
 
 import br.com.systec.fintrack.bank.model.Bank;
-import br.com.systec.fintrack.bankAccount.model.AccountType;
-import br.com.systec.fintrack.bankAccount.model.BankAccount;
+import br.com.systec.fintrack.bankaccount.model.AccountType;
+import br.com.systec.fintrack.bankaccount.model.BankAccount;
 
 public class BankAccountFake {
 

@@ -1,13 +1,11 @@
 package br.com.systec.fintrack.financial.received.filter;
 
-import br.com.systec.fintrack.bankAccount.model.BankAccount;
+import br.com.systec.fintrack.bankaccount.model.BankAccount;
 import br.com.systec.fintrack.commons.TenantContext;
 import br.com.systec.fintrack.commons.model.TransactionType;
 import br.com.systec.fintrack.commons.utils.DateUtils;
 import br.com.systec.fintrack.financial.received.model.AccountReceivable;
 import org.springframework.data.jpa.domain.Specification;
-
-import java.time.LocalDate;
 
 public class AccountReceivableSpecification {
 

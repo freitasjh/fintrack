@@ -1,6 +1,6 @@
 package br.com.systec.fintrack.financial.transaction.model;
 
-import br.com.systec.fintrack.bankAccount.model.BankAccount;
+import br.com.systec.fintrack.bankaccount.model.BankAccount;
 import br.com.systec.fintrack.category.model.Category;
 import br.com.systec.fintrack.commons.TenantContext;
 import br.com.systec.fintrack.commons.model.TransactionType;

@@ -1,13 +1,12 @@
 package br.com.systec.fintrack.financial.payment.impl.service;
 
-import br.com.systec.fintrack.bankAccount.model.BankAccount;
-import br.com.systec.fintrack.bankAccount.service.BankAccountService;
+import br.com.systec.fintrack.bankaccount.model.BankAccount;
+import br.com.systec.fintrack.bankaccount.service.BankAccountService;
 import br.com.systec.fintrack.commons.TenantContext;
 import br.com.systec.fintrack.commons.exception.BaseException;
 import br.com.systec.fintrack.commons.exception.ValidatorException;
-import br.com.systec.fintrack.financial.payment.filter.AccountPaymentFilterType;
-import br.com.systec.fintrack.financial.payment.filter.AccountPaymentFilterVO;
-import br.com.systec.fintrack.financial.payment.filter.AccountPaymentPageParam;
+import br.com.systec.fintrack.financial.payment.exceptions.InsufficientBalanceToPaymentException;
+import br.com.systec.fintrack.financial.payment.exceptions.PaymentRegisterException;
 import br.com.systec.fintrack.financial.payment.impl.repository.AccountPaymentRepository;
 import br.com.systec.fintrack.financial.payment.impl.repository.AccountPaymentRepositoryJpa;
 import br.com.systec.fintrack.financial.payment.impl.fake.AccountPaymentFake;
@@ -21,10 +20,6 @@ import org.mockito.Mockito;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 
 import java.util.Date;
 import java.util.List;
@@ -268,7 +263,7 @@ public class AccountPaymentServiceTest {
         Mockito.doReturn(Optional.of(accountPaymentToReturn)).when(repository).findById(Mockito.anyLong());
 
         Assertions.assertThatThrownBy(() -> service.registerPayment(1L, new Date()))
-                .isInstanceOf(BaseException.class).hasMessage("Pagamento já foi registrado");
+                .isInstanceOf(PaymentRegisterException.class);
     }
 
     @Test
@@ -284,7 +279,7 @@ public class AccountPaymentServiceTest {
 
 
         Assertions.assertThatThrownBy(() -> service.registerPayment(1L, new Date()))
-                .isInstanceOf(BaseException.class).hasMessage("Saldo insuficiente para realizar o pagamento");
+                .isInstanceOf(InsufficientBalanceToPaymentException.class);
     }
 
     @Test
@@ -300,7 +295,8 @@ public class AccountPaymentServiceTest {
         Mockito.doReturn(bankAccount).when(bankAccountService).findById(Mockito.anyLong());
         Mockito.doThrow(RuntimeException.class).when(repository).update(Mockito.any(AccountPayment.class));
 
-        Assertions.assertThatThrownBy(() -> service.registerPayment(1L, new Date())).isInstanceOf(BaseException.class);
+        Assertions.assertThatThrownBy(() -> service.registerPayment(1L, new Date()))
+                .isInstanceOf(BaseException.class);
 
         Mockito.verify(repository).findById(Mockito.anyLong());
         Mockito.verify(bankAccountService).findById(Mockito.anyLong());

@@ -1,6 +1,6 @@
 package br.com.systec.fintrack.financial.transfer.v1.converter;
 
-import br.com.systec.fintrack.bankAccount.model.BankAccount;
+import br.com.systec.fintrack.bankaccount.model.BankAccount;
 import br.com.systec.fintrack.commons.TenantContext;
 import br.com.systec.fintrack.financial.transfer.model.AccountTransfer;
 import br.com.systec.fintrack.financial.transfer.v1.dto.AccountTransferInputDTO;

@@ -1,6 +1,6 @@
 package br.com.systec.fintrack.publicapi.v1.converter;
 
-import br.com.systec.fintrack.bankAccount.model.BankAccount;
+import br.com.systec.fintrack.bankaccount.model.BankAccount;
 import br.com.systec.fintrack.publicapi.v1.dto.BankAccountDTO;
 import br.com.systec.fintrack.publicapi.v1.dto.BankAccountInputDTO;
 import br.com.systec.fintrack.publicapi.v1.fake.BankAccountFake;
@@ -8,9 +8,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Spy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;

@@ -1,8 +1,8 @@
 package br.com.systec.fintrack.publicapi.v1.controller;
 
-import br.com.systec.fintrack.bankAccount.filter.BankAccountFilterVO;
-import br.com.systec.fintrack.bankAccount.model.BankAccount;
-import br.com.systec.fintrack.bankAccount.service.BankAccountService;
+import br.com.systec.fintrack.bankaccount.filter.BankAccountFilterVO;
+import br.com.systec.fintrack.bankaccount.model.BankAccount;
+import br.com.systec.fintrack.bankaccount.service.BankAccountService;
 import br.com.systec.fintrack.commons.AbstractController;
 import br.com.systec.fintrack.commons.RestPath;
 import br.com.systec.fintrack.commons.exception.BaseException;

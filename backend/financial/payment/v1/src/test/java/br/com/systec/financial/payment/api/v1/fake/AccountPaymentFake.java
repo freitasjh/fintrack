@@ -1,6 +1,6 @@
 package br.com.systec.financial.payment.api.v1.fake;
 
-import br.com.systec.fintrack.bankAccount.model.BankAccount;
+import br.com.systec.fintrack.bankaccount.model.BankAccount;
 import br.com.systec.fintrack.category.model.Category;
 import br.com.systec.fintrack.commons.model.TransactionType;
 import br.com.systec.fintrack.financial.payment.model.AccountPayment;

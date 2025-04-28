@@ -1,8 +1,8 @@
 package br.com.systec.fintrack.publicapi.v1.converter;
 
 import br.com.systec.fintrack.bank.model.Bank;
-import br.com.systec.fintrack.bankAccount.model.AccountType;
-import br.com.systec.fintrack.bankAccount.model.BankAccount;
+import br.com.systec.fintrack.bankaccount.model.AccountType;
+import br.com.systec.fintrack.bankaccount.model.BankAccount;
 import br.com.systec.fintrack.commons.TenantContext;
 import br.com.systec.fintrack.commons.converter.ConverterPageable;
 import br.com.systec.fintrack.publicapi.v1.dto.BankAccountDTO;

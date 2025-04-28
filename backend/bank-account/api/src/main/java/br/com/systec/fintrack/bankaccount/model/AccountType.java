@@ -1,4 +1,4 @@
-package br.com.systec.fintrack.bankAccount.model;
+package br.com.systec.fintrack.bankaccount.model;
 
 import br.com.systec.fintrack.commons.exception.ObjectFoundException;
 

@@ -1,7 +1,7 @@
 package br.com.systec.fintrack.bankaccount.impl.jms;
 
-import br.com.systec.fintrack.bankAccount.model.BankAccount;
-import br.com.systec.fintrack.bankAccount.service.BankAccountService;
+import br.com.systec.fintrack.bankaccount.model.BankAccount;
+import br.com.systec.fintrack.bankaccount.service.BankAccountService;
 import br.com.systec.fintrack.rabbitmq.utils.RabbitMQConstants;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -48,7 +48,7 @@ public class CreditCardTransactionControllerTest {
     private MockMvc mockMvc;
 
     @BeforeEach
-    public void init(){
+    void init(){
         TenantContext.add(1L);
         mockMvc = MockMvcBuilders.standaloneSetup(controller)
                 .setControllerAdvice(new ControllerExceptionHandler())

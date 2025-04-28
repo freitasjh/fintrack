@@ -9,6 +9,7 @@ public class BudgetPlanningPageParam extends FilterPageParam {
     public BudgetPlanningPageParam(int pageSize, int page) {
         super(pageSize, page);
     }
+
     public BudgetPlanningFilterVO getFilter() {
         return filter;
     }

@@ -1,12 +1,11 @@
 package br.com.systec.fintrack.financial.transfer.impl.service;
 
-import br.com.systec.fintrack.bankAccount.model.BankAccount;
-import br.com.systec.fintrack.bankAccount.service.BankAccountService;
+import br.com.systec.fintrack.bankaccount.model.BankAccount;
+import br.com.systec.fintrack.bankaccount.service.BankAccountService;
 import br.com.systec.fintrack.commons.TenantContext;
 import br.com.systec.fintrack.commons.exception.BaseException;
 import br.com.systec.fintrack.financial.payment.model.AccountPayment;
 import br.com.systec.fintrack.financial.payment.service.AccountPaymentService;
-import br.com.systec.fintrack.financial.received.model.AccountReceivable;
 import br.com.systec.fintrack.financial.received.service.AccountReceivableService;
 import br.com.systec.fintrack.financial.received.vo.AccountReceivableVO;
 import br.com.systec.fintrack.financial.transfer.filters.AccountTransferFilterVO;
@@ -19,18 +18,14 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Date;
 import java.util.List;

@@ -6,15 +6,11 @@ import br.com.systec.fintrack.budget.planning.api.model.BudgetPlanningCategory;
 import br.com.systec.fintrack.budget.planning.api.service.BudgetPlanningService;
 import br.com.systec.fintrack.budget.planning.api.vo.BudgetPlanningExpenseVO;
 import br.com.systec.fintrack.budget.planning.api.vo.BudgetPlanningVO;
-import br.com.systec.fintrack.budget.planning.impl.mapper.BudgetPlanningCategoryMapper;
 import br.com.systec.fintrack.budget.planning.impl.mapper.BudgetPlanningMapper;
 import br.com.systec.fintrack.budget.planning.impl.repository.BudgetPlanningRepository;
 import br.com.systec.fintrack.commons.exception.BaseException;
 import br.com.systec.fintrack.commons.exception.ObjectNotFoundException;
 import br.com.systec.fintrack.commons.query.PaginatedList;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,10 +21,12 @@ import java.util.stream.StreamSupport;
 
 @Service
 public class BudgetPlanningServiceImpl implements BudgetPlanningService {
-    private static final Logger log = LoggerFactory.getLogger(BudgetPlanningServiceImpl.class);
 
-    @Autowired
-    private BudgetPlanningRepository repository;
+    private final BudgetPlanningRepository repository;
+
+    public BudgetPlanningServiceImpl(BudgetPlanningRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
@@ -47,8 +45,6 @@ public class BudgetPlanningServiceImpl implements BudgetPlanningService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public BudgetPlanningVO update(BudgetPlanningVO budgetPlanning) throws BaseException {
-        BudgetPlanning budgetPlanningReturnFind = findBudgetPlaningById(budgetPlanning.getId());
-
         return null;
     }
 
@@ -76,7 +72,6 @@ public class BudgetPlanningServiceImpl implements BudgetPlanningService {
         try {
             return BudgetPlanningMapper.toPaginatedVO(repository.findByFilter(pageParam));
         } catch (Exception e) {
-            log.error("Erro ao tentar recuperar os orçamentos", e);
             throw new BaseException(e);
         }
     }

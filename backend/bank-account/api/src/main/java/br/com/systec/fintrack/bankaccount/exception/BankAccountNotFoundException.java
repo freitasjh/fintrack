@@ -1,4 +1,4 @@
-package br.com.systec.fintrack.bankAccount.exception;
+package br.com.systec.fintrack.bankaccount.exception;
 
 import br.com.systec.fintrack.commons.exception.BaseException;
 import br.com.systec.fintrack.config.I18nTranslate;

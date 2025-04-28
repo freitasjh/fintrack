@@ -1,7 +1,7 @@
 package br.com.systec.fintrack.bankaccount.impl.service;
 
-import br.com.systec.fintrack.bankAccount.filter.BankAccountFilterVO;
-import br.com.systec.fintrack.bankAccount.model.BankAccount;
+import br.com.systec.fintrack.bankaccount.filter.BankAccountFilterVO;
+import br.com.systec.fintrack.bankaccount.model.BankAccount;
 import br.com.systec.fintrack.bankaccount.impl.fake.BankAccountFake;
 import br.com.systec.fintrack.bankaccount.impl.repository.BankAccountRepository;
 import br.com.systec.fintrack.bankaccount.impl.repository.BankAccountRepositoryJPA;

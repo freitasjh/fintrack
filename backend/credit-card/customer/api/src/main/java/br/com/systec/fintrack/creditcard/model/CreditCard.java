@@ -1,6 +1,6 @@
 package br.com.systec.fintrack.creditcard.model;
 
-import br.com.systec.fintrack.bankAccount.model.BankAccount;
+import br.com.systec.fintrack.bankaccount.model.BankAccount;
 import br.com.systec.fintrack.commons.model.BaseModel;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

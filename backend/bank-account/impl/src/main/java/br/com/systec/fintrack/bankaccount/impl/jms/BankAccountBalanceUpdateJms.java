@@ -1,7 +1,7 @@
 package br.com.systec.fintrack.bankaccount.impl.jms;
 
 
-import br.com.systec.fintrack.bankAccount.service.BankAccountService;
+import br.com.systec.fintrack.bankaccount.service.BankAccountService;
 import br.com.systec.fintrack.rabbitmq.utils.RabbitMQConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

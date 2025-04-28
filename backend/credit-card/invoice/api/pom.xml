@@ -26,9 +26,5 @@
             <groupId>br.com.systec.fintrack</groupId>
             <artifactId>fintrack-commons</artifactId>
         </dependency>
-        <dependency>
-            <groupId>br.com.systec.fintrack</groupId>
-            <artifactId>fintrack-credit-card-customer-api</artifactId>
-        </dependency>
     </dependencies>
 </project>

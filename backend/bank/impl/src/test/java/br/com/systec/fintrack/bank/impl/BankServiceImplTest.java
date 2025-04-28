@@ -69,7 +69,6 @@ public class BankServiceImplTest {
 
     @Test
     void whenFindByPageAndFilterException() {
-        Page<Bank> listOFBankPageableReturn = new PageImpl<>(List.of(BankFake.toFake()));
         FilterBankVO filterBankVO = new FilterBankVO(30, 0, "");
 
         Mockito.doThrow(new BaseException()).when(repositoryJPA).findAll(filterBankVO.getSpecification(), filterBankVO.getPageable());

@@ -8,6 +8,7 @@ import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.NoRepositoryBean;
+import org.springframework.lang.NonNull;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,43 +28,41 @@ public abstract class AbstractRepository<T, ID> implements CrudRepository<T, ID>
     @PersistenceContext
     protected EntityManager entityManager;
 
-    @Transactional(propagation = Propagation.SUPPORTS)
-    public int nextCod(){
-        var sql = "select max(cast(obj.code as int)) from "+entityClass.getSimpleName()+" as obj";
-
-        var code = (Integer) entityManager
-                .createQuery(sql)
-                .getSingleResult();
-
-        code = code == null || code == 0 ? 1 : code++;
-
-        return code.intValue();
-    }
-
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public <S extends T> S save(S entity) {
+    @NonNull
+    public <S extends T> S save(@NonNull S entity) {
+        return savePrivate(entity);
+    }
+
+    private <S extends T> S savePrivate(S entity) {
         entityManager.persist(entity);
         return entity;
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
     public <S extends T> S update(S entity){
+        return updatePrivate(entity);
+    }
+
+    private <S extends T> S updatePrivate(S entity){
         entityManager.merge(entity);
         return entity;
     }
+
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
+    @NonNull
     public <S extends T> Iterable<S> saveAll(Iterable<S> entities) {
         List<S> result = new ArrayList<>();
-        entities.forEach(entity -> result.add(save(entity)));
+        entities.forEach(entity -> result.add(savePrivate(entity)));
         return result;
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
     public <S extends T> Iterable<S> updateAll(Iterable<S> entities) {
         List<S> result = new ArrayList<>();
-        entities.forEach(entity -> result.add(update(entity)));
+        entities.forEach(entity -> result.add(updatePrivate(entity)));
         return result;
     }
 
@@ -74,26 +73,24 @@ public abstract class AbstractRepository<T, ID> implements CrudRepository<T, ID>
         return Optional.ofNullable(entity);
     }
 
-    @Transactional(propagation = Propagation.SUPPORTS)
-    public Optional<T> findByCod(String cod){
-        String sql = "SELECT o FROM "+entityClass.getSimpleName()+" o WHERE o.codigo = :codigo";
-
-        T entity = entityManager.createQuery(sql,entityClass)
-                .setParameter("codigo", cod)
-                .getSingleResult();
-
+    private Optional<T> findByIdPrivate(ID id) {
+        T entity = entityManager.find(entityClass, id);
         return Optional.ofNullable(entity);
     }
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
     public boolean existsById(ID id) {
-        return findById(id).isPresent();
+        return findByIdPrivate(id).isPresent();
     }
 
     @Override
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public Iterable<T> findAll() {
+        return findAllPrivate();
+    }
+
+    private Iterable<T> findAllPrivate() {
         return entityManager.createQuery("SELECT o FROM "+entityClass.getSimpleName()+" o", entityClass).getResultList();
     }
 
@@ -116,7 +113,7 @@ public abstract class AbstractRepository<T, ID> implements CrudRepository<T, ID>
         List<T> listReturn = query.getResultList();
 
         if(listReturn.isEmpty()){
-            Optional.empty();
+            return Optional.empty();
         }
 
         return Optional.of(listReturn.get(0));
@@ -124,12 +121,15 @@ public abstract class AbstractRepository<T, ID> implements CrudRepository<T, ID>
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS)
+    @NonNull
     public Iterable<T> findAllById(Iterable<ID> ids) {
         List<T> result = new ArrayList<>();
+
         ids.forEach(id -> {
-            Optional<T> obj = findById(id);
+            Optional<T> obj = findByIdPrivate(id);
             obj.ifPresent(result::add);
         });
+
         return result;
     }
 
@@ -147,8 +147,10 @@ public abstract class AbstractRepository<T, ID> implements CrudRepository<T, ID>
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public void deleteById(ID id) {
-        T entity = getOne(id);
-        delete(entity);
+        Optional<T> entity = findByIdPrivate(id);
+        T entityToDelete = entity.orElseThrow(() -> new IllegalArgumentException("Entity not found"));
+
+        entityManager.remove(entityToDelete);
     }
 
     @Override
@@ -171,7 +173,8 @@ public abstract class AbstractRepository<T, ID> implements CrudRepository<T, ID>
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public void deleteAll() {
-        deleteAll(findAll());
+        Iterable<T> listAll = findAllPrivate();
+        listAll.forEach(this::delete);
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
@@ -193,7 +196,7 @@ public abstract class AbstractRepository<T, ID> implements CrudRepository<T, ID>
 
     @Transactional(propagation = Propagation.SUPPORTS)
     public T findByIdOrNull(ID id){
-        Optional<T> oEntitu = findById(id);
+        Optional<T> oEntitu = findByIdPrivate(id);
         return oEntitu.orElse(null);
     }
 
@@ -253,9 +256,8 @@ public abstract class AbstractRepository<T, ID> implements CrudRepository<T, ID>
 
     protected void setParametersOnQuery(Query query, Map<String, Object> setParams){
         if((setParams != null) && !setParams.isEmpty()){
-            for(String key : setParams.keySet()){
-                Object object = setParams.get(key);
-                query.setParameter(key, object);
+            for (Map.Entry<String, Object> entry : setParams.entrySet()) {
+                query.setParameter(entry.getKey(), entry.getValue());
             }
         }
     }

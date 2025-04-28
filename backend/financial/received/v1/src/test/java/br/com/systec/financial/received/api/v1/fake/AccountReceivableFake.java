@@ -1,12 +1,11 @@
 package br.com.systec.financial.received.api.v1.fake;
 
 import br.com.systec.fintrack.bank.model.Bank;
-import br.com.systec.fintrack.bankAccount.model.AccountType;
-import br.com.systec.fintrack.bankAccount.model.BankAccount;
+import br.com.systec.fintrack.bankaccount.model.AccountType;
+import br.com.systec.fintrack.bankaccount.model.BankAccount;
 import br.com.systec.fintrack.commons.model.TransactionType;
 import br.com.systec.fintrack.financial.received.api.v1.dto.AccountReceivableDTO;
 import br.com.systec.fintrack.financial.received.api.v1.dto.AccountReceivableInputDTO;
-import br.com.systec.fintrack.financial.received.model.AccountReceivable;
 import br.com.systec.fintrack.financial.received.vo.AccountReceivableVO;
 
 import java.util.Date;

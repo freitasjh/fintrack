@@ -13,8 +13,8 @@ public class I18nTranslate {
    private static ResourceBundleMessageSource messageSource;
 
    @Autowired
-   I18nTranslate(ResourceBundleMessageSource messageSource) {
-      I18nTranslate.messageSource = messageSource;
+   I18nTranslate(ResourceBundleMessageSource resourceBundleMessageSource) {
+      I18nTranslate.messageSource = resourceBundleMessageSource;
    }
 
    public static String toLocale(String msgCode) {

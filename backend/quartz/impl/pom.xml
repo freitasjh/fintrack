@@ -68,5 +68,4 @@
             <artifactId>fintrack-notification-jms</artifactId>
         </dependency>
     </dependencies>
-
 </project>

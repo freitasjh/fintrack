@@ -1,6 +1,6 @@
 package br.com.systec.fintrack.financial.received.vo;
 
-import br.com.systec.fintrack.bankAccount.model.BankAccount;
+import br.com.systec.fintrack.bankaccount.model.BankAccount;
 import br.com.systec.fintrack.commons.model.TransactionType;
 import br.com.systec.fintrack.financial.transaction.model.CategoryTransactionType;
 
